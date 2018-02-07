@@ -116,7 +116,7 @@ namespace EFTools
   public static void PrintInfo(string s)
   {
    // VSO Logging Commands https://github.com/Microsoft/vsts-tasks/blob/master/docs/authoring/commands.md
-   s = s += "##vso[task.logdetail]" + s;
+   //s = s += "##vso[task.logdetail]" + s;
    CUI.Print(s);
   }
 
