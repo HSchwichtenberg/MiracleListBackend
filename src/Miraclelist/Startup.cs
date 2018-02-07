@@ -43,7 +43,7 @@ namespace Miraclelist
    }
    else
    {
-    new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MLBackend startet", System.Environment.MachineName);
+
    }
 
    builder.AddEnvironmentVariables();
