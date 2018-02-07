@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
+		MiracleList-APITests-StagingEnv.postman_environment.json = MiracleList-APITests-StagingEnv.postman_environment.json
+		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
 		notes.txt = notes.txt
 		Rules.ruleset = Rules.ruleset
 	EndProjectSection
