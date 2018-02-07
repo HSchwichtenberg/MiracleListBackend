@@ -1,0 +1,314 @@
+{
+	"variables": [],
+	"info": {
+		"name": "MiracleList_DEV",
+		"_postman_id": "aae1987e-12bc-ee36-bdc1-c0173226de9e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8887/CategorySet/test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Name\"] = jsonData[0].name === \"Beruf\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/CategorySet/test",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/taskset/test/300",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"title\"] = jsonData[0].title === \"Angular-Tutorial für die iX schreiben\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/taskset/test/4",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/task/test/10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"title\"] = jsonData.title === \"Projektplan erstellen\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/task/test/10",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"token\"] = jsonData.token === \"test\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientID\": \"11111111-1111-1111-1111-111111111111\",\r\n  \"userName\": \"test\",\r\n  \"password\": \"test\",\r\n  \"token\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/DueTaskSet/test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"token\"] = jsonData.length > 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/DueTaskSet/test",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"test2\",\r\n  \"token\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/about",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;",
+							"",
+							"tests[\"Access-Control-Allow-Origin\"] = postman.getResponseHeader(\"Access-Control-Allow-Origin\") == \"www.it-visions.de\";",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/about",
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "www.it-visions.de",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/ChangeTask/dev",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"title\"] = jsonData.title === \"Projektplan erstellen\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/ChangeTask/test",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"taskID\": 10,\n  \"title\": \"Projektplan erstellen\",\n  \"created\": \"2017-02-19T20:12:25.8233734\",\n  \"due\": \"2017-02-17T20:12:25.8233734\",\n  \"importance\": 0,\n  \"note\": \"Beispielaufgabe\",\n  \"done\": false,\n  \"effort\": 2,\n  \"order\": 0,\n  \"subTaskSet\": [\n    {\n      \"subTaskID\": 21,\n      \"title\": \"Planen\",\n      \"done\": false,\n      \"created\": \"2017-02-19T20:12:25.8233734\",\n      \"taskID\": 10\n    },\n    {\n      \"subTaskID\": 22,\n      \"title\": \"Ausführen\",\n      \"done\": false,\n      \"created\": \"2017-02-19T20:12:25.8233734\",\n      \"taskID\": 10\n    }\n  ],\n  \"category\": null,\n  \"categoryID\": 4\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8887/login ERROR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ClientIDUnknown\"] = jsonData.message === \"Client-ID-Check: ClientIDUnknown\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8887/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"falsch\",\r\n  \"token\": \"\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8887/seitegibtesnicht",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Body is correct\"] = responseBody.startsWith(\"Status Code: 404; Not Found\");",
+							"",
+							"",
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:8887/seitegibtesnicht",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "www.it-visions.de",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
