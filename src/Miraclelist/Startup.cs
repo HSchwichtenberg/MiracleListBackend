@@ -1,4 +1,5 @@
 ﻿using BL;
+using ITVisions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,8 @@ namespace Miraclelist
  {
   public Startup(IHostingEnvironment env)
   {
+   CUI.Headline("Startup");
+
    var builder = new ConfigurationBuilder()
        .SetBasePath(env.ContentRootPath)
        .AddInMemoryCollection()
@@ -31,7 +34,7 @@ namespace Miraclelist
    IConfigurationRoot configuration = builder.Build();
 
    var CS = configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine(CS);
+   Console.WriteLine("ConnectionString=" + CS);
 
 
    if (env.IsEnvironment("Development"))
@@ -71,6 +74,8 @@ namespace Miraclelist
   /// </summary>
   public void ConfigureServices(IServiceCollection services)
   {
+   CUI.Headline("ConfigureServices");
+
    #region Enable Auth service for MLToken in the HTTP header
    services.AddAuthentication().AddMLToken();
    #endregion
