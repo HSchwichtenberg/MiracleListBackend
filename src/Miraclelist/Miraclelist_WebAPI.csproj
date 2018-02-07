@@ -29,6 +29,10 @@
     <DocumentationFile>bin\Debug\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
   <ItemGroup>
    <DocFile Include="bin\debug\$(TargetFramework)\$(RuntimeIdentifier)\$(TargetName).xml" />
