@@ -20,6 +20,8 @@ namespace Miraclelist
 
  public class Startup
  {
+  public IConfigurationRoot Configuration { get; }
+ 
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
@@ -31,16 +33,10 @@ namespace Miraclelist
        .SetBasePath(env.ContentRootPath)
        .AddInMemoryCollection()
        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-       .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-       //.AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+       .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+       .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
 
-   IConfigurationRoot configuration = builder.Build();
-
-   var CS = configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine("ConnectionString=" + CS);
-
-   // inject connection string into DAL
-   DAL.Context.ConnectionString = CS;
+ 
 
    if (env.IsEnvironment("Development"))
    {
@@ -56,6 +52,12 @@ namespace Miraclelist
 
    builder.AddEnvironmentVariables();
    Configuration = builder.Build();
+
+   var CS = Configuration["ConnectionStrings:MiracleListDB"];
+   Console.WriteLine("ConnectionString=" + CS);
+
+   // inject connection string into DAL
+   DAL.Context.ConnectionString = CS;
 
 
    try
@@ -78,7 +80,7 @@ namespace Miraclelist
 
   }
 
-  public IConfigurationRoot Configuration { get; }
+
 
   /// <summary>
   /// Called by ASP.NET Core during startup
