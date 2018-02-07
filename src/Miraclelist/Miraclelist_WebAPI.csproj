@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+   <CodeAnalysisRuleSet>..\..\rules.ruleset</CodeAnalysisRuleSet>
+    <Description>Backend for MiracleList-Beispielanwendung</Description>
+    <VersionPrefix>0.7</VersionPrefix>
+    <Authors>Dr. Holger Schwichtenberg</Authors>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Miraclelist_WebAPI</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Miraclelist</PackageId>
+    <RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
+   <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <Version>0.8.2</Version>
+    <Copyright>Dr. Holger Schwichtenberg</Copyright>
+    <AssemblyVersion>0.8.0.0</AssemblyVersion>
+    <FileVersion>0.8.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
+ <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+  <ItemGroup>
+   <DocFile Include="bin\debug\$(TargetFramework)\$(RuntimeIdentifier)\$(TargetName).xml" />
+  </ItemGroup>
+  <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+ </Target>
+
+  <ItemGroup>
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\GO\BO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+   <PackageReference Include="EntityFrameworkProfiler.Appender" Version="4.0.4048" />
+   <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Util\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ITV.AppUtil.NETCore">
+      <HintPath>..\..\Lib\ITV.AppUtil.NETCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

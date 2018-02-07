@@ -1,0 +1,56 @@
+{
+	"variables": [],
+	"info": {
+		"name": "MiracleList_PROD",
+		"_postman_id": "224fb72d-e8d3-0f67-825f-9956dd9f156b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OPTIONS http://miraclelistbackend.azurewebsites.net",
+			"request": {
+				"url": "http://miraclelistbackend.azurewebsites.net/",
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://www.example.com",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://miraclelistbackend.azurewebsites.net/CategorySet/test",
+			"request": {
+				"url": "http://miraclelistbackend.azurewebsites.net/CategorySet/test888",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
