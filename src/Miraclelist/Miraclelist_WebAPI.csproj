@@ -35,7 +35,7 @@
 
  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
   <ItemGroup>
-   <DocFile Include="bin\debug\$(TargetFramework)\$(RuntimeIdentifier)\$(TargetName).xml" />
+   <DocFile Include="bin\$(Configuration)\$(TargetFramework)\$(TargetName).xml" />
   </ItemGroup>
   <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
  </Target>
@@ -53,7 +53,7 @@
 
   <ItemGroup>
    <PackageReference Include="EntityFrameworkProfiler.Appender" Version="4.0.4048" />
-   <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+   <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
