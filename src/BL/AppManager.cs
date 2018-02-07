@@ -15,26 +15,47 @@ namespace BL
   {
    var t = new Stopwatch();
    t.Start();
-   var ctx = new DAL.Context();
-   var userCount = ctx.UserSet.Count();
-   var taskCount = ctx.TaskSet.Count();
-   var clientCount = ctx.ClientSet.Count();
-   var logCount =  -1; // ctx.LogSet.Count();
+
 
    // TODO: https://blogs.msdn.microsoft.com/martijnh/2010/07/15/sql-serverhow-to-quickly-retrieve-accurate-row-count-for-table/
    // SELECT CONVERT(bigint, rows)
-//   FROM sysindexes
-//WHERE id = OBJECT_ID('Transactions')
-//AND indid< 2
+   //   FROM sysindexes
+   //WHERE id = OBJECT_ID('Transactions')
+   //AND indid< 2
 
-   SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ctx.Database.GetDbConnection().ConnectionString);
-   var conn = ctx.Database.GetDbConnection();
-   conn.Open();
-   var DbVersion = ctx.Database.GetDbConnection()?.ServerVersion;
-   conn.Close();
+   string DbVersion = "?";
+   string DbName = "?";
+   string DbStatus = "?";
+   var userCount = -1;
+   var taskCount = -1;
+   var clientCount = -1;
+   var logCount = -1;
+
+   try
+   {
+    var ctx = new DAL.Context();
+    ctx.Database.SetCommandTimeout(new TimeSpan(0, 0, 5));
+    userCount = ctx.UserSet.Count();
+    taskCount = ctx.TaskSet.Count();
+    clientCount = ctx.ClientSet.Count();
+    logCount = ctx.LogSet.Count();
+
+    SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ctx.Database.GetDbConnection().ConnectionString);
+    DbName = builder?.DataSource;
+    var conn = ctx.Database.GetDbConnection();
+    conn.Open();
+    DbVersion = ctx.Database.GetDbConnection()?.ServerVersion;
+    conn.Close();
+    DbStatus = "OK";
+   }
+   catch (Exception ex)
+   {
+    DbStatus = "Fehler: " + ex.Message;
+   }
+
    t.Stop();
 
-   return new string[] { "MiracleListBackend", "(C) Dr. Holger Schwichtenberg, www.IT-Visions.de", "Server: " + System.Environment.MachineName, "Server-Version: " + Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion, "Datenbank: " + builder?.DataSource, "Datenbank-Version:" + DbVersion, clientCount + " Clients", userCount + " Benutzer", taskCount + " Aufgaben", logCount + " Protokolleinträge", DateTime.Now.ToString(), t.ElapsedMilliseconds + "ms"
+   return new string[] { DateTime.Now.ToString(), "MiracleListBackend", "(C) Dr. Holger Schwichtenberg, www.IT-Visions.de", "Web Server: " + System.Environment.MachineName, "Server Version: " + Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion, ".NET Core Version: " + ITVisions.CLRInfo.GetCoreClrVersion(), "Database Status: " + DbStatus, "Database Name: " + DbName, "Database Version: " + DbVersion, clientCount + " Clients", userCount + " Users", taskCount + " Tasks", logCount + " Log Entries", t.ElapsedMilliseconds + "ms"
   };
   }
  }

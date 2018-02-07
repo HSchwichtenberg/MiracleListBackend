@@ -1,5 +1,6 @@
 ﻿using BL;
 using ITVisions;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -23,19 +24,23 @@ namespace Miraclelist
   {
    CUI.Headline("Startup");
 
+   //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
+
+   // Get all configuration sources
    var builder = new ConfigurationBuilder()
        .SetBasePath(env.ContentRootPath)
        .AddInMemoryCollection()
        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-       .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-       .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
-
+       .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+       //.AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
 
    IConfigurationRoot configuration = builder.Build();
 
    var CS = configuration["ConnectionStrings:MiracleListDB"];
    Console.WriteLine("ConnectionString=" + CS);
 
+   // inject connection string into DAL
+   DAL.Context.ConnectionString = CS;
 
    if (env.IsEnvironment("Development"))
    {
@@ -52,19 +57,25 @@ namespace Miraclelist
    builder.AddEnvironmentVariables();
    Configuration = builder.Build();
 
-   // inject connection string into DAL
-   DAL.Context.ConnectionString = Configuration.GetConnectionString("MiracleListDB");
 
-   #region testuser
-   if (env.IsEnvironment("Development"))
+   try
    {
-    var um = new UserManager("HS", "HS");
-    um.InitDefaultTasks();
+    #region testuser
+    if (env.IsEnvironment("Development"))
+    {
+     var um = new UserManager("HS", "HS");
+     um.InitDefaultTasks();
 
-    var um2 = new UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
+     var um2 = new UserManager("unittest", "unittest");
+     um2.InitDefaultTasks();
+    }
+    #endregion
    }
-   #endregion
+   catch (Exception)
+   {
+
+   }
+
   }
 
   public IConfigurationRoot Configuration { get; }
@@ -246,7 +257,11 @@ namespace Miraclelist
     context.HttpContext.Response.StatusCode = 500;
    }
    context.HttpContext.Response.ContentType = "text/plain";
-   context.HttpContext.Response.WriteAsync("GlobalExceptionFilter:" + context.Exception.ToString());
+
+   var s = "MiracleListBackend v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+   s += " on ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString() + " GlobalExceptionFilter: ";
+
+   context.HttpContext.Response.WriteAsync(s + context.Exception.ToString());
   }
  }
 
