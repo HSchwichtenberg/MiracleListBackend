@@ -22,9 +22,6 @@ namespace BL
   {
   }
 
-
-
-
   /// <summary>
   /// Erzeugen einer Instanz der Klasse mit Benutzertoken. Speichert letzte Verwendung in User.LastActivity.
   /// </summary>
@@ -160,8 +157,6 @@ namespace BL
 
    var t03 = tm.CreateTask(c0.CategoryID, "Sie können selbst einen eigenen MiracleList-Client schreiben.", "Das Backend steht Ihnen dafür zur Verfügung: https://miraclelistbackend.azurewebsites.net", DateTime.Now.AddDays(60), Importance.C, 100, new List<SubTask>() { st03a, st03b });
 
-     
-
    var st1 = new SubTask();
    st1.Title = "Teil 1";
    var st2 = new SubTask();
@@ -233,5 +228,31 @@ namespace BL
   {
    Ok, TokenUngültig,BenutzerIstDeaktiviert
   }
+
+  public List<UserStatistik> GetUserStatistics()
+  {
+   var r = new List<UserStatistik>();
+   var groups = (from u in ctx.UserSet
+                 join x in ( (from p in ctx.TaskSet
+                            group p by p.Category.UserID into g
+                            select new { userID = g.Key, Count = g.Count() }).OrderBy(x=>x.Count).Take(10) )
+                  on u.UserID equals x.userID
+                 select new { u.UserName, x.Count });
+
+   foreach (var g in groups)
+   {
+    r.Add(new UserStatistik() { UserName = g.UserName, NumberOfTasks = g.Count });
+   }
+
+   return r;        
+  }
+
+ }
+
+ public class UserStatistik
+ {
+ public string UserName { get; set; }
+  public long NumberOfTasks { get; set; }
+
  }
 }
