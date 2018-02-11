@@ -21,7 +21,7 @@ namespace Miraclelist
  public class Startup
  {
   public IConfigurationRoot Configuration { get; }
- 
+
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
@@ -36,7 +36,7 @@ namespace Miraclelist
        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
        .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
 
- 
+
 
    if (env.IsEnvironment("Development"))
    {
@@ -50,14 +50,20 @@ namespace Miraclelist
 
    }
 
-   builder.AddEnvironmentVariables();
+
    Configuration = builder.Build();
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine("ConnectionString=" + CS);
+   System.Diagnostics.Debug.WriteLine("ConnectionString=" + CS);
 
    // inject connection string into DAL
    DAL.Context.ConnectionString = CS;
+
+   foreach (var p in builder.Sources)
+   {
+    System.Diagnostics.Debug.WriteLine(p);
+
+   }
 
 
    try
