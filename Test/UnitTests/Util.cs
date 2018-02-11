@@ -29,12 +29,9 @@ namespace UnitTests
 
    IConfigurationRoot configuration = builder.Build();
 
-
    var e = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB");
-
-
    var cs = configuration["ConnectionStrings:MiracleListDB"];
-   cs = "";
+
    return cs;
   }
 

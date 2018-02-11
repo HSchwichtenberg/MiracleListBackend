@@ -25,7 +25,7 @@ namespace DAL
 
 
   // This connection string is just for testing. Is filled at runtime from configuration file
-  public static string ConnectionString { get; set; } // = "Data Source=D120;Initial Catalog = MiracleList_TEST; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
+  public static string ConnectionString { get; set; } = "Data Source=.;Initial Catalog = MiracleList_TEST; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
 
   // =  "Data Source=.,1434;Initial Catalog = MiracleList_INFOTAG; User Id=sa; password=xxx; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
 
