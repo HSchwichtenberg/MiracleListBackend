@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 
 
@@ -27,11 +28,15 @@ namespace UnitTests
    .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
    .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
 
+
    IConfigurationRoot configuration = builder.Build();
 
    var e = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB");
    var cs = configuration["ConnectionStrings:MiracleListDB"];
 
+
+   Console.WriteLine(cs);
+   System.Environment.Exit(0);
    return cs;
   }
 
