@@ -110,12 +110,13 @@ namespace EFTools
    {
     var zeit = DateTime.Now.ToString();
 
-    var um = new BL.UserManager("test", "test");
+    var um = new BL.UserManager("test", "test","test");
+
     um.InitDefaultTasks();
     var cm = new BL.CategoryManager(um.CurrentUser.UserID);
     var cs = cm.GetCategorySet();
 
-    PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName +")");
+    PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName +") Token=" + um.CurrentUser.Token);
     if (cs.Count != 4)
     {
      PrintError("Data Test Error: Count=" + cs.Count);
