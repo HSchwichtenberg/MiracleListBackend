@@ -4,6 +4,7 @@ using ITVisions;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace Miraclelist.Controllers
   private TelemetryClient telemetry = new TelemetryClient();
   TaskManager tm; 
   CategoryManager cm;
+
+  private IConfigurationRoot Configuration;
+
+  public MiracleListApiV2Controller(IConfigurationRoot configuration)
+  {
+   this.Configuration = configuration;
+  }
 
   /// <summary>
   /// Hilfsroutine für alle Actions mit auth
@@ -44,7 +52,10 @@ namespace Miraclelist.Controllers
   [HttpGet]
   public IEnumerable<string> About()
   {
-   return new AppManager().GetAppInfo().Append("API-Version: v2");
+   var s = new AppManager().GetAppInfo();
+   s = s.Append("API-Version: v2");
+   s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
+   return s;
   }
 
   /// <summary>
@@ -88,7 +99,7 @@ namespace Miraclelist.Controllers
   public async System.Threading.Tasks.Task<LoginInfo> Login([FromBody] LoginInfo loginInfo)
   {
 
-   return await new MiracleListApiController().Login(loginInfo);
+   return await new MiracleListApiController(this.Configuration).Login(loginInfo);
    
   }
 
