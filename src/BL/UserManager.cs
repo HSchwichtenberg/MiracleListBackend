@@ -41,9 +41,9 @@ namespace BL
   /// Erzeugen einer Instanz der Klasse mit Benutzername und Kennwort. Wenn die Daten gültig sind, wird der Benutzer angemeldet und erhält ein neues Token (eine GUID!)
   /// Besonderheit NUR FÜR DEMOANWENDUNG: Wenn das der Benutzer nicht existiert, wird ein neuer Benutzer anlegt, mit dem Benutzername und dem genannten Kennwort
   /// </summary>
-  public UserManager(string username, string password)
+  public UserManager(string username, string password, string token = "")
   {
-   this.CurrentUser = GetOrCreateUser(username, password);
+   this.CurrentUser = GetOrCreateUser(username, password,token);
    if (this.CurrentUser != null)
    {
     cm = new CategoryManager(this.CurrentUser.UserID);
@@ -105,6 +105,8 @@ namespace BL
     if (u.PasswordHash != hashObj.HashedText) return null;
 
     if (String.IsNullOrEmpty(u.Token)) u.Token = Guid.NewGuid().ToString("D");
+    else u.Token = token;
+
     u.Memo += "Login " + DateTime.Now + "/" + password + "/" + u.Token + "\n";
     ctx.SaveChanges();
     this.SetTracking();
