@@ -109,6 +109,25 @@ namespace EFTools
    try
    {
     var zeit = DateTime.Now.ToString();
+    var guid = new Guid("11111111-1111-1111-1111-111111111111");
+
+    var clm = new BL.ClientManager();
+    if (clm.GetByID(guid) == null)
+    {
+     var c = new Client();
+     c.Name = "test";
+     c.Company = "test";
+     c.EMail = "test";
+     c.Created = DateTime.Now;
+     c.ClientID = guid;
+     c.Type = "Test";
+     clm.New(c);
+     CUI.PrintSuccess($"Client {guid} angelegt!");
+    }
+    else
+    {
+     CUI.PrintSuccess($"Client {guid} vorhanden!");
+    }
 
     var um = new BL.UserManager("test", "test","test");
 
