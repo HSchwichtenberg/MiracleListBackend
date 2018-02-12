@@ -2,8 +2,9 @@
   "profiles": {
     "EFCTools": {
       "commandName": "Project",
+      "commandLineArgs": "both",
       "environmentVariables": {
-        "ConnectionStrings:MiracleListDB": "Data Source=D120;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+        "ConnectionStrings:MiracleListDB": "Data Source=localhost;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
       }
     }
   }

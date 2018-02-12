@@ -105,7 +105,7 @@ namespace BL
     if (u.PasswordHash != hashObj.HashedText) return null;
 
     if (String.IsNullOrEmpty(u.Token)) u.Token = Guid.NewGuid().ToString("D");
-    else u.Token = token;
+    else if (!String.IsNullOrEmpty(token)) { u.Token = token; }
 
     u.Memo += "Login " + DateTime.Now + "/" + password + "/" + u.Token + "\n";
     ctx.SaveChanges();
