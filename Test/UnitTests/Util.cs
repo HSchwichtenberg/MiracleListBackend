@@ -36,7 +36,7 @@ namespace UnitTests
 
 
    Console.WriteLine(cs);
-   System.Environment.Exit(0);
+
    return cs;
   }
 
