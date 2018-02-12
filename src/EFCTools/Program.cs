@@ -42,11 +42,6 @@ namespace EFTools
    //var m = new ITVisions.Mail.MailGun();
 
    //new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("hs@IT-Visions.de", "hs@IT-Visions.de", "TEST BETREFF", "INHALT");
-
-
-   //var ctx = new Context();
-   //var sts = ctx.Set<SubTask>().Where(st=>st.Done==true).ToList();
-   //Console.WriteLine(sts.Count);
    PrintInfo("MiracleList Backend EFC Tools " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
    Context.ConnectionString = GetConnectionString();
@@ -59,6 +54,34 @@ namespace EFTools
     System.Environment.Exit(1);
    }
 
+   if (args.Count() == 0)
+   {
+    CUI.PrintError("Missing Parameter: migrate | createtestuser | both");
+    System.Environment.Exit(1);
+   }
+
+   switch (args[0].ToLower())
+   {
+    case "migrate": Migrate(); break;
+    case "createtestuser": CreateTestUser(); break;
+    case "both": Migrate();  CreateTestUser(); break;
+    default: Migrate(); CreateTestUser(); break;
+   }
+
+
+   //var ctx = new Context();
+   //var sts = ctx.Set<SubTask>().Where(st=>st.Done==true).ToList();
+   //Console.WriteLine(sts.Count);
+
+
+   PrintInfo("DONE!");
+   System.Environment.Exit(0);
+   //Console.ReadLine();
+
+  }
+
+  private static void Migrate()
+  {
    PrintInfo("Migrate Database...");
 
    try
@@ -79,17 +102,20 @@ namespace EFTools
     PrintError("Migration Error", ex);
     System.Environment.Exit(2);
    }
+  }
 
+  private static void CreateTestUser()
+  {
    try
    {
     var zeit = DateTime.Now.ToString();
 
-    var um = new BL.UserManager("test " + zeit, "test");
+    var um = new BL.UserManager("test", "test");
     um.InitDefaultTasks();
     var cm = new BL.CategoryManager(um.CurrentUser.UserID);
     var cs = cm.GetCategorySet();
 
-    PrintInfo(cs.Count + " Tasks for User " + um.CurrentUser.UserID);
+    PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName +")");
     if (cs.Count != 4)
     {
      PrintError("Data Test Error: Count=" + cs.Count);
@@ -102,17 +128,7 @@ namespace EFTools
     System.Environment.Exit(4);
     throw;
    }
-
-   PrintInfo("DONE!");
-   System.Environment.Exit(0);
-
-
-   Console.ReadLine();
-
-
   }
-
-
   public static void PrintInfo(string s)
   {
    // VSO Logging Commands https://github.com/Microsoft/vsts-tasks/blob/master/docs/authoring/commands.md
