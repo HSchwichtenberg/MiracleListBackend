@@ -1,0 +1,26 @@
+﻿@page
+@{
+    ViewData["Title"] = "UserStatistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>10 most active Users</h2>
+
+
+@{ 
+ var model = new BL.UserManager().GetUserStatistics();
+}
+   
+<table>
+ <tr>
+  <th>User</th>
+  <th>Number of tasks</th>
+ </tr>
+ @foreach (var us in model)
+ {<tr>
+ <td>@us.UserName</td>
+ <td>@us.NumberOfTasks</td>
+</tr>
+ }
+</table>
+

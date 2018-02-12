@@ -3,6 +3,7 @@ using BO;
 using ITVisions;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,11 @@ namespace Miraclelist.Controllers
   UserManager um;
   CategoryManager cm;
 
-  public MiracleListApiController()
+  private IConfigurationRoot Configuration;
+
+  public MiracleListApiController(IConfigurationRoot configuration)
   {
+   this.Configuration = configuration;
   }
 
   /// <summary>
@@ -94,7 +98,10 @@ namespace Miraclelist.Controllers
   [HttpGet]
   public IEnumerable<string> About()
   {
-   return new AppManager().GetAppInfo().Append("API-Version: v1");
+   var s = new AppManager().GetAppInfo();
+   s = s.Append("API-Version: v2");
+   s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
+   return s;
   }
 
   /// <summary>
