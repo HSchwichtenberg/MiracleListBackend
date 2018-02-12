@@ -36,8 +36,6 @@ namespace Miraclelist
        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
        .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
 
-
-
    if (env.IsEnvironment("Development"))
    {
     // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
@@ -52,6 +50,7 @@ namespace Miraclelist
 
 
    Configuration = builder.Build();
+
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
    System.Diagnostics.Debug.WriteLine("ConnectionString=" + CS);
