@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		notes.txt = notes.txt
 		Postman-Test.ps1 = Postman-Test.ps1
 		Rules.ruleset = Rules.ruleset
+		Util.ps1 = Util.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3BC09110-05BA-4363-9A18-07035088B538}"

@@ -1,10 +1,7 @@
 {
   "profiles": {
     "UnitTests": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ConnectionStrings:MiracleListDB": ""
-      }
+      "commandName": "Project"
     }
   }
 }

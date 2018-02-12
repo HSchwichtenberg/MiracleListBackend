@@ -1,4 +1,6 @@
 ﻿using BL;
+using ITVisions;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -18,21 +20,21 @@ namespace Miraclelist
 
  public class Startup
  {
+  public IConfigurationRoot Configuration { get; }
+
   public Startup(IHostingEnvironment env)
   {
+   CUI.Headline("Startup");
+
+   //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
+
+   // Get all configuration sources
    var builder = new ConfigurationBuilder()
        .SetBasePath(env.ContentRootPath)
        .AddInMemoryCollection()
        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
        .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
-
-
-   IConfigurationRoot configuration = builder.Build();
-
-   var CS = configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine(CS);
-
 
    if (env.IsEnvironment("Development"))
    {
@@ -46,11 +48,22 @@ namespace Miraclelist
 
    }
 
-   builder.AddEnvironmentVariables();
+
    Configuration = builder.Build();
 
+
+   var CS = Configuration["ConnectionStrings:MiracleListDB"];
+   System.Diagnostics.Debug.WriteLine("ConnectionString=" + CS);
+
    // inject connection string into DAL
-   DAL.Context.ConnectionString = Configuration.GetConnectionString("MiracleListDB");
+   DAL.Context.ConnectionString = CS;
+
+   foreach (var p in builder.Sources)
+   {
+    System.Diagnostics.Debug.WriteLine(p);
+
+   }
+
 
    #region testuser
    if (env.IsEnvironment("Development"))
@@ -65,13 +78,15 @@ namespace Miraclelist
    #endregion
   }
 
-  public IConfigurationRoot Configuration { get; }
+
 
   /// <summary>
   /// Called by ASP.NET Core during startup
   /// </summary>
   public void ConfigureServices(IServiceCollection services)
   {
+   CUI.Headline("ConfigureServices");
+
    #region Enable Auth service for MLToken in the HTTP header
    services.AddAuthentication().AddMLToken();
    #endregion
@@ -242,7 +257,11 @@ namespace Miraclelist
     context.HttpContext.Response.StatusCode = 500;
    }
    context.HttpContext.Response.ContentType = "text/plain";
-   context.HttpContext.Response.WriteAsync("GlobalExceptionFilter:" + context.Exception.ToString());
+
+   var s = "MiracleListBackend v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+   s += " on ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString() + " GlobalExceptionFilter: ";
+
+   context.HttpContext.Response.WriteAsync(s + context.Exception.ToString());
   }
  }
 
