@@ -55,12 +55,13 @@ namespace Miraclelist
    #region testuser
    if (env.IsEnvironment("Development"))
    {
-    var um = new UserManager("HS", "HS");
+    var um = new UserManager("test", "test");
     um.InitDefaultTasks();
-
-    var um2 = new UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
    }
+
+   var um2 = new UserManager("unittest", "unittest");
+    um2.InitDefaultTasks();
+  
    #endregion
   }
 

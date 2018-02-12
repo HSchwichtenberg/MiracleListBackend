@@ -1,0 +1,1 @@
+newman run MiracleList-APITests.postman_collection.json -e MiracleList-APITests-StagingEnv.postman_environment.json --disable-unicode --reporters cli,junit --reporter-junit-export TestResults/newman-run-report.xml
