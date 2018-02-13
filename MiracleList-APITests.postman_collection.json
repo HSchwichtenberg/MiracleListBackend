@@ -6,17 +6,18 @@
 	},
 	"item": [
 		{
-			"name": "http://{{servername}}/CategorySet/test888",
+			"name": "http://{{servername}}/CategorySet/test",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
+						"id": "bc839ac5-64c5-410d-9d65-e3088e2f4686",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"Cat1\"] = jsonData[0].name === \"Beruf\";",
-							"tests[\"Cat2\"] = jsonData[1].name === \"Haushalt\";",
-							"tests[\"Cat3\"] = jsonData[2].name === \"Freizeit\";"
+							"tests[\"Cat1\"] = jsonData[1].name === \"Beruf\";",
+							"tests[\"Cat2\"] = jsonData[2].name === \"Haushalt\";",
+							"tests[\"Cat3\"] = jsonData[3].name === \"Freizeit\";"
 						]
 					}
 				}
@@ -33,7 +34,7 @@
 					"mode": "raw",
 					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
 				},
-				"url": "http://{{servername}}/CategorySet/test1"
+				"url": "http://{{servername}}/CategorySet/test"
 			},
 			"response": []
 		},
@@ -93,7 +94,7 @@
 					"mode": "raw",
 					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"test2\",\r\n  \"token\": \"\"\r\n}"
 				},
-				"url": "http://localhost:8887/DueTaskSet/test"
+				"url": "http://{{servername}}/DueTaskSet/test"
 			},
 			"response": []
 		}
