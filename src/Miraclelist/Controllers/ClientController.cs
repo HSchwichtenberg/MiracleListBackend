@@ -39,11 +39,12 @@ namespace Miraclelist.Controllers
    string name = HttpContext.Request.Form["C_Name"];
    string firma = HttpContext.Request.Form["C_Firma"];
    string email = HttpContext.Request.Form["C_EMail"];
-
+   string einverstanden = HttpContext.Request.Form["C_Einverstanden"];
 
    if (string.IsNullOrEmpty(name)) this.ModelState.AddModelError("C_Name", "Name darf nicht leer sein!");
    if (string.IsNullOrEmpty(firma)) this.ModelState.AddModelError("C_Firma", "Firma darf nicht leer sein!");
    if (string.IsNullOrEmpty(email)) this.ModelState.AddModelError("C_EMail", "EMail darf nicht leer sein!");
+   if (einverstanden != "Ja") this.ModelState.AddModelError("C_Einverstanden", "Sie müssen einverstanden sein!");
    if (!new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(email)) this.ModelState.AddModelError("C_EMail", "EMail ungültig!");
    if (await MailUtil.IsWegwerfadresse(email)) this.ModelState.AddModelError("C_EMail", "E-Mail-Domain nicht erlaubt!");
 
