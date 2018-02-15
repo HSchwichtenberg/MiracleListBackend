@@ -1,0 +1,14 @@
+﻿@page
+@model Miraclelist_WebAPI.Pages.ClientIDConfirmationModel
+@{
+ ViewData["Title"] = "ClientIDConfirmation";
+ Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Beantragung für Client-ID</h2>
+
+<div>
+
+ Danke, @Model.Name<text>.</text> Der Server hat Ihre personalisierte Client-ID gesendet an @Model.EMail. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen!
+ <br />
+</div>
