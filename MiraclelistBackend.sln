@@ -8,8 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
 		EFTools-Test.ps1 = EFTools-Test.ps1
-		MiracleList-APITests-StagingEnv.postman_environment.json = MiracleList-APITests-StagingEnv.postman_environment.json
 		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
+		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
 		notes.txt = notes.txt
 		Postman-Test.ps1 = Postman-Test.ps1
 		Rules.ruleset = Rules.ruleset
