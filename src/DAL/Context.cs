@@ -6,6 +6,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
+using ITVisions;
 
 namespace DAL
 {
@@ -22,6 +23,10 @@ namespace DAL
   public DbSet<Category> CategorySet { get; set; }
   public DbSet<Log> LogSet { get; set; }
 
+
+  #region Pseudo-entities for grouping results
+  public DbSet<UserStatistics> UserStatistics { get; set; } // for grouping result
+  #endregion
 
 
   // This connection string is just for testing. Is filled at runtime from configuration file
@@ -40,6 +45,21 @@ namespace DAL
 
   protected override void OnModelCreating(ModelBuilder builder)
   {
+
+   #region Trick for pseudo entities for grouping and Views
+
+   var p = System.Diagnostics.Process.GetCurrentProcess();
+   
+   System.Diagnostics.Trace.WriteLine(System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower());
+   Console.WriteLine(p.ToNameValueString());
+   // Trick: hide the view or grouping pseudo entities from the EF migration tool so it does not want to create a new table for it
+   //if (System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower() == "dotnet") // || ef
+   //{
+   // builder.Ignore<UserStatistics>();
+   //}
+
+   #endregion
+
    // In this case, EFCore can derive the database schema from the entity classes by convention and annotation.
    // The following Fluent API configurations only change the default behavior!
 
