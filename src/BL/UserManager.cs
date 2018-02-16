@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using DAL;
 using ITVisions.EFC;
 using ITVisions.EFCore;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL
 {
@@ -43,7 +45,7 @@ namespace BL
   /// </summary>
   public UserManager(string username, string password, string token = "")
   {
-   this.CurrentUser = GetOrCreateUser(username, password,token);
+   this.CurrentUser = GetOrCreateUser(username, password, token);
    if (this.CurrentUser != null)
    {
     cm = new CategoryManager(this.CurrentUser.UserID);
@@ -127,7 +129,7 @@ namespace BL
    // 38 zeichen mit { und -
    u.Memo = "Created " + DateTime.Now + "/" + password + "\n";
    this.New(u);
-  
+
    return u;
   }
 
@@ -150,7 +152,7 @@ namespace BL
 
    var st02a = new SubTask() { Title = "Mithelfen, das Beispiel besser zu machen: https://github.com/HSchwichtenberg/MiracleListClient" };
 
-   var t02 = tm.CreateTask(c0.CategoryID, "Verstehen, dass MiracleList eine Beispiel-Anwendung ist und kein fertiges Produkt.","Es geht in diesem Beispiel darum, möglichste viele Techniken zu zeigen und nicht darum, bis wie bei einem echten Produkt exakt und rein zu programmieren.", DateTime.Now.AddHours(3), Importance.A, 1, new List<SubTask>() { st02a });
+   var t02 = tm.CreateTask(c0.CategoryID, "Verstehen, dass MiracleList eine Beispiel-Anwendung ist und kein fertiges Produkt.", "Es geht in diesem Beispiel darum, möglichste viele Techniken zu zeigen und nicht darum, bis wie bei einem echten Produkt exakt und rein zu programmieren.", DateTime.Now.AddHours(3), Importance.A, 1, new List<SubTask>() { st02a });
 
    var t04 = tm.CreateTask(c0.CategoryID, "Web- und Cross-Platform-Techniken lernen", "Wenn Sie die hier eingesetzen Techniken (.NET Core, C#, ASP.NET Core WebAPI, Entity Framework Core, SQL Azure, Azure Web App, Swagger, HTML, CSS, TypeScript, Angular, Bootstrap, MomentJS, angular2-moment, angular2-contextmenu, angular2-modal, Electron, Cordova etc.) lernen wollen, besuchen Sie www.IT-Visions.de/ST", DateTime.Now.AddDays(30), Importance.B, 40, null);
 
@@ -228,33 +230,45 @@ namespace BL
 
   public enum TokenValidationResult
   {
-   Ok, TokenUngültig,BenutzerIstDeaktiviert
+   Ok, TokenUngültig, BenutzerIstDeaktiviert
   }
 
-  public List<UserStatistik> GetUserStatistics()
+  public List<UserStatistics> GetUserStatistics()
   {
-   var r = new List<UserStatistik>();
-   var groups = (from u in ctx.UserSet
-                 join x in ( (from p in ctx.TaskSet
-                            group p by p.Category.UserID into g
-                            select new { userID = g.Key, Count = g.Count() }).OrderBy(x=>x.Count).Take(10) )
-                  on u.UserID equals x.userID
-                 select new { u.UserName, x.Count });
-
-   foreach (var g in groups)
+   ctx.Log((x) =>
    {
-    r.Add(new UserStatistik() { UserName = g.UserName, NumberOfTasks = g.Count });
+    System.Diagnostics.Debug.WriteLine(x);
+    using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
+    {
+     sw.WriteLine(x);
+    }
    }
+    );
 
-   return r;        
+   var r = new List<UserStatistics>();
+   //var groups = (from u in ctx.UserSet
+   //              join x in ((from p in ctx.TaskSet
+   //                          group p by p.Category.UserID into g
+   //                          select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
+   //               on u.UserID equals x.userID
+   //              select new { u.UserName, x.Count });
+   
+   //foreach (var g in groups)
+   //{
+   // r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
+   //}
+
+   var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
+                         Task ON Category.CategoryID = Task.CategoryID INNER JOIN
+                         [User] ON Category.UserID = [User].UserID
+                         GROUP BY[User].UserName";
+
+   r = ctx.UserStatistics.FromSql(SQL).ToList();
+
+   return r;
   }
 
  }
 
- public class UserStatistik
- {
- public string UserName { get; set; }
-  public long NumberOfTasks { get; set; }
 
- }
 }

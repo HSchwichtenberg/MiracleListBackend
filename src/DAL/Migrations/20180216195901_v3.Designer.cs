@@ -12,9 +12,10 @@ using System;
 namespace DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20180216195901_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,6 +191,18 @@ namespace DAL.Migrations
                     b.HasIndex("ClientID");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("BO.UserStatistics", b =>
+                {
+                    b.Property<string>("UserName")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("NumberOfTasks");
+
+                    b.HasKey("UserName");
+
+                    b.ToTable("UserStatistics");
                 });
 
             modelBuilder.Entity("BO.Category", b =>
