@@ -44,6 +44,25 @@ namespace UnitTests
    }
   }
 
+
+  [Fact]
+  public void CreateTaskTest()
+  {
+   var um = new UserManager("CreateTaskTestUser", true);
+   um.InitDefaultTasks();
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var t = new BO.Task();
+   t.Title = "testaufgabe";
+
+   t.CategoryID = cm.GetCategorySet().ElementAt(0).CategoryID;
+   t.Due = DateTime.Now.AddDays(3);
+   tm.CreateTask(t);
+   Assert.True(t.TaskID > 0);
+   // geht nicht in Unit Test, weil InMem-DB keine Default Values kann: Assert.Equal(3, t.DueInDays);
+
+  }
+
   [Theory]
   [InlineData("test6")]
   [InlineData("test5")]

@@ -8,12 +8,18 @@ namespace DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.AddColumn<int>(
+                name: "DueInDays",
+                table: "Task",
+                nullable: false,
+                computedColumnSql: "DATEDIFF(day, GETDATE(), [Due])");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            migrationBuilder.DropColumn(
+                name: "DueInDays",
+                table: "Task");
         }
     }
 }

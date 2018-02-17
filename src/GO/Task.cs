@@ -24,6 +24,7 @@ namespace BO
   public bool Done { get; set; }
   public decimal? Effort { get; set; }
   public int Order { get; set; }
+  public int DueInDays  { get; set; } // Computed Column
 
   // -------------- Navigation Properties
   public List<SubTask> SubTaskSet { get; set; } // 1:N

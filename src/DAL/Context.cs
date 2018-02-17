@@ -50,12 +50,12 @@ namespace DAL
 
    var p = System.Diagnostics.Process.GetCurrentProcess();
    
-   System.Diagnostics.Trace.WriteLine(System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower());
-   Console.WriteLine(p.ToNameValueString());
+  
+   //Console.WriteLine(p.ToNameValueString());
    // Trick: hide the view or grouping pseudo entities from the EF migration tool so it does not want to create a new table for it
-   //if (System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower() == "dotnet") // || ef
+   //if (System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower() == "ef") // || dotnet
    //{
-   // builder.Ignore<UserStatistics>();
+  // builder.Ignore<UserStatistics>();
    //}
 
    #endregion
@@ -74,6 +74,11 @@ namespace DAL
      entity.Relational().TableName = entity.DisplayName();
     }
    }
+   #endregion
+
+   #region Computed Column
+   builder.Entity<Task>().Property(x => x.DueInDays)
+         .HasComputedColumnSql("DATEDIFF(day, GETDATE(), [Due])");
    #endregion
 
    #region Custom Indices
