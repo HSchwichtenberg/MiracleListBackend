@@ -46,9 +46,8 @@ namespace UnitTests
 
 
 
-  [SkippableFact]
+  [SkippableFact] // NUGET: Xunit.SkippableFact https://github.com/AArnott/Xunit.SkippableFact
   [Trait("Category", "Integration")]
-  // https://github.com/AArnott/Xunit.SkippableFact
   public void CreateTaskDueInDaysTest()
   {
    Skip.IfNot(Util.GetConnectionString() != "", "LÄUFT NUR ALS INTEGRATIONSTEST, weil InMem-DB keine Default Values kann");
@@ -66,7 +65,6 @@ namespace UnitTests
    Assert.True(t.TaskID > 0);
    // geht nicht in Unit Test, weil InMem-DB keine Default Values kann:
    Assert.Equal(3, t.DueInDays);
-
   }
 
   [Theory]
