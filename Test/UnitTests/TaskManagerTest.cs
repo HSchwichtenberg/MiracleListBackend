@@ -45,9 +45,14 @@ namespace UnitTests
   }
 
 
-  [Fact]
-  public void CreateTaskTest()
+
+  [SkippableFact]
+  [Trait("Category", "Integration")]
+  // https://github.com/AArnott/Xunit.SkippableFact
+  public void CreateTaskDueInDaysTest()
   {
+   Skip.IfNot(Util.GetConnectionString() != "", "LÄUFT NUR ALS INTEGRATIONSTEST, weil InMem-DB keine Default Values kann");
+
    var um = new UserManager("CreateTaskTestUser", true);
    um.InitDefaultTasks();
    var tm = new TaskManager(um.CurrentUser.UserID);
@@ -59,7 +64,8 @@ namespace UnitTests
    t.Due = DateTime.Now.AddDays(3);
    tm.CreateTask(t);
    Assert.True(t.TaskID > 0);
-   // geht nicht in Unit Test, weil InMem-DB keine Default Values kann: Assert.Equal(3, t.DueInDays);
+   // geht nicht in Unit Test, weil InMem-DB keine Default Values kann:
+   Assert.Equal(3, t.DueInDays);
 
   }
 
