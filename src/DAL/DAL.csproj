@@ -33,8 +33,8 @@
     <Compile Include="Migrations\20180216195901_v3.Designer.cs" />
     <Compile Include="Migrations\20180216200815_v4.cs" />
     <Compile Include="Migrations\20180216200815_v4.Designer.cs" />
-    <Compile Include="Migrations\20180216201330_v5.cs" />
-    <Compile Include="Migrations\20180216201330_v5.Designer.cs" />
+    <Compile Include="Migrations\20180216235049_v5.cs" />
+    <Compile Include="Migrations\20180216235049_v5.Designer.cs" />
     <Compile Include="Migrations\ContextModelSnapshot.cs" />
   </ItemGroup>
 

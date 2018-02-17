@@ -135,6 +135,10 @@ namespace DAL.Migrations
 
                     b.Property<DateTime?>("Due");
 
+                    b.Property<int>("DueInDays")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasComputedColumnSql("DATEDIFF(day, GETDATE(), [Due])");
+
                     b.Property<decimal?>("Effort");
 
                     b.Property<int?>("Importance");

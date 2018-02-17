@@ -263,7 +263,7 @@ namespace BL
                          [User] ON Category.UserID = [User].UserID
                          GROUP BY[User].UserName";
 
-   r = ctx.UserStatistics.FromSql(SQL).ToList();
+   r = ctx.UserStatistics.FromSql(SQL).OrderBy(x=>x.NumberOfTasks).Take(10).ToList();
 
    return r;
   }
