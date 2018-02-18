@@ -13,6 +13,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Miraclelist
@@ -25,6 +26,13 @@ namespace Miraclelist
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
+
+   var fileContent = File.ReadAllLines(System.IO.Path.Combine(env.WebRootPath, "AddedColumnsConfig.txt"));
+   var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
+
+   // List of additional columns must be set before creating the first instance of the context!
+   DAL.Context.AdditionalColumnSet = additionalColumnSet;
+
 
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
 

@@ -37,7 +37,7 @@ namespace BL
     ctx.Remove(st);
    }
    ctx.SaveChanges();
-   return;
+
 
    // TODO: Das geht nicht in Unit Test mit InMemDB :-(
    // Message: System.InvalidOperationException : Relational-specific methods can only be used when the context is using a relational database provider.
