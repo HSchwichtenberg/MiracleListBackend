@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using ITVisions;
+using System.Collections.Generic;
 
 namespace DAL
 {
@@ -33,7 +34,21 @@ namespace DAL
   public static string ConnectionString { get; set; } = "Data Source=.;Initial Catalog = MiracleList_TEST; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
 
   // =  "Data Source=.,1434;Initial Catalog = MiracleList_INFOTAG; User Id=sa; password=xxx; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
-
+  public Context()
+  {
+   instanceCount++;
+  }
+  private static int instanceCount = 0;
+  private static List<string> additionalColumnSet = null;
+  public static List<string> AdditionalColumnSet
+  {
+   get { return additionalColumnSet; }
+   set
+   {
+    if (instanceCount > 0) throw new ApplicationException("Cannot set AdditionalColumnSet as context has been used before!");
+    additionalColumnSet = value;
+   }
+  }
 
   protected override void OnConfiguring(DbContextOptionsBuilder builder)
   {
@@ -49,19 +64,35 @@ namespace DAL
    #region Trick for pseudo entities for grouping and Views
 
    var p = System.Diagnostics.Process.GetCurrentProcess();
-   
-  
+
+
    //Console.WriteLine(p.ToNameValueString());
    // Trick: hide the view or grouping pseudo entities from the EF migration tool so it does not want to create a new table for it
    //if (System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower() == "ef") // || dotnet
    //{
-  // builder.Ignore<UserStatistics>();
+   // builder.Ignore<UserStatistics>();
    //}
 
    #endregion
 
    // In this case, EFCore can derive the database schema from the entity classes by convention and annotation.
    // The following Fluent API configurations only change the default behavior!
+   #region Shadow property
+   if (AdditionalColumnSet != null)
+   {
+    foreach (string shadowProp in AdditionalColumnSet)
+    {
+     var splitted = shadowProp.Split(';');
+     string entityclass = splitted[0];
+     string columnname = splitted[1];
+     string columntype = splitted[2];
+
+     Type columntypeObj = Type.GetType(columntype);
+
+     builder.Entity(entityclass).Property(columntypeObj, columnname);
+    }
+   }
+   #endregion
 
    #region Mass configuration via model class
    foreach (IMutableEntityType entity in builder.Model.GetEntityTypes())

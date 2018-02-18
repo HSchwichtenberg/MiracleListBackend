@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ITVisions.EFCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
@@ -19,6 +20,8 @@ namespace UnitTests
   public static string GetConnectionString()
   {
 
+   HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
+
    // Wenn es einen Eintrag in mehr als einer Datei gibt, gewinnt der zuletzt hinzugefügte Eintrag
 
    var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "" } };
@@ -34,6 +37,9 @@ namespace UnitTests
    var e = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB");
    var cs = configuration["ConnectionStrings:MiracleListDB"];
 
+
+   var ctx = new DAL.Context();
+   ctx.Log();
 
    Console.WriteLine(cs);
 

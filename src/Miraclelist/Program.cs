@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore;
 using ITVisions;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Miraclelist
 {
@@ -27,6 +30,8 @@ namespace Miraclelist
    var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
      .AddCommandLine(args)
      .Build();
+
+   ColumnsAddedAfterCompilation();
 
    var hostUrl = configuration["hosturl"];
    if (string.IsNullOrEmpty(hostUrl))
@@ -53,5 +58,20 @@ namespace Miraclelist
 
   // host.Run();
   //}
- }
+
+  public static void ColumnsAddedAfterCompilation()
+  {
+
+   //List<string> additionalColumnSet = new List<string>() { "BO.User;City;System.String", "BO.User;Important;System.Nullable`1[System.Boolean]" };
+
+   //var fileContent = File.ReadAllLines("AddedColumnsConfig.txt");
+   //var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
+
+
+   //// List of additional columns must be set before creating the first instance of the context!
+   //DAL.Context.AdditionalColumnSet = additionalColumnSet;
+
+
+   }
+  }
 }

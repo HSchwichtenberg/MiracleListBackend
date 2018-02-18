@@ -48,6 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\Lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="ITV.AppUtil.NETCore">
       <HintPath>..\..\Lib\ITV.AppUtil.NETCore.dll</HintPath>
     </Reference>
