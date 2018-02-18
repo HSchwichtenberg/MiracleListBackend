@@ -2,22 +2,25 @@
 	"info": {
 		"name": "MiracleList-APITests",
 		"_postman_id": "23fd3fb2-1dff-2b0f-cff4-e396f0d2d4cc",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://{{servername}}/CategorySet/test",
+			"name": "CategorySet http://{{servername}}/CategorySet/test",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "bc839ac5-64c5-410d-9d65-e3088e2f4686",
+						"id": "43e614fb-cfce-4f47-aead-bb352f3664bc",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"tests[\"Cat1\"] = jsonData[1].name === \"Beruf\";",
 							"tests[\"Cat2\"] = jsonData[2].name === \"Haushalt\";",
-							"tests[\"Cat3\"] = jsonData[3].name === \"Freizeit\";"
+							"tests[\"Cat3\"] = jsonData[3].name === \"Freizeit\";",
+							"postman.setEnvironmentVariable(\"categoryID\", jsonData[0].categoryID);",
+							"postman.setEnvironmentVariable(\"taskID\", jsonData[0].taskSet[0].taskID);"
 						]
 					}
 				}
@@ -39,7 +42,101 @@
 			"response": []
 		},
 		{
-			"name": "http://{{servername}}/login",
+			"name": "TaskSet http://{{servername}}/taskset/test/{{categoryID}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ca264ce-b635-4c09-91d1-437938ff979e",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"title1\"] = jsonData[0].title === \"Beispielaufgaben erforschen\";",
+							"tests[\"title2\"] = jsonData[1].title === \"Verstehen, dass MiracleList eine Beispiel-Anwendung ist und kein fertiges Produkt.\";",
+							"tests[\"taskCount\"] = jsonData.length == 4;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"url": "http://{{servername}}/taskset/test/{{categoryID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "One Task http://{{servername}}/task/test/{{taskID}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "156f690e-c655-4cd5-82a5-76f8eceeaecc",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"title\"] = jsonData.title === \"Beispielaufgaben erforschen\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"taskID\": 1,\n    \"title\": \"Projektplan erstellen\",\n    \"created\": \"2017-01-09T20:59:38.2067306\",\n    \"due\": \"2017-01-10T20:59:38.2052332\",\n    \"importance\": 0,\n    \"note\": \"\",\n    \"done\": false,\n    \"order\": 0,\n    \"subTasks\": [],\n    \"category\": null,\n    \"categoryID\": 1\n  }"
+				},
+				"url": "http://{{servername}}/task/test/{{taskID}}"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN ERROR http://localhost:8887/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ClientIDUnknown\"] = jsonData.message === \"Client-ID-Check: ClientIDUnknown\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"falsch\",\r\n  \"token\": \"\"\r\n}"
+				},
+				"url": "http://{{servername}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN http://{{servername}}/login",
 			"event": [
 				{
 					"listen": "test",
@@ -69,7 +166,7 @@
 			"response": []
 		},
 		{
-			"name": "http://{{servername}/DueTaskSet/test",
+			"name": "DueTaskSet http://{{servername}/DueTaskSet/test",
 			"event": [
 				{
 					"listen": "test",
@@ -95,6 +192,31 @@
 					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"test2\",\r\n  \"token\": \"\"\r\n}"
 				},
 				"url": "http://{{servername}}/DueTaskSet/test"
+			},
+			"response": []
+		},
+		{
+			"name": "About http://{{servername}}/about",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0cb82443-2ee4-4089-a050-f0ec55a87f24",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Backend\"] = jsonData[1] === \"MiracleListBackend\";",
+							"tests[\"DB\"] = jsonData[6] === \"Database Status: OK\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://{{servername}}/about",
+				"description": ""
 			},
 			"response": []
 		}
