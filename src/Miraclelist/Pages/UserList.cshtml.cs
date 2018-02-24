@@ -23,27 +23,33 @@ namespace Miraclelist_WebAPI.Pages
    UserDT = new DataTable();
    UserDT.Columns.Add("UserName");
    UserDT.Columns.Add("CategoryCount");
-   foreach (var col in DAL.Context.AdditionalColumnSet.Where(x => x.StartsWith("BO.User")))
+   if (DAL.Context.AdditionalColumnSet != null)
    {
-    string columnname = col.Split(';')[1];
-    UserDT.Columns.Add(columnname);
+    foreach (var col in DAL.Context.AdditionalColumnSet.Where(x => x.StartsWith("BO.User")))
+    {
+     string columnname = col.Split(';')[1];
+     UserDT.Columns.Add(columnname);
+    }
    }
 
-    using (var ctx = new DAL.Context())
+   using (var ctx = new DAL.Context())
    {
-    var UserList = ctx.UserSet.Include(x=>x.CategorySet).ToList();
-  
-    
+    var UserList = ctx.UserSet.Include(x => x.CategorySet).ToList();
+
+
     foreach (var u in UserList)
     {
      var row = UserDT.NewRow();
      row["UserName"] = u.UserName;
-     row["CategoryCount"] = u.CategorySet.Count ;
+     row["CategoryCount"] = u.CategorySet.Count;
 
-     foreach (var col in DAL.Context.AdditionalColumnSet.Where(x => x.StartsWith("BO.User")))
+     if (DAL.Context.AdditionalColumnSet != null)
      {
-      string columnname = col.Split(';')[1];
-      row[columnname] = ctx.Entry(u).Property(columnname).CurrentValue;
+      foreach (var col in DAL.Context.AdditionalColumnSet.Where(x => x.StartsWith("BO.User")))
+      {
+       string columnname = col.Split(';')[1];
+       row[columnname] = ctx.Entry(u).Property(columnname).CurrentValue;
+      }
      }
      this.UserDT.Rows.Add(row);
     }

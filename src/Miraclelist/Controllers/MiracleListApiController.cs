@@ -59,7 +59,7 @@ namespace Miraclelist.Controllers
     throw new Exception("Ungültiges Token!");
    }
 
-   // validate tokne
+   // validate token
    um = new UserManager(token);
    var checkResult = um.IsValid();
    if (checkResult != UserManager.TokenValidationResult.Ok)

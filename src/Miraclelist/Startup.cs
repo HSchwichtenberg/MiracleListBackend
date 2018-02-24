@@ -27,22 +27,19 @@ namespace Miraclelist
   {
    CUI.Headline("Startup");
 
-   var fileContent = File.ReadAllLines(System.IO.Path.Combine(env.WebRootPath, "AddedColumnsConfig.txt"));
-   var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
 
-   // List of additional columns must be set before creating the first instance of the context!
-   DAL.Context.AdditionalColumnSet = additionalColumnSet;
-
-
+   #region Load configuration
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
 
    // Get all configuration sources
+   // NUGET: Microsoft.Extensions.Configuration.JSON
+   // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
    var builder = new ConfigurationBuilder()
        .SetBasePath(env.ContentRootPath)
        .AddInMemoryCollection()
        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-       .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+       .AddEnvironmentVariables();
 
    if (env.IsEnvironment("Development"))
    {
@@ -53,40 +50,48 @@ namespace Miraclelist
    }
    else
    {
-
+    // derzeit noch nichts besonderes zu tun
    }
 
 
    Configuration = builder.Build();
-
-
-   var CS = Configuration["ConnectionStrings:MiracleListDB"];
-   System.Diagnostics.Debug.WriteLine("ConnectionString=" + CS);
-
-   // inject connection string into DAL
-   DAL.Context.ConnectionString = CS;
-
    foreach (var p in builder.Sources)
    {
-    System.Diagnostics.Debug.WriteLine(p);
-
+    Console.WriteLine(p);
    }
 
+   var CS = Configuration["ConnectionStrings:MiracleListDB"];
+  Console.WriteLine("ConnectionString=" + CS.Replace("London$","xxxx"));
+
+   // inject connection string into DAL
+   DAL.Context.IsRuntime = true;
+   DAL.Context.ConnectionString = CS;
+   #endregion
+
+   #region Additional Columns added after compilation
+   var fileContent = File.ReadAllLines(System.IO.Path.Combine(env.WebRootPath, "AddedColumnsConfig.txt"));
+   var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
+
+   // List of additional columns must be set before creating the first instance of the context!
+   if (additionalColumnSet.Count > 0)
+   {
+    DAL.Context.AdditionalColumnSet = additionalColumnSet;
+    Console.WriteLine("AdditionalColumnSet=" + String.Join("\n", additionalColumnSet));
+   }
+   #endregion
 
    #region testuser
    if (env.IsEnvironment("Development"))
    {
-    var um = new UserManager("test", "test");
+    var um = new UserManager("test", true, true);
     um.InitDefaultTasks();
    }
 
    var um2 = new UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
-  
+   um2.InitDefaultTasks();
+
    #endregion
   }
-
-
 
   /// <summary>
   /// Called by ASP.NET Core during startup
@@ -109,6 +114,18 @@ namespace Miraclelist
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+   });
+   #endregion
+
+   #region Sessions (used in Razor Pages)
+   services.AddMemoryCache();
+   services.AddSession(o =>
+   {
+    o.CookieName = "MiracleListeBackend.Cookie"; // Name festlegen --> schon wieder veraltert _:-(
+    o.Cookie.Name = "MiracleListeBackend.Cookie"; // Name festlegen --> neu in v2.0
+    //o.CookieSecure = CookieSecurePolicy.SameAsRequest;
+    o.IdleTimeout = TimeSpan.FromMinutes(10); // Timeout 10 Minuten
+    o.Cookie.HttpOnly = false; // auch für Client-Skript verfügbar machen
    });
    #endregion
 
@@ -168,7 +185,6 @@ namespace Miraclelist
   /// </summary>
   public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
   {
-
    #region Error handling
 
    app.UseExceptionHandler(errorApp =>
@@ -193,6 +209,8 @@ namespace Miraclelist
    #endregion
 
    #region ASP.NET Core services
+
+   app.UseSession();  // Sessions aktivieren
    app.UseDefaultFiles();
    app.UseStaticFiles();
    app.UseDirectoryBrowser();

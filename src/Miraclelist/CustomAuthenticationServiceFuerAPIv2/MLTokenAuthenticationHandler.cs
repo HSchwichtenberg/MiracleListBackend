@@ -2,8 +2,6 @@
 using BO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-
-
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Miraclelist_WebAPI.CustomAuthenticationService;
@@ -74,7 +72,8 @@ namespace Miraclelist_WebAPI.CustomAuthenticationService
 
    #region ---------- Claims erstellen
    var identity = new ClaimsIdentity("MLToken");
-   identity.AddClaim(new Claim(System.Security.Claims.ClaimTypes.Name, userID));
+   identity.AddClaim(new Claim(System.Security.Claims.ClaimTypes.Name, userID)); // Speichert die UserID im Standard-Claim "Name"
+   // zusätzliche Claims:
    identity.AddClaim(new Claim("Token", token));
    identity.AddClaim(new Claim("AuthentifiziertAm", DateTime.Now.ToString()));
    identity.AddClaim(new Claim("AuthentifiziertVon", nameof(MLTokenAuthenticationHandler)));

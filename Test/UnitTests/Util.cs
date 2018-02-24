@@ -36,10 +36,10 @@ namespace UnitTests
 
    var e = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB");
    var cs = configuration["ConnectionStrings:MiracleListDB"];
-
-
-   var ctx = new DAL.Context();
-   ctx.Log();
+   DAL.Context.IsRuntime = true;
+   DAL.Context.ConnectionString = cs;
+   //var ctx = new DAL.Context();
+   //ctx.Log();
 
    Console.WriteLine(cs);
 

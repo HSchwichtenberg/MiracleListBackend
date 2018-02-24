@@ -137,7 +137,7 @@ namespace Miraclelist.Controllers
   /// <param name="id"></param>
   /// <returns></returns>
   [HttpGet("TaskSet/{id}")]
-  [Authorize(AuthenticationSchemes = "MLToken")]
+  [Authorize(AuthenticationSchemes = "MLToken")] // Auth Policy
   public IEnumerable<Task> GetTaskSet(int id)
   {
    if (id <= 0) throw new Exception("Ungültig ID!");

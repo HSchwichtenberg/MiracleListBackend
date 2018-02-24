@@ -34,11 +34,12 @@ namespace BL
    try
    {
     var ctx = new DAL.Context();
-    ctx.Database.SetCommandTimeout(new TimeSpan(0, 0, 5));
+    ctx.Database.SetCommandTimeout(new TimeSpan(0, 0, 10));
     userCount = ctx.UserSet.Count();
     taskCount = ctx.TaskSet.Count();
     clientCount = ctx.ClientSet.Count();
-    logCount = ctx.LogSet.Count();
+    logCount = 0;
+    //logCount = ctx.LogSet.Count();
 
     SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(ctx.Database.GetDbConnection().ConnectionString);
     DbName = builder?.DataSource;

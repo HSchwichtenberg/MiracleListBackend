@@ -6,11 +6,14 @@
 }
 @addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *,Miraclelist_WebAPI
-<h2>Beantragung für Client-ID</h2>
-
-
+<h2>Beantragung für Client-ID <environment names="development">***DEV***</environment></h2> 
 
 <div>
+
+ <div Condition="DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 18  ">Guten Tag,</div>
+ <div Condition="DateTime.Now.Hour >= 18 && DateTime.Now.Hour <= 23  ">Guten Abend,</div>
+ <div Condition="DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 12  ">Guten Morgen,</div>
+ <br />
  Sie benötigen eine personalisierte Client-ID, wenn Sie selbst einen Client für das MiracleList-Backend schreiben wollen. Die Client-ID ist bei der Login-Operation zu übergeben. Sie erhalten die Client-ID per E-Mail.
  Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen.
 </div>
@@ -31,23 +34,61 @@
  <form method="post">
   <input name="C_Quelle" type="hidden" value="" class="form-control" />
 
-  <label>
-   Ihr vollständiger Name:
-  </label> <input type="text" asp-for="Name" class="form-control" />
+  <row>
+   <xs4>
+    <label>
+     Ihr vollständiger Name:
+    </label>
+   </xs4>
+   <xs8>
+    <input type="text" asp-for="Name" class="form-control" />
+   </xs8>
+  </row>
 
-  <label>
-   Ihre Firma:
-  </label> <input asp-for="Firma" class="form-control" />
+  <row>
+   <xs4>
+    <label>
+     Ihre Firma:
+    </label>
+   </xs4>
+   <xs8>
+    <input asp-for="Firma" class="form-control" />
+    @*mit name="C_Firma" funktioniert es nicht!*@
+   </xs8>
+  </row>
 
-  <label> Ihre gültige E-Mail-Adresse: </label> <input type="text" class="form-control" asp-for="EMail" />
+  <row>
+   <xs4>
+    <label> Ihre gültige E-Mail-Adresse: </label>
+   </xs4>
+   <xs8>
+    <input type="text" class="form-control" asp-for="EMail" />
+   </xs8>
+  </row>
 
-  <div class="checkbox">
-   <label>
-    <input type="checkbox" asp-for="Einverstanden"  style="width: 15px; height: 15px;"  />
-    Mit den o.g. Bedingungen bin ich einverstanden.
 
-   </label>
-  </div>
+  <row>
+   <xs4>
+    <label>Art des zu erstellenden Clients:</label>
+   </xs4>
+   <xs8>
+    <select asp-items="Model.ClientArten" asp-for="ClientArt"  class="form-control"></select>
+   </xs8>
+  </row>
+
+  <row>
+   <xs12>
+    <div class="checkbox">
+     <label>
+      <input type="checkbox" asp-for="Einverstanden" style="width: 15px; height: 15px;" />
+      Mit den o.g. Bedingungen bin ich einverstanden.
+
+     </label>
+    </div>
+
+
+   </xs12>
+  </row>
 
   <a class="btn btn-danger" href="./ClientID"> Cancel </a>
   <input type="submit" class="btn btn-success" value="Client-ID jetzt beantragen" asp-page-handler="Beantragen" />
@@ -59,4 +100,4 @@
  </form>
 
  <hr />
-Build with ASP.NET Core Razor Pages
+Build with ASP.NET Core Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.

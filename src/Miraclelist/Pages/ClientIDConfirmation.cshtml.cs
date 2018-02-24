@@ -17,15 +17,15 @@ namespace Miraclelist_WebAPI.Pages
 
   
   [TempData]
-  public string EMail { get; set; }
+  public string EMailErfasst { get; set; }
   [TempData]
-  public string Name { get; set; }
+  public string NameErfasst { get; set; }
   [BindProperty]
   public Info Info { get; set; }
   public void OnGet()
   {
    //(string Name, string EMail) info = (this.Name, this.EMail);
-   this.Info = new Info { Name = this.Name, EMail = this.EMail };
+   this.Info = new Info { Name = this.NameErfasst, EMail = this.EMailErfasst };
   }
  }
 }
