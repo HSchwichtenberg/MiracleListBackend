@@ -58,20 +58,23 @@ namespace DAL
     builder.UseInMemoryDatabase("MiracleListInMemoryDB");
   }
 
+
+  public static bool IsRuntime { get; set; } = false;
+
   protected override void OnModelCreating(ModelBuilder builder)
   {
 
    #region Trick for pseudo entities for grouping and Views
 
    var p = System.Diagnostics.Process.GetCurrentProcess();
+   Console.WriteLine(p.ProcessName + "/" + System.Diagnostics.Debugger.IsAttached);
 
 
-   //Console.WriteLine(p.ToNameValueString());
-   // Trick: hide the view or grouping pseudo entities from the EF migration tool so it does not want to create a new table for it
-   //if (System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower() == "ef") // || dotnet
-   //{
-   // builder.Ignore<UserStatistics>();
-   //}
+   if (!IsRuntime)
+   {
+    builder.Ignore<UserStatistics>();
+   }
+
 
    #endregion
 

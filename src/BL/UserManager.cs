@@ -27,9 +27,9 @@ namespace BL
   /// <summary>
   /// Erzeugen einer Instanz der Klasse mit Benutzertoken. Speichert letzte Verwendung in User.LastActivity.
   /// </summary>
-  public UserManager(string token, bool CreateIfNotExists = false)
+  public UserManager(string token, bool CreateIfNotExists = false, bool PasswordReset = false)
   {
-   this.CurrentUser = GetUserByToken(token, CreateIfNotExists);
+   this.CurrentUser = GetUserByToken(token, CreateIfNotExists, PasswordReset);
 
 
    if (this.CurrentUser != null)
@@ -76,7 +76,7 @@ namespace BL
   }
 
 
-  private User GetUserByToken(string token, bool CreateIfNotExists = true)
+  private User GetUserByToken(string token, bool CreateIfNotExists = true, bool PasswordReset = false )
   {
    //Guid guid;
    //if (!Guid.TryParse(token, out guid)) return null;
@@ -90,10 +90,10 @@ namespace BL
    }
    if (!CreateIfNotExists) return null;
    // nur zur Demo: Wenn es Token nicht gibt, wird AdHoc ein neuer User dafür erzeugt
-   return GetOrCreateUser(token, token, token);
+   return GetOrCreateUser(token, token, token, PasswordReset);
   }
 
-  private User GetOrCreateUser(string name, string password, string token = "")
+  private User GetOrCreateUser(string name, string password, string token = "", bool PasswordReset = false)
   {
    this.StartTracking();
 
@@ -104,8 +104,13 @@ namespace BL
     // stimmt das Kennwort?
     var hashObj = ITVisions.Security.Hashing.HashPassword(password, u.Salt);
 
-    if (u.PasswordHash != hashObj.HashedText) return null;
+    if (u.PasswordHash != hashObj.HashedText)
+    {
+     if (!PasswordReset) return null;
+    }
 
+    u.PasswordHash = hashObj.HashedText;
+    u.Salt = hashObj.Salt;
     if (String.IsNullOrEmpty(u.Token)) u.Token = Guid.NewGuid().ToString("D");
     else if (!String.IsNullOrEmpty(token)) { u.Token = token; }
 
@@ -233,7 +238,16 @@ namespace BL
    Ok, TokenUngültig, BenutzerIstDeaktiviert
   }
 
-  public List<UserStatistics> GetUserStatistics()
+
+  public List<User> GetLatestUserSet()
+  {
+   var r = ctx.UserSet.FromSql("Select * from [User]").OrderByDescending(x => x.Created).Take(10).ToList();
+
+   return r;
+
+  }
+
+   public List<UserStatistics> GetUserStatistics()
   {
    ctx.Log((x) =>
    {
@@ -245,25 +259,26 @@ namespace BL
    }
     );
 
-   var r = new List<UserStatistics>();
+
    //var groups = (from u in ctx.UserSet
    //              join x in ((from p in ctx.TaskSet
    //                          group p by p.Category.UserID into g
    //                          select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
    //               on u.UserID equals x.userID
    //              select new { u.UserName, x.Count });
-   
+
+   //var r = new List<UserStatistics>();
    //foreach (var g in groups)
    //{
    // r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
    //}
 
    var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
-                         Task ON Category.CategoryID = Task.CategoryID INNER JOIN
-                         [User] ON Category.UserID = [User].UserID
-                         GROUP BY[User].UserName";
+                          Task ON Category.CategoryID = Task.CategoryID INNER JOIN
+                          [User] ON Category.UserID = [User].UserID
+                          GROUP BY[User].UserName";
 
-   r = ctx.UserStatistics.FromSql(SQL).OrderBy(x=>x.NumberOfTasks).Take(10).ToList();
+   var r = ctx.UserStatistics.FromSql(SQL).OrderByDescending(x => x.NumberOfTasks).Take(10).ToList();
 
    return r;
   }

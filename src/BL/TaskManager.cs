@@ -193,6 +193,15 @@ namespace BL
    return r;
   }
 
+
+  public List<User> GetImportantTaskSet()
+  {
+   var r = ctx.UserSet.FromSql("Select * from [task] where important = 1").OrderByDescending(x => x.Created).Take(10).ToList();
+
+   return r;
+
+  }
+
   /// <summary>
   /// Remove Task with its subtasks
   /// </summary>

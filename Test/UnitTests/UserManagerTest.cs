@@ -50,7 +50,7 @@ namespace UnitTests
     Assert.Equal(um2.CurrentUser.UserName, name);
     var cm = new CategoryManager(um2.CurrentUser.UserID);
     var cset = cm.GetCategorySet();
-    Assert.True(cset.Count == 4);
+    Assert.True(cset.Count == 1);
     Assert.All<Category>(cset, x => Assert.Equal(x.UserID, um.CurrentUser.UserID));
    }
 

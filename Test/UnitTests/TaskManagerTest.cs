@@ -22,6 +22,34 @@ namespace UnitTests
    DAL.Context.ConnectionString = cs;
   }
 
+  [Fact]
+
+  public void GetLatestUsersTest()
+  {
+   var um = new UserManager("test", true);
+   var stat = new UserManager().GetLatestUserSet();
+   Assert.True(stat.Count > 0);
+
+  }
+
+  public void GetImportantTaskTest()
+  {
+   var um = new UserManager("test", true);
+   var stat = new TaskManager(um.CurrentUser.UserID).GetImportantTaskSet();
+   Assert.True(stat.Count > 0);
+
+  }
+
+  [Fact]
+
+  public void GetUserStatistics()
+  {
+   var um = new UserManager("test", true);
+   var stat = new UserManager().GetUserStatistics();
+   Assert.True(stat.Count > 0);
+   
+  }
+
   [Theory]
   [InlineData("test3")]
   [InlineData("test2")]
@@ -70,7 +98,7 @@ namespace UnitTests
   [Theory]
   [InlineData("test6")]
   [InlineData("test5")]
-  [InlineData("test4")]
+  //[InlineData("test4")]
   public void ChangeOneTest(string name)
   {
    const int subTaskCount = 100;
@@ -92,7 +120,6 @@ namespace UnitTests
     var st = new SubTask() { Title = "SubTask #" +i + ": " + testwert.ToString() };
     subtaskList.Add(st);
    }
-
 
    Assert.Equal(catID, t.CategoryID);
 

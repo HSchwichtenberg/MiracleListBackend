@@ -1,8 +1,9 @@
 @*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+ For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
 <html>
 <head>
  <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -22,13 +23,13 @@
   <span class="col-xs-3">
 
    <a href="/">
-    <img src="/MiracleListLogo.jpg">
+    <img src="/MiracleListLogo.jpg" asp-append-version="true">
    </a>
   </span>
   <span class="col-xs-9">
 
-@RenderBody()
-   </span>
+   @RenderBody()
+  </span>
  </div>
 </div>
 

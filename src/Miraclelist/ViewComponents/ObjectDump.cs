@@ -18,9 +18,9 @@ namespace ITVisions.Components
 
   public IViewComponentResult Invoke(object obj, bool? details = false)
   {
-
-   var modell = obj.ToNameValueDictionary().Where(x => !x.Key.Contains("BackingField")).ToList();
-    return View(modell);
+   var alleProperties = obj.ToNameValueDictionary();  
+   var gefilterteProperteis = alleProperties.Where(x => !x.Key.Contains("BackingField")).ToList();
+    return View(gefilterteProperteis);
   }
  }
 }

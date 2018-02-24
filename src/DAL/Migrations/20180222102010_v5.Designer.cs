@@ -12,7 +12,7 @@ using System;
 namespace DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180216235049_v5")]
+    [Migration("20180222102010_v5")]
     partial class v5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

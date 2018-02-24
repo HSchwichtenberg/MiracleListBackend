@@ -10,9 +10,7 @@
 
 <div>
 
- Danke, @Model.Name<text>.</text> Der Server hat Ihre personalisierte Client-ID gesendet an @Model.EMail. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen!
-
-
+ Danke, <span fett>@Model.NameErfasst</span><text>.</text> Der Server hat Ihre personalisierte Client-ID gesendet an <span fett>@Model.EMailErfasst</span>. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen!
  <hr />
  @*@await Component.InvokeAsync("ObjectDump", Model.Info )*@
  @await Component.InvokeAsync("ObjectDump", new { obj = Model.Info })
@@ -21,5 +19,5 @@
  <hr />
  <vc:object-dump obj="@Model.Info" details="@null"></vc:object-dump>
  <hr> @*so geht es nicht :-(*@
- <vc:object-dump obj="@Model.Info" ></vc:object-dump>
+ <vc:object-dump obj="@Model.Info"></vc:object-dump>
 </div>
