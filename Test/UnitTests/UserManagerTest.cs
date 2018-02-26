@@ -14,21 +14,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UnitTests
 {
- public class UserManagerTest
+ public class UserManagerTest 
  {
 
   public UserManagerTest()
   {
-   var cs = Util.GetConnectionString();
-   DAL.Context.ConnectionString = cs;
-
-
-
    Util.Init();
-
-
   }
 
+  [SkippableFact]
+  [Trait("Category", "Integration")]
+  public void GetLatestUsersTest()
+  {
+   Skip.If(Util.GetConnectionString() == "", "Only runs as integration test as the InMem-DB does not support SQL!");
+   var um = new UserManager("test", true);
+   var stat = UserManager.GetLatestUserSet();
+   Assert.True(stat.Count > 0);
+  }
+
+  [SkippableFact]
+  [Trait("Category", "Integration")]
+  public void GetUserStatistics()
+  {
+   Skip.If(Util.GetConnectionString() == "", "Only runs as integration test as the InMem-DB does not support SQL!");
+   var um = new UserManager("test", true);
+   var stat = UserManager.GetUserStatistics();
+   Assert.True(stat.Count > 0);
+
+  }
 
   [Fact]
   public void NewUserTest()

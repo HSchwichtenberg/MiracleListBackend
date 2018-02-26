@@ -19,35 +19,14 @@ namespace UnitTests
   public TaskManagerTest()
   {
    Util.Init();
-
   }
 
-  [Fact]
-
-  public void GetLatestUsersTest()
-  {
-   var um = new UserManager("test", true);
-   var stat = UserManager.GetLatestUserSet();
-   Assert.True(stat.Count > 0);
-
-  }
 
   public void GetImportantTaskTest()
   {
    var um = new UserManager("test", true);
    var stat = new TaskManager(um.CurrentUser.UserID).GetImportantTaskSet();
    Assert.True(stat.Count > 0);
-
-  }
-
-  [Fact]
-
-  public void GetUserStatistics()
-  {
-   var um = new UserManager("test", true);
-   var stat = UserManager.GetUserStatistics();
-   Assert.True(stat.Count > 0);
-   
   }
 
   [Theory]
