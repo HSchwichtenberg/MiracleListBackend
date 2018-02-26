@@ -35,6 +35,10 @@
     <Compile Include="Migrations\20180216200815_v4.Designer.cs" />
     <Compile Include="Migrations\20180222102010_v5.cs" />
     <Compile Include="Migrations\20180222102010_v5.Designer.cs" />
+    <Compile Include="Migrations\20180226111520_v6.cs" />
+    <Compile Include="Migrations\20180226111520_v6.Designer.cs" />
+    <Compile Include="Migrations\20180226112609_v7.cs" />
+    <Compile Include="Migrations\20180226112609_v7.Designer.cs" />
     <Compile Include="Migrations\ContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -44,6 +48,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
   </ItemGroup>
 

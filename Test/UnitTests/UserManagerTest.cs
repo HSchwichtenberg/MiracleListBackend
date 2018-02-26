@@ -6,6 +6,8 @@ using Xunit;
 using BL;
 using BO;
 using DAL;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 
 // XUNIT: https://xunit.github.io/docs/getting-started-dotnet-core.html
@@ -19,6 +21,12 @@ namespace UnitTests
   {
    var cs = Util.GetConnectionString();
    DAL.Context.ConnectionString = cs;
+
+
+
+   Util.Init();
+
+
   }
 
 
@@ -39,7 +47,7 @@ namespace UnitTests
   public void LoginTest()
   {
    var kennwort = "unittest";
-   var name = "unittest"; // GUID als User Name
+   var name = "unittest " + System.Guid.NewGuid(); // GUID als User Name
    var um = new UserManager(name, kennwort);
 
    um.InitDefaultTasks();
@@ -50,7 +58,7 @@ namespace UnitTests
     Assert.Equal(um2.CurrentUser.UserName, name);
     var cm = new CategoryManager(um2.CurrentUser.UserID);
     var cset = cm.GetCategorySet();
-    Assert.True(cset.Count == 1);
+    Assert.Equal(4,cset.Count);
     Assert.All<Category>(cset, x => Assert.Equal(x.UserID, um.CurrentUser.UserID));
    }
 

@@ -41,8 +41,8 @@ namespace BL
 
    // TODO: Das geht nicht in Unit Test mit InMemDB :-(
    // Message: System.InvalidOperationException : Relational-specific methods can only be used when the context is using a relational database provider.
-   //var sql = "delete from Subtask where taskid = " + taskID;
-   //ctx.Database.ExecuteSqlCommand(sql);
+   var sql = "delete from Subtask where taskid = " + taskID;
+   ctx.Database.ExecuteSqlCommand(sql);
   }
  }
 }
