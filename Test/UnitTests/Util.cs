@@ -1,41 +1,68 @@
-﻿using ITVisions.EFCore;
+﻿using ITVisions;
 using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
-
-// XUNIT: https://xunit.github.io/docs/getting-started-dotnet-core.html
-
 namespace UnitTests
 {
+
  public class Util
  {
 
+  /// <summary>
+  /// Will be called in the constructor of each test class
+  /// </summary>
   public static void Init()
   {
-   var cs = Util.GetConnectionString();
-   DAL.Context.ConnectionString = cs;
-
-   if (cs == "SQLite")
+   lock (ConnectionString)
    {
-    DAL.Context.Connection = Util.conn;
-    var ctx = new DAL.Context();
-    ctx.Database.EnsureCreated();
+    if (ConnectionString == "notset")
+    {
+     ConnectionString = Util.GetConnectionString();
+     switch (ConnectionString)
+     {
+      case "SQLite":
+       DAL.Context.Connection = Util.SQLiteInMemoryConnection;
+       CUI.PrintSuccess("Connection to SQLite InMemory");
+       break;
+       // as "" will not be working with Environment Variables, we must offer other options here as well
+      case "":
+      case "-":
+      case "InMem":
+      case "InMemory":
+      case "InMemoryDB":
+       DAL.Context.ConnectionString = "";
+       CUI.PrintSuccess("Connection to InMemoryDB");
+       break;
+      default:
+       DAL.Context.ConnectionString = ConnectionString;
+       // Enable EF Profiler
+       HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
+       CUI.PrintSuccess("Connection to " + ConnectionString);
+       break;
+     }
+     DAL.Context.IsRuntime = true;
+    }
    }
 
-   //var serviceProvider = new ServiceCollection()
-   //      .AddDbContext<DAL.Context>(opt=>opt.UseSqlite(Util.conn));
-  }
+    //var serviceProvider = new ServiceCollection()
+    //      .AddDbContext<DAL.Context>(opt=>opt.UseSqlite(Util.conn));
+   }
 
-  public static SqliteConnection _conn;
-  public static SqliteConnection conn {  get
+  public static string ConnectionString = "notset";
+
+   public static SqliteConnection _SQLiteInMemoryConnection;
+  public static SqliteConnection SQLiteInMemoryConnection {  get
    {
-    if (_conn != null) return _conn;
-    _conn = new SqliteConnection("DataSource=:memory:");
-    _conn.Open();
-    return _conn; 
+    if (_SQLiteInMemoryConnection == null)
+    {
+     _SQLiteInMemoryConnection = new SqliteConnection("DataSource=:memory:");
+     _SQLiteInMemoryConnection.Open();
+     var ctx = new DAL.Context();
+     ctx.Database.EnsureCreated();
+    }
+    return _SQLiteInMemoryConnection; 
    }
   }
 
@@ -46,43 +73,23 @@ namespace UnitTests
   //  return new DbContextOptionsBuilder<DAL.Context>().UseSqlite(_conn);
   // }
   //}
-
-
-
+  
   /// <summary>
-  /// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration
-  /// 
-  /// TODO: Env wird ignoriert :-(
+  /// Get Connection String from Memory, AppSettings.json or Environment
   /// </summary>
   /// <returns></returns>
   public static string GetConnectionString()
   {
-
-   //HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
-
-   // Wenn es einen Eintrag in mehr als einer Datei gibt, gewinnt der zuletzt hinzugefügte Eintrag
-
+   // Build configuration sources (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration)
    var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "" } };
-
    var builder = new ConfigurationBuilder() // NUGET: Microsoft.Extensions.Configuration
    .AddInMemoryCollection(dic)
    .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
-   .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
-
-
+   .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables e.g. "ConnectionStrings:MiracleListDB"
    IConfigurationRoot configuration = builder.Build();
-
-   var e = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB");
    var cs = configuration["ConnectionStrings:MiracleListDB"];
-   DAL.Context.IsRuntime = true;
-   DAL.Context.ConnectionString = cs;
-   //var ctx = new DAL.Context();
-   //ctx.Log();
-
-   Console.WriteLine(cs);
-
+   Console.WriteLine("ENV: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB"));
    return cs;
   }
-
  }
 }
