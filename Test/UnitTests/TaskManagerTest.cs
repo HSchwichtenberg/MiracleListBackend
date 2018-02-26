@@ -18,8 +18,8 @@ namespace UnitTests
 
   public TaskManagerTest()
   {
-   var cs = Util.GetConnectionString();
-   DAL.Context.ConnectionString = cs;
+   Util.Init();
+
   }
 
   [Fact]
@@ -27,7 +27,7 @@ namespace UnitTests
   public void GetLatestUsersTest()
   {
    var um = new UserManager("test", true);
-   var stat = new UserManager().GetLatestUserSet();
+   var stat = UserManager.GetLatestUserSet();
    Assert.True(stat.Count > 0);
 
   }
@@ -45,7 +45,7 @@ namespace UnitTests
   public void GetUserStatistics()
   {
    var um = new UserManager("test", true);
-   var stat = new UserManager().GetUserStatistics();
+   var stat = UserManager.GetUserStatistics();
    Assert.True(stat.Count > 0);
    
   }
@@ -78,21 +78,23 @@ namespace UnitTests
   [Trait("Category", "Integration")]
   public void CreateTaskDueInDaysTest()
   {
-   Skip.IfNot(Util.GetConnectionString() != "", "LÄUFT NUR ALS INTEGRATIONSTEST, weil InMem-DB keine Default Values kann");
+   Skip.IfNot(Util.GetConnectionString() != "", "Only runs as integration test as the InMem-DB does not support Default Values and Cumputed Columns!");
 
    var um = new UserManager("CreateTaskTestUser", true);
    um.InitDefaultTasks();
    var tm = new TaskManager(um.CurrentUser.UserID);
    var cm = new CategoryManager(um.CurrentUser.UserID);
    var t = new BO.Task();
-   t.Title = "testaufgabe";
+   //t.Title not set --> title will be set to default title 
 
    t.CategoryID = cm.GetCategorySet().ElementAt(0).CategoryID;
    t.Due = DateTime.Now.AddDays(3);
    tm.CreateTask(t);
    Assert.True(t.TaskID > 0);
-   // geht nicht in Unit Test, weil InMem-DB keine Default Values kann:
-   Assert.Equal(3, t.DueInDays);
+ 
+   Assert.Equal(BO.Task.DefaultTitle, t.Title); // Default Value Test: not supported in InMem-DB
+   Assert.Equal(3, t.DueInDays);// Computed Column Test: not supported in InMem-DB
+
   }
 
   [Theory]

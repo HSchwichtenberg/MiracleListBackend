@@ -1,4 +1,6 @@
 ﻿using ITVisions.EFCore;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,42 @@ namespace UnitTests
  public class Util
  {
 
+  public static void Init()
+  {
+   var cs = Util.GetConnectionString();
+   DAL.Context.ConnectionString = cs;
+
+   if (cs == "SQLite")
+   {
+    DAL.Context.Connection = Util.conn;
+    var ctx = new DAL.Context();
+    ctx.Database.EnsureCreated();
+   }
+
+   //var serviceProvider = new ServiceCollection()
+   //      .AddDbContext<DAL.Context>(opt=>opt.UseSqlite(Util.conn));
+  }
+
+  public static SqliteConnection _conn;
+  public static SqliteConnection conn {  get
+   {
+    if (_conn != null) return _conn;
+    _conn = new SqliteConnection("DataSource=:memory:");
+    _conn.Open();
+    return _conn; 
+   }
+  }
+
+  //public static DbContextOptionsBuilder<DAL.Context> builder
+  //{
+  // get
+  // {
+  //  return new DbContextOptionsBuilder<DAL.Context>().UseSqlite(_conn);
+  // }
+  //}
+
+
+
   /// <summary>
   /// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration
   /// 
@@ -20,7 +58,7 @@ namespace UnitTests
   public static string GetConnectionString()
   {
 
-   HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
+   //HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
 
    // Wenn es einen Eintrag in mehr als einer Datei gibt, gewinnt der zuletzt hinzugefügte Eintrag
 

@@ -13,6 +13,7 @@ namespace BO
  /// </summary>
  public class Task
  {
+  public const string DefaultTitle = "???";
   public int TaskID { get; set; } // PK per Konvention
   [MaxLength(250)] // alias: StringLength
   public string Title { get; set; }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using ITVisions;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace DAL
 {
@@ -32,12 +33,19 @@ namespace DAL
 
   // This connection string is just for testing. Is filled at runtime from configuration file
   public static string ConnectionString { get; set; } = "Data Source=.;Initial Catalog = MiracleList_TEST; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
+  public static DbConnection Connection { get; set; } = null;
 
   // =  "Data Source=.,1434;Initial Catalog = MiracleList_INFOTAG; User Id=sa; password=xxx; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
   public Context()
   {
    instanceCount++;
   }
+
+  public Context(DbContextOptions<Context> options)         : base(options)
+  {
+   instanceCount++;
+  }
+
   private static int instanceCount = 0;
   private static List<string> additionalColumnSet = null;
   public static List<string> AdditionalColumnSet
@@ -52,10 +60,21 @@ namespace DAL
 
   protected override void OnConfiguring(DbContextOptionsBuilder builder)
   {
-   if (!String.IsNullOrEmpty(Context.ConnectionString))
-    builder.UseSqlServer(Context.ConnectionString);
-   else
-    builder.UseInMemoryDatabase("MiracleListInMemoryDB");
+   if (!builder.IsConfigured)
+   {
+    if (Connection != null)
+    {
+     builder.UseSqlite(Context.Connection);
+ 
+    }
+    else
+    {
+     if (!String.IsNullOrEmpty(Context.ConnectionString))
+      builder.UseSqlServer(Context.ConnectionString);
+     else
+      builder.UseInMemoryDatabase("Miracle ListInMemoryDB");
+    }
+   }
   }
 
 
@@ -113,6 +132,8 @@ namespace DAL
    #region Computed Column
    builder.Entity<Task>().Property(x => x.DueInDays)
          .HasComputedColumnSql("DATEDIFF(day, GETDATE(), [Due])");
+
+   builder.Entity<Task>().Property(x => x.Title).HasDefaultValue(BO.Task.DefaultTitle);
    #endregion
 
    #region Custom Indices

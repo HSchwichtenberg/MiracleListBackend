@@ -10,6 +10,7 @@ using ITVisions.EFC;
 using ITVisions.EFCore;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BL
 {
@@ -19,9 +20,11 @@ namespace BL
   private CategoryManager cm;
   private TaskManager tm;
 
+
   // nur für Test
-  public UserManager() : this("HS")
+  public UserManager(Context ctx) 
   {
+   this.ctx = ctx;
   }
 
   /// <summary>
@@ -239,48 +242,55 @@ namespace BL
   }
 
 
-  public List<User> GetLatestUserSet()
+  public static List<User> GetLatestUserSet()
   {
-   var r = ctx.UserSet.FromSql("Select * from [User]").OrderByDescending(x => x.Created).Take(10).ToList();
+   using (var ctx = new Context())
+   {
+    var r = ctx.UserSet.FromSql("Select * from [User]").OrderByDescending(x => x.Created).Take(10).ToList();
 
-   return r;
+    return r;
+   }
 
   }
 
-   public List<UserStatistics> GetUserStatistics()
+  public static List<UserStatistics> GetUserStatistics()
   {
-   ctx.Log((x) =>
+   using (var ctx = new Context())
+   {
+    ctx.Log((x) =>
    {
     System.Diagnostics.Debug.WriteLine(x);
     using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
     {
      sw.WriteLine(x);
     }
+
    }
     );
 
 
-   //var groups = (from u in ctx.UserSet
-   //              join x in ((from p in ctx.TaskSet
-   //                          group p by p.Category.UserID into g
-   //                          select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
-   //               on u.UserID equals x.userID
-   //              select new { u.UserName, x.Count });
+    //var groups = (from u in ctx.UserSet
+    //              join x in ((from p in ctx.TaskSet
+    //                          group p by p.Category.UserID into g
+    //                          select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
+    //               on u.UserID equals x.userID
+    //              select new { u.UserName, x.Count });
 
-   //var r = new List<UserStatistics>();
-   //foreach (var g in groups)
-   //{
-   // r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
-   //}
+    //var r = new List<UserStatistics>();
+    //foreach (var g in groups)
+    //{
+    // r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
+    //}
 
-   var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
+    var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
                           Task ON Category.CategoryID = Task.CategoryID INNER JOIN
                           [User] ON Category.UserID = [User].UserID
                           GROUP BY[User].UserName";
 
-   var r = ctx.UserStatistics.FromSql(SQL).OrderByDescending(x => x.NumberOfTasks).Take(10).ToList();
+    var r = ctx.UserStatistics.FromSql(SQL).OrderByDescending(x => x.NumberOfTasks).Take(10).ToList();
 
-   return r;
+    return r;
+   }
   }
 
  }
