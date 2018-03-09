@@ -5,19 +5,19 @@
  Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *,Miraclelist_WebAPI
+@*@addTagHelper *,Miraclelist_WebAPI*@
 <h2>Beantragung für Client-ID</h2>
 
 <div>
 
- Danke, <span fett>@Model.NameErfasst</span><text>.</text> Der Server hat Ihre personalisierte Client-ID gesendet an <span fett>@Model.EMailErfasst</span>. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen!
+ Danke, <span fett>@Model.ClientIDModelResult.Name</span><text>.</text> Der Server hat Ihre personalisierte Client-ID gesendet an <span fett>@Model.ClientIDModelResult.EMail</span>. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen!
  <hr />
  @*@await Component.InvokeAsync("ObjectDump", Model.Info )*@
- @await Component.InvokeAsync("ObjectDump", new { obj = Model.Info })
+ @await Component.InvokeAsync("ObjectDump", new { obj = Model.ClientIDModelResult })
  <hr />
- <vc:object-dump obj="@Model.Info" details="false"></vc:object-dump>
+ <vc:object-dump obj="@Model.ClientIDModelResult" details="false"></vc:object-dump>
  <hr />
- <vc:object-dump obj="@Model.Info" details="@null"></vc:object-dump>
+ <vc:object-dump obj="@Model.ClientIDModelResult" details="@null"></vc:object-dump>
  <hr> @*so geht es nicht :-(*@
- <vc:object-dump obj="@Model.Info"></vc:object-dump>
+ <vc:object-dump obj="@Model.ClientIDModelResult"></vc:object-dump>
 </div>

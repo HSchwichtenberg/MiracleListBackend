@@ -47,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj" />
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\GO\BO.csproj" />
   </ItemGroup>
