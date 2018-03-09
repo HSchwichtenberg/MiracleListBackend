@@ -32,6 +32,12 @@ namespace BL
 
   }
 
+  public UserManager(int id)
+  {
+   this.CurrentUser = ctx.UserSet.SingleOrDefault(x => x.UserID == id);
+  }
+
+
   /// <summary>
   /// Erzeugen einer Instanz der Klasse mit Benutzertoken. Speichert letzte Verwendung in User.LastActivity.
   /// </summary>
