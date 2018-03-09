@@ -1,12 +1,14 @@
 ﻿@page
 @model Miraclelist_WebAPI.Pages.ClientIDModel
 @{
- ViewData["Title"] = "ClientID";
  Layout = "~/Views/Shared/_Layout.cshtml";
+ ViewData["Title"] = "ClientID beantragen";
 }
 @addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *,Miraclelist_WebAPI
-<h2>Beantragung für Client-ID <environment names="development">***DEV***</environment></h2> 
+@*@addTagHelper *,Miraclelist_WebAPI*@
+@addTagHelper ITVisions,ITVTagHelper
+
+<h2>Beantragung für Client-ID <environment names="development">***DEV***</environment></h2>
 
 <div>
 
@@ -72,7 +74,7 @@
     <label>Art des zu erstellenden Clients:</label>
    </xs4>
    <xs8>
-    <select asp-items="Model.ClientArten" asp-for="ClientArt"  class="form-control"></select>
+    <select asp-items="Model.ClientArten" asp-for="ClientArt" class="form-control"></select>
    </xs8>
   </row>
 
@@ -100,4 +102,4 @@
  </form>
 
  <hr />
-Build with ASP.NET Core Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.
+ Build with ASP.NET Core Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.

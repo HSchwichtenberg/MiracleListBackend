@@ -27,6 +27,11 @@ namespace BL
    this.ctx = ctx;
   }
 
+  public UserManager()
+  {
+
+  }
+
   /// <summary>
   /// Erzeugen einer Instanz der Klasse mit Benutzertoken. Speichert letzte Verwendung in User.LastActivity.
   /// </summary>
