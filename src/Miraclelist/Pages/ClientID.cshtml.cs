@@ -1,57 +1,94 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BL;
 using BO;
 using ITVisions.AspNetCore;
 using ITVisions.Extensions;
 using ITVisions.NetworkUtil;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Miraclelist_WebAPI.Pages
 {
+
+ public class ClientIDModelResult
+ {
+  public string Name { get; set; }
+  public string EMail { get; set; }
+ }
+
  public class ClientIDModel : PageModel
  {
 
-  //[TempData]
+  #region Einfache Properties für Ein-Wege-Bindung
+  // KEIN [BindProperty] für statische/read-only Daten, die der Browser nicht zurücksendet
+  public bool DownloadAnbieten
+  {
+   get
+   {
+    var webRoot = env.WebRootPath;
+    var path = System.IO.Path.Combine(webRoot, "Download/Flyer.pdf");
+    return System.IO.File.Exists(path);
+   }
+  }
+  public int Aufrufe { get; set; }
+  public List<SelectListItem> ClientArten { get; set; } = (new List<String>() { "Web-Client", "Desktop-Client", "Mobile Client", "Server-Anwendung" }).ToSelectListItem();
+  #endregion
+
+  #region Properties für Zwei-Wege-Bindung
   [BindProperty]
   public string Name { get; set; }
-  [TempData]// kann nicht gleichzeitig [BindProperty] sein
-  public string NameErfasst { get; set; }
   [BindProperty]
   public string Firma { get; set; }
-  //[TempData]
   [BindProperty]
   public string EMail { get; set; }
-  [TempData]// kann nicht gleichzeitig [BindProperty] sein
-  public string EMailErfasst { get; set; }
   [BindProperty]
   public bool Einverstanden { get; set; }
-  [TempData]
-  public string Status { get; set; }
-  [BindProperty]
-  public int Aufrufe { get; set; }
   [BindProperty]
   public string ClientArt { get; set; }
-  // KEIN [BindProperty] für statische/read-only Daten, die der Browser nicht zurücksendet
-  public List<SelectListItem> ClientArten { get; set; } = (new List<String>() { "Web-Client", "Desktop-Client", "Mobile Client", "Server-Anwendung" }).ToSelectListItem();
+  #endregion
 
-  public ClientIDModel()
+  #region Properties für Datenübergabe an Folgeseite
+  //[TempData]// kann nicht gleichzeitig [BindProperty] sein
+  // System.InvalidOperationException: The 'Miraclelist_WebAPI.Pages.ClientIDModel.ClientIDModelResult' property with TempDataAttribute is invalid. A property using TempDataAttribute must be of primitive or string type.
+  //public ClientIDModelResult ClientIDModelResult { get; set; }
+
+  [TempData]
+  public string ClientIDModel_EMail { get; set; }
+  [TempData]
+  public string ClientIDModel_Name { get; set; }
+  [TempData]
+  public string ClientIDModel_Result { get; set; }
+  #endregion
+
+  //public ClientIDModel()
+  //{
+  //// alternativ: ClientArten = (new List<String>() { "Web-Client", "Desktop-Client", "Mobile Client", "Server-Anwendung" }).ToSelectListItem();
+  //}
+
+  //public async void OnGetAsync()
+  //{
+
+  //}
+
+
+  IHostingEnvironment env; // wird per DI injiziert
+  public ClientIDModel(IHostingEnvironment env)
   {
-  // alternativ: ClientArten = (new List<String>() { "Web-Client", "Desktop-Client", "Mobile Client", "Server-Anwendung" }).ToSelectListItem();
+   this.env = env;
   }
+
 
   public void OnGet()
   {
-
    // ViewBag gibt es hier nicht!!!  ViewBag.ClientArten = ClientArten;
 
    // War der Benutzer schon mal hier? (will er mehrere Clients registrieren? Dann zeige seine vorherigen Daten an)
-  var client = HttpContext.Session.GetObject<Client>("Client");
+   var client = HttpContext.Session.GetObject<Client>("Client");
    if (client != null)
    {
     this.EMail = client.EMail;
@@ -68,12 +105,26 @@ namespace Miraclelist_WebAPI.Pages
    int aufrufe = 0;
    aufrufe = HttpContext.Session.GetInt32("aufrufe") ?? 0;
    HttpContext.Session.SetInt32("aufrufe", ++aufrufe);
-  
+
    this.Aufrufe = aufrufe;
 
   }
 
-   public IActionResult OnPostBeantragen()
+
+  /// <summary>
+  /// Handler für Download-Schaltfläche
+  /// </summary>
+  public IActionResult OnPostDownload()
+  {
+   var webRoot = env.WebRootPath;
+   var path = System.IO.Path.Combine(webRoot, "Download/Flyer.pdf");
+   return PhysicalFile(path, "application/pdf");
+  }
+
+  /// <summary>
+  /// Handler für Beantragen-Schaltfläche
+  /// </summary>
+  public IActionResult OnPostBeantragen()
   {
 
    if (string.IsNullOrEmpty(Name)) this.ModelState.AddModelError(nameof(Name), "Name darf nicht leer sein!");
@@ -90,6 +141,10 @@ namespace Miraclelist_WebAPI.Pages
    {
     return Page();
    }
+
+   // Client via Geschäftslogik registrieren und E-Mail senden
+   // hier nicht abgedruckt!
+
    var c = new Client();
    c.Name = Name;
    c.Company = Firma;
@@ -99,7 +154,6 @@ namespace Miraclelist_WebAPI.Pages
    c.Type = HttpContext.Request.Form["C_Quelle"]; ;
 
    HttpContext.Session.SetObject("Client", c);
-
 
    string s = this.Request.HttpContext.Connection.RemoteIpAddress + "\n";
    foreach (var v in this.Request.Headers)
@@ -111,7 +165,6 @@ namespace Miraclelist_WebAPI.Pages
    var cm = new ClientManager();
 
    cm.New(c);
-
 
    var text =
     $"Sie erhalten nachstehend Ihre personalisierte Client-ID. Bitte beachten Sie, dass eine Client-ID jederzeit widerrufen werden kann, wenn Sie diese missbrauchen! Bitte beachten Sie die Regeln: https://miraclelistbackend.azurewebsites.net/client\n\n" +
@@ -128,13 +181,26 @@ namespace Miraclelist_WebAPI.Pages
    new LogManager().Log(Event.ClientCreated, Severity.Information, EMail, "CreateClientID", "", null, this.Request.HttpContext.Connection.RemoteIpAddress.ToString(), text + "\n\n" + s);
 
    var e2 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MiracleList Client_ID", text + "\n\n-----\n" + s);
-   Status = e1.ToString();
 
-   this.NameErfasst = this.Name;
-   this.EMailErfasst = this.EMail;
+   // Übergabewerte setzen
+   // this.ClientIDModel_EMail = this.EMail;
+   //this.ClientIDModel_Name = this.Name;
 
+   // oder serialisieren:
+   var result = new ClientIDModelResult() { Name = this.Name, EMail = this.EMail };
+   this.ClientIDModel_Result = JsonConvert.SerializeObject(result);
+
+   // Folgeseite aufrufen
    return RedirectToPage("./ClientIDConfirmation");
 
   }
+
+
+  public struct ClientIDModelResult
+  {
+   public string Name { get; set; }
+   public string EMail { get; set; }
+  }
+
  }
 }
