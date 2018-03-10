@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
-namespace ITVisions.Extensions
+namespace ITVisions.AspNetCore
 {
  public static class StringListExtension
  {
