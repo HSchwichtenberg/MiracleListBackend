@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using BL;
 using BO;
-using ITVisions.AspNetCore;
-using ITVisions.Extensions;
+using ITVisions.AspNetCore; // Erweiterungsmethoden einbinden
 using ITVisions.NetworkUtil;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -102,10 +101,10 @@ namespace Miraclelist_WebAPI.Pages
     this.Firma = "Test";
    }
 
+   // Aufrufzähler
    int aufrufe = 0;
    aufrufe = HttpContext.Session.GetInt32("aufrufe") ?? 0;
    HttpContext.Session.SetInt32("aufrufe", ++aufrufe);
-
    this.Aufrufe = aufrufe;
 
   }
@@ -127,6 +126,7 @@ namespace Miraclelist_WebAPI.Pages
   public IActionResult OnPostBeantragen()
   {
 
+   #region Validierung
    if (string.IsNullOrEmpty(Name)) this.ModelState.AddModelError(nameof(Name), "Name darf nicht leer sein!");
    if (string.IsNullOrEmpty(Firma)) this.ModelState.AddModelError(nameof(Firma), "Firma darf nicht leer sein!");
    if (string.IsNullOrEmpty(EMail)) this.ModelState.AddModelError(nameof(EMail), "EMail darf nicht leer sein!");
@@ -136,14 +136,15 @@ namespace Miraclelist_WebAPI.Pages
    if (!new System.ComponentModel.DataAnnotations.EmailAddressAttribute().IsValid(EMail)) this.ModelState.AddModelError(nameof(EMail), "EMail ungültig!");
    if (MailUtil.IsWegwerfadresse(EMail).Result) this.ModelState.AddModelError(nameof(EMail), "E-Mail-Domain nicht erlaubt!");
 
-
    if (!this.ModelState.IsValid)
    {
     return Page();
    }
+   #endregion
 
+   #region Logik
    // Client via Geschäftslogik registrieren und E-Mail senden
-   // hier nicht abgedruckt!
+   // im Buch nicht abgedruckt!
 
    var c = new Client();
    c.Name = Name;
@@ -181,6 +182,7 @@ namespace Miraclelist_WebAPI.Pages
    new LogManager().Log(Event.ClientCreated, Severity.Information, EMail, "CreateClientID", "", null, this.Request.HttpContext.Connection.RemoteIpAddress.ToString(), text + "\n\n" + s);
 
    var e2 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MiracleList Client_ID", text + "\n\n-----\n" + s);
+   #endregion
 
    // Übergabewerte setzen
    // this.ClientIDModel_EMail = this.EMail;
