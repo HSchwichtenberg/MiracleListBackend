@@ -21,7 +21,7 @@ namespace BO
   public string Memo { get; set; }
   public int? MaxTasks { get; set; }
 
-  // -------------- Navigationseigenschaften
+  // -------------- Navigation Properties
   public List<Category> CategorySet { get; set; }
   public Client Client { get; set; }
   public Guid? ClientID

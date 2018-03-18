@@ -243,7 +243,7 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// hange a subtask
+  /// Change a subtask
   /// </summary>
 
   /// <param name="st"></param>

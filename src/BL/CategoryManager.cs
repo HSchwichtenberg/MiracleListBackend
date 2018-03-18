@@ -12,7 +12,7 @@ namespace BL
   private int userID;
 
   /// <summary>
-  /// Instanzierung unter Angabe der User-ID, auf die sich alle Operationen in dieser Instanz beziehen
+  ///   Instantiation, specifying the user ID to which all operations in this instance refer
   /// </summary>
   public CategoryManager(int userID)
   {
@@ -20,9 +20,9 @@ namespace BL
   }
 
   /// <summary>
-  /// Anlegen einer Kategorie
+  /// Create a category
   /// </summary>
-  /// <param name="name">Name der neuen Kategorie</param>
+  /// <param name="name">Name of the new category</param>
   /// <returns></returns>
   public Category CreateCategory(string name)
   {
@@ -35,7 +35,7 @@ namespace BL
   }
 
   /// <summary>
-  /// Holt die Liste der Kategorien eines Benutzers inkl. der Aufgaben
+  /// Get the list of categories of a user including the tasks
   /// </summary>
   /// <returns></returns>
   public List<Category> GetCategorySet()
@@ -44,7 +44,7 @@ namespace BL
   }
 
   /// <summary>
-  /// Löscht alle Kategorien eines Benutzers
+  /// Deletes all categories of a user
   /// </summary>
   public void RemoveAll()
   {
@@ -61,7 +61,7 @@ namespace BL
   }
 
   /// <summary>
-  /// Prüft, ob die catID existiert und dem aktuellen Benutzer gehört
+  /// Checks if the catID exists and belongs to the current user
   /// </summary>
   /// <param name="taskID"></param>
   private void ValidateCategory(int catID)

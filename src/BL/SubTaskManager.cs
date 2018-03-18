@@ -24,13 +24,13 @@ namespace BL
 
 
   /// <summary>
-  /// Löscht alle Unteraufgaben
+  /// Deletes all subtasks
   /// </summary>
   /// <param name="taskID"></param>
   public void DeleteSubTasks(int taskID)
   {
 
-   // Workaround für Unit Test mit InMemDB
+   // Workaround for Unit Test with InMemDB
    var task = ctx.TaskSet.Include(x => x.SubTaskSet).SingleOrDefault(x => x.TaskID == taskID);
    foreach (var st in task.SubTaskSet)
    {
@@ -39,7 +39,7 @@ namespace BL
    ctx.SaveChanges();
 
 
-   // TODO: Das geht nicht in Unit Test mit InMemDB :-(
+   // TODO: This is not possible in Unit Test with InMemDB :-(
    // Message: System.InvalidOperationException : Relational-specific methods can only be used when the context is using a relational database provider.
    //var sql = "delete from Subtask where taskid = " + taskID;
    //ctx.Database.ExecuteSqlCommand(sql);

@@ -39,7 +39,7 @@ namespace BL
 
 
   /// <summary>
-  /// Erzeugen einer Instanz der Klasse mit Benutzertoken. Speichert letzte Verwendung in User.LastActivity.
+  /// Create an instance of the class with user tokens. Saves last use in User.LastActivity.
   /// </summary>
   public UserManager(string token, bool CreateIfNotExists = false, bool PasswordReset = false)
   {
@@ -54,8 +54,8 @@ namespace BL
   }
 
   /// <summary>
-  /// Erzeugen einer Instanz der Klasse mit Benutzername und Kennwort. Wenn die Daten gültig sind, wird der Benutzer angemeldet und erhält ein neues Token (eine GUID!)
-  /// Besonderheit NUR FÜR DEMOANWENDUNG: Wenn das der Benutzer nicht existiert, wird ein neuer Benutzer anlegt, mit dem Benutzername und dem genannten Kennwort
+  /// Create an instance of the class with username and password. If the data is valid, the user is logged in and receives a new token (a GUID!)
+  /// Special feature ONLY FOR DEMO APPLICATION: If the user does not exist, a new user is created with the user name and password
   /// </summary>
   public UserManager(string username, string password, string token = "")
   {
@@ -68,7 +68,7 @@ namespace BL
   }
 
   /// <summary>
-  /// Abmelden des Benutzers, der das genannte Token besitzt. Das Token wird in DB gelöscht!
+  /// Log off the user who has the named token. The token is deleted in DB!
   /// </summary>
   /// <param name="token"></param>
   /// <returns></returns>
@@ -103,7 +103,7 @@ namespace BL
     return u;
    }
    if (!CreateIfNotExists) return null;
-   // nur zur Demo: Wenn es Token nicht gibt, wird AdHoc ein neuer User dafür erzeugt
+   // just for demo: If there are no tokens, AdHoc will create a new user for it
    return GetOrCreateUser(token, token, token, PasswordReset);
   }
 
@@ -115,7 +115,7 @@ namespace BL
 
    if (u != null)
    {
-    // stimmt das Kennwort?
+    // is the password correct?
     var hashObj = ITVisions.Security.Hashing.HashPassword(password, u.Salt);
 
     if (u.PasswordHash != hashObj.HashedText)
@@ -145,7 +145,7 @@ namespace BL
     if (token == "") token = Guid.NewGuid().ToString("D");
     u.Token = token;
    }
-   // 38 zeichen mit { und -
+   // 38 chrs including { and -
    u.Memo = "Created " + DateTime.Now + "/" + password + "\n";
    this.New(u);
 
@@ -153,7 +153,7 @@ namespace BL
   }
 
   /// <summary>
-  /// DEMOMODUS: Erzeugt für den aktuellen Benutzer einige Standardaufgaben. Wird immer bei jeder Operation aufergufen, um sicherzustellen, dass ein Benutzer immer einige Aufgaben beseitzt
+  /// Creates some standard tasks for the current user. It is always called at every operation to ensure that a user always deals with some tasks
   /// </summary>
   public void InitDefaultTasks()
   {
@@ -244,7 +244,7 @@ namespace BL
   public TokenValidationResult IsValid()
   {
    if (this.CurrentUser == null) return TokenValidationResult.TokenUngültig;
-   return TokenValidationResult.Ok; // alle OK. Aussperren von User noch nicht realisiert!
+   return TokenValidationResult.Ok; // everyone fine. Lockout of users not yet realized!
   }
 
   public enum TokenValidationResult
