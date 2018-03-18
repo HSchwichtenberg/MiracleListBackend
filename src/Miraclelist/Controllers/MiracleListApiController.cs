@@ -212,7 +212,7 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Search in tasks und subtasks
+  /// Search in tasks and subtasks
   /// </summary>
   [HttpGet("Search/{token}/{text}")]
   public IEnumerable<Category> Search(string token, string text)
@@ -255,7 +255,7 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Create a task to be submitted in body in JSON format (including subtasks)
+  /// Change a task to be submitted in body in JSON format (including subtasks)
   /// </summary>
   [HttpPut("ChangeTask/{token}")] // geändert
   public Task ChangeTask(string token, [FromBody]Task t)
@@ -293,7 +293,7 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// to clear a category with all tasks and subtasks
+  /// Delete a category with all tasks and subtasks
   /// </summary>
   [HttpDelete("[action]/{token}/{id}")]
   public void DeleteCategory(string token, int id)
