@@ -51,7 +51,7 @@ namespace BL
    }
    catch (Exception ex)
    {
-    DbStatus = "Fehler: " + ex.Message;
+    DbStatus = "Error: " + ex.Message;
    }
 
    t.Stop();
