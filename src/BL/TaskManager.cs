@@ -111,26 +111,26 @@ namespace BL
   /// <summary>
   /// Change a task including subtasks
   /// </summary>
-  public Task ChangeTask(Task tneu)
+  public Task ChangeTask(Task tnew)
   {
-   if (tneu == null) return null;
+   if (tnew == null) return null;
 
    // Validate of the sent data!
-   if (tneu.Category != null) tneu.Category = null; // user cannot change the category this way!
-   ValidateTask(tneu);
+   if (tnew.Category != null) tnew.Category = null; // user cannot change the category this way!
+   ValidateTask(tnew);
 
    var ctx1 = new Context();
    ctx1.Log(Log);
-   stm.DeleteSubTasks(tneu.TaskID);
+   stm.DeleteSubTasks(tnew.TaskID);
 
-   if (tneu.SubTaskSet != null) tneu.SubTaskSet.ForEach(x => x.SubTaskID = 0); // delete ID, so that EFCore regards this as a new object
+   if (tnew.SubTaskSet != null) tnew.SubTaskSet.ForEach(x => x.SubTaskID = 0); // delete ID, so that EFCore regards this as a new object
 
-   tneu.CategoryID = this.GetByID(tneu.TaskID).CategoryID; // Use existing category
+   tnew.CategoryID = this.GetByID(tnew.TaskID).CategoryID; // Use existing category
 
-   ctx1.TaskSet.Update(tneu);
+   ctx1.TaskSet.Update(tnew);
 
    var anz = ctx1.SaveChanges();
-   return tneu;
+   return tnew;
   }
 
   /// <summary>
@@ -140,20 +140,20 @@ namespace BL
   {
    if (taskID <= 0) return; // neuer Task
    var taskAusDB = ctx.TaskSet.Include(t => t.Category).SingleOrDefault(x => x.TaskID == taskID);
-   if (taskAusDB == null) throw new UnauthorizedAccessException("Task nicht vorhanden!");
-   if (taskAusDB.Category.UserID != this.userID) throw new UnauthorizedAccessException("Task gehört nicht zu diesem User!");
+   if (taskAusDB == null) throw new UnauthorizedAccessException("Task does not exist!");
+   if (taskAusDB.Category.UserID != this.userID) throw new UnauthorizedAccessException("Task does not belong to this user!");
   }
 
   /// <summary>
   /// Checks if transferred task object is valid
   /// </summary>
-  private void ValidateTask(Task tneu = null)
+  private void ValidateTask(Task tnew = null)
   {
-   ValidateTask(tneu.TaskID);
-   if (tneu.CategoryID > 0)
+   ValidateTask(tnew.TaskID);
+   if (tnew.CategoryID > 0)
    {
-    var catAusDB = new CategoryManager(this.userID).GetByID(tneu.CategoryID);
-    if (catAusDB.UserID != this.userID) throw new UnauthorizedAccessException("Task gehört nicht zu diesem User!");
+    var catAusDB = new CategoryManager(this.userID).GetByID(tnew.CategoryID);
+    if (catAusDB.UserID != this.userID) throw new UnauthorizedAccessException("Task does not belong to this user!");
    }
   }
 

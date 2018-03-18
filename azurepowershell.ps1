@@ -1,14 +1,20 @@
 ﻿$ErrorActionPreference = "stoP"
 #Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
 
-#Install-Module PowerShellGet -Force
+Install-Module PowerShellGet -Force
 
-#Install-Module -Name AzureRM -AllowClobber
+Install-Module -Name AzureRM -AllowClobber
 
 Import-Module -Name AzureRM
 
 Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path
-Login-AzureRmAccount
+Login-AzureRmAccount -
+
+
+# Buchdemo
+
+New-AzureRmWebApp -Name BuchWebsite2 -Location "West Europe" -AppServicePlan BuchDemosFree -ResourceGroupName BuchWebsite
+
 
 $webappnames="MLBASTABackend-Produktion","MLBASTABackend-Staging","MLBASTAClient-Produktion","MLBASTAClient-Staging"
 #$webappnames="BASTA3","BASTA4"

@@ -1,14 +1,14 @@
-Datenbank anlegen in Package Manager Console
+Create database in Package Manager Console
 -----------------------------------------------
-Connection String anpassen in: DAL/Context.cs
-Startprojekt: EFCTools
-Default Project: DAL
+Chaneg connection string: DAL/Context.cs
+Set as start Project: EFCTools
+Set as Default Project: DAL
 
-Unit Tests ausführen
+Execute Unit Tests
 -----------------------------------------------
 Test Explorer
 
-Testen der Website
+test the Website
 -----------------------------------------------
 View in Browser (STRG SHIFT W)
 http://localhost:8887/index.html
@@ -19,13 +19,13 @@ URL:
 http://miraclelist.azurewebsites.net
 http://miraclelistbackend.azurewebsites.net
 
-Verwendete Pakete
+Used Packages
 -----------------------------------------------
 
 BO:
 Install-Package System.ComponentModel.Annotations
 
-DAL und BL:
+DAL and BL:
 Install-Package Microsoft.EntityFrameworkCore.sqlserver
 
 Web:

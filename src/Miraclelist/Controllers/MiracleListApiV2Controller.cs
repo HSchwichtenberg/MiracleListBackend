@@ -22,7 +22,7 @@ namespace Miraclelist.Controllers
  public class MiracleListApiV2Controller : Controller
  {
   private TelemetryClient telemetry = new TelemetryClient();
-  TaskManager tm; 
+  TaskManager tm;
   CategoryManager cm;
 
   private IConfigurationRoot Configuration;
@@ -47,7 +47,7 @@ namespace Miraclelist.Controllers
   /// Informationen über den Server
   /// </summary>
   /// <returns></returns>
-  
+
   [Route("About")]
   [HttpGet]
   public IEnumerable<string> About()
@@ -64,7 +64,7 @@ namespace Miraclelist.Controllers
   /// <returns></returns>
   [Route("Version")]
   [HttpGet]
-  
+
   public string Version()
   {
    return
@@ -91,7 +91,7 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Anmeldung mit einer Client-ID, einem Benutzernamen und einem Kennwort. Diese Operation /Login sendet eine GUID als Sitzungstoken zurück, welches in allen folgenden Operationen mitzugeben ist.
+  /// Login with a client ID, username and password. This operation / login sends back a GUID as a session token, to be used in all following operations.
   /// </summary>
   /// <param name="loginInfo"></param>
   /// <returns></returns>
@@ -100,13 +100,12 @@ namespace Miraclelist.Controllers
   {
 
    return await new MiracleListApiController(this.Configuration).Login(loginInfo);
-   
+
   }
 
   /// <summary>
-  /// Abmelden des Benutzers
+  ///  Delete token
   /// </summary>
-  
   /// <returns></returns>
   //[ApiExplorerSettings(GroupName = "Security")]
   [HttpGet("Logoff")] // neu
@@ -116,9 +115,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Liste der Kategorien 
+  /// Get a list of all categories
   /// </summary>
-  
+
   /// <returns></returns>
   [Authorize(AuthenticationSchemes = "MLToken")]
   [HttpGet("CategorySet")]
@@ -131,9 +130,9 @@ namespace Miraclelist.Controllers
 
 
   /// <summary>
-  /// Liste der Aufgaben in einer Kategorie
+  /// Get a list of tasks in one category
   /// </summary>
-  
+
   /// <param name="id"></param>
   /// <returns></returns>
   [HttpGet("TaskSet/{id}")]
@@ -146,9 +145,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Details zu einer Aufgabe mit Teilaufgaben
+  /// Get details of one task
   /// </summary>
-  
+
   /// <param name="id"></param>
   /// <returns></returns>
   [HttpGet("Task/{id}")]
@@ -161,9 +160,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Volltextsuche in Aufgaben und Teilaufgaben
+  /// Search in tasks and subtasks
   /// </summary>
-  
+
   /// <param name="text"></param>
   /// <returns></returns>
   [HttpGet("Search/{text}")]
@@ -175,9 +174,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Liste der fälligen Aufgaben
+  /// Returns all tasks due, including tomorrow, grouped by category, sorted by date
   /// </summary>
-  
+
   /// <returns></returns>
   [HttpGet("DueTaskSet")]
   [Authorize(AuthenticationSchemes = "MLToken")]
@@ -188,9 +187,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Anlegen einer Kategorie
+  /// Create a new category
   /// </summary>
-  
+
   /// <param name="name"></param>
   /// <returns></returns>
   [HttpPost("CreateCategory/{name}")]
@@ -202,9 +201,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Erstellen einer Aufgabe, die im Body im JSON-Format zu übermitteln ist (inkl. Teilaufgaben)
+  /// Create a task to be submitted in body in JSON format (including subtasks)
   /// </summary>
-  
+
   /// <param name="t"></param>
   /// <returns></returns>
   [HttpPost("CreateTask")] // neu
@@ -216,9 +215,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Ändern einer Aufgabe, die im Body im JSON-Format zu übermitteln ist (inkl. Teilaufgaben)
+  /// Change a task to be submitted in body in JSON format (including subtasks)
   /// </summary>
-  
+
   /// <param name="t"></param>
   /// <returns></returns>
   [HttpPut("ChangeTask")] // geändert
@@ -230,9 +229,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Setzt eine Aufgabe auf "erledigt"
+  /// Set a task to "done"
   /// </summary>
-  
+
   /// <param name="id"></param>
   /// <param name="done"></param>
   /// <returns></returns>
@@ -244,9 +243,9 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Ändern einer Unteraufgabe
+  /// hange a subtask
   /// </summary>
-  
+
   /// <param name="st"></param>
   /// <returns></returns>
   [HttpPut("ChangeSubTask")]
@@ -257,28 +256,28 @@ namespace Miraclelist.Controllers
   }
 
   /// <summary>
-  /// Löschen einer Aufgabe mit allen Teilaufgaben
+  /// Delete a task with all subtasks
   /// </summary>
-  
+
   /// <param name="id"></param>
   [HttpDelete("DeleteTask/{id}")]
   [Authorize(AuthenticationSchemes = "MLToken")]
   public void DeleteTask(int id)
   {
-  Init();
+   Init();
    tm.Remove(id);
   }
 
   /// <summary>
-  /// Löschen einer Kategorie mit allen Aufgaben und Teilaufgaben
+  /// Delete a category with all tasks and subtasks
   /// </summary>
-  
+
   /// <param name="id"></param>
   [HttpDelete("[action]/{id}")]
   [Authorize(AuthenticationSchemes = "MLToken")]
   public void DeleteCategory(int id)
   {
-  Init();
+   Init();
    cm.Remove(id);
   }
  }
