@@ -8,8 +8,9 @@
 @addTagHelper *,Miraclelist_WebAPI
 @*@addTagHelper *,ITVTagHelper*@
 
-<h2>Beantragung für Client-ID @*<environment names="development">***DEV***</environment>*@
- </h2>
+<h2>
+ Beantragung für Client-ID @*<environment names="development">***DEV***</environment>*@
+</h2>
 
 <div>
  <div Condition="DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 18">Guten Tag,</div>
@@ -30,9 +31,10 @@
   <li>Weitergabe der Client-ID an andere Menschen</li>
  </ul>
 
- @if (Model.DownloadAnbieten) {
+ @if (Model.DownloadAnbieten)
+ {
   <form method="post">
-  <input type="submit" class="btn btn-warning" value="Bedingungen herunterladen" asp-page-handler="Download" />
+   <input type="submit" class="btn btn-warning" value="Bedingungen herunterladen" asp-page-handler="Download" />
   </form>
  }
 </div>
@@ -74,7 +76,7 @@
     <label>Art des zu erstellenden Clients:</label>
    </xs4>
    <xs8>
-    <select  asp-items="Model.ClientArten" asp-for="ClientArt" class="form-control"></select>
+    <select asp-items="Model.ClientArten" asp-for="ClientArt" class="form-control"></select>
    </xs8>
   </row>
 
@@ -91,8 +93,15 @@
   <a class="btn btn-danger" href="./ClientID"> Cancel </a>
   <input type="submit" class="btn btn-success" value="Client-ID jetzt beantragen" asp-page-handler="Beantragen" />
   <br /><br />
-  @Html.ValidationSummary("", new { @class = "text-danger" })
-  @*oder: <div asp-validation-summary="All"  asp- class="text-danger"></div>*@
+  @*oder: @Html.ValidationSummary("", new { @class = "text-danger" })*@
+  <div asp-validation-summary="All" class="text-danger"></div>
  </form>
-  <hr />
+ <hr />
  Seite erstellt mit ASP.NET Core v@(typeof(Microsoft.AspNetCore.WebHost).Assembly.GetName().Version.ToString()) Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.
+
+ @*@{  int i = 0;}
+ <ul>
+  <repeater count="@Model.Aufrufe-1">
+   <li>@(++i). Aufruf</li>
+  </repeater>
+ </ul>*@

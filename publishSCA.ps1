@@ -7,4 +7,4 @@ dotnet publish -c release --runtime ubuntu.14.04-x64 --self-contained --framewor
 robocopy $ziel \\192.168.1.170\Documents\MLB /e
 
 
-robocopy $PSScriptRoot\ \\192.168.1.170\Documents\MLB_Source /e
+robocopy $PSScriptRoot\ \\192.168.1.170\Documents\MLB_Source /e /XD "Packages" /xd ".vs"
