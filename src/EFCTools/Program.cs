@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ITVisions.EFCore;
+using ITVisions.EFC;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EFTools
 {
@@ -21,7 +25,7 @@ namespace EFTools
    // Wenn es einen Eintrag in mehr als einer Datei gibt, gewinnt der zuletzt hinzugefügte Eintrag
 
    var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "Data Source=D120;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" } };
-   
+
    var builder = new ConfigurationBuilder() // NUGET: Microsoft.Extensions.Configuration
    .AddInMemoryCollection(dic)
    .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
@@ -57,17 +61,18 @@ namespace EFTools
 
    if (args.Count() == 0)
    {
-    CUI.PrintError("Missing Parameter: migrate | createtestuser | both");
+    CUI.PrintError("Missing Parameter: migrate | createtestuser | recreate");
     System.Environment.Exit(1);
    }
 
-   switch (args[0].ToLower())
+   for (int i = 0; i < args.Length; i++)
    {
-    case "migrate": Migrate(); break;
-    case "createtestuser": CreateTestUser(); break;
-    case "both": Migrate();  CreateTestUser(); break;
-    default: Migrate(); CreateTestUser(); break;
+    args[i] = args[i].ToLower().Replace("-", "").Replace("/", "");
    }
+
+   if (args.Contains("recreate")) Recreate();
+   if (args.Contains("migrate")) Migrate();
+   if (args.Contains("createtestuser")) CreateTestUser();
 
 
    //var ctx = new Context();
@@ -75,26 +80,47 @@ namespace EFTools
    //Console.WriteLine(sts.Count);
 
 
-   PrintInfo("DONE!");
+   CUI.PrintSuccess("DONE!");
    System.Environment.Exit(0);
    //Console.ReadLine();
 
   }
 
+
+  private static void Recreate()
+  {
+   CUI.H1("(Re-)Creating Database...");
+   try
+   {
+    var ctx = new Context();
+
+    if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+    {
+     Console.WriteLine("Deleting database...");
+     ctx.Database.EnsureDeleted();
+    }
+
+    Migrate();
+
+   }
+   catch (Exception ex)
+   {
+    PrintError("Migration Error", ex);
+    System.Environment.Exit(2);
+   }
+
+  }
+
+
   private static void Migrate()
   {
-   PrintInfo("Migrate Database...");
+   CUI.H1("Migrate Database...");
 
    try
    {
     var ctx = new Context();
 
-    var mset = ctx.Database.GetMigrations();
-    foreach (var m in mset)
-    {
-     PrintInfo(m);
-    }
-
+    PrintMigrationStatus(ctx);
     ctx.Database.Migrate();
 
    }
@@ -105,8 +131,30 @@ namespace EFTools
    }
   }
 
+
+  private static void PrintMigrationStatus(DbContext ctx)
+  {
+   CUI.H2("Getting Migration Status");
+   try
+   {
+    Dictionary<string, string> migrationsStatus = new Dictionary<string, string>();
+    var migrations = ctx.Database.GetMigrationStatus();
+
+    foreach (var item in migrations)
+    {
+     if (item.Value) CUI.Print(item.Key + ":" + " Applied", ConsoleColor.Green);
+     else CUI.Print(item.Key + ":" + " TODO", ConsoleColor.Red);
+    }
+   }
+   catch (Exception)
+   {
+    CUI.PrintError("Database not available!");
+   }
+
+  }
   private static void CreateTestUser()
   {
+   CUI.H1("Creating test users...");
    try
    {
     var zeit = DateTime.Now.ToString();
@@ -130,13 +178,13 @@ namespace EFTools
      CUI.PrintSuccess($"Client {guid} vorhanden!");
     }
 
-    var um = new BL.UserManager("test", "test","test");
+    var um = new BL.UserManager("test", "test", "test");
 
     um.InitDefaultTasks();
     var cm = new BL.CategoryManager(um.CurrentUser.UserID);
     var cs = cm.GetCategorySet();
 
-    PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName +") Token=" + um.CurrentUser.Token);
+    PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName + ") Token=" + um.CurrentUser.Token);
     if (cs.Count != 4)
     {
      PrintError("Data Test Error: Count=" + cs.Count);
