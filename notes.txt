@@ -8,7 +8,7 @@ Execute Unit Tests
 -----------------------------------------------
 Test Explorer
 
-test the Website
+Test the Website
 -----------------------------------------------
 View in Browser (STRG SHIFT W)
 http://localhost:8887/index.html

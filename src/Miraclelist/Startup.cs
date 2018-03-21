@@ -64,7 +64,6 @@ namespace Miraclelist
    }
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine("ConnectionString=" + CS.Replace("London$", "xxxx"));
 
    // Inject connection string into DAL
    DAL.Context.IsRuntime = true;
@@ -84,14 +83,29 @@ namespace Miraclelist
    #endregion
 
    #region testuser
-   if (env.IsEnvironment("Development"))
-   {
-    var um = new UserManager("test", true, true);
-    um.InitDefaultTasks();
 
-    var um2 = new UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
+   try
+   {
+    if (env.IsEnvironment("Development"))
+    {
+     Console.WriteLine("Benutzer 'test' wird erstellt..");
+     var um = new UserManager("test", true, true);
+     um.InitDefaultTasks();
+    }
+    else
+    {
+     Console.WriteLine("Testing Database Access...");
+     UserManager.GetUserStatistics();
+     Console.WriteLine("OK");
+
+    }
    }
+   catch (Exception ex)
+   {
+
+    Console.WriteLine("ERROR: " + ex.Message);
+   }
+
 
    #endregion
   }
