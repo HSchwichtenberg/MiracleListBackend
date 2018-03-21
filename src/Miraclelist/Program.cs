@@ -11,7 +11,7 @@ namespace Miraclelist
 {
 
  /// <summary>
- /// Start with: dotnet run --hosturl http://192.168.1.66:5001
+ /// Start with: dotnet run --hosturl http://192.168.1.66:5000
  /// </summary>
  public class Program
  {
