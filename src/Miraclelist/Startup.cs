@@ -53,10 +53,10 @@ namespace Miraclelist
    }
    else
    {
-    // derzeit noch nichts besonderes zu tun
+    // nothing to co currently
    }
 
-
+   // build configuration now
    Configuration = builder.Build();
    foreach (var p in builder.Sources)
    {
@@ -66,7 +66,7 @@ namespace Miraclelist
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
    Console.WriteLine("ConnectionString=" + CS.Replace("London$", "xxxx"));
 
-   // inject connection string into DAL
+   // Inject connection string into DAL
    DAL.Context.IsRuntime = true;
    DAL.Context.ConnectionString = CS;
    #endregion
@@ -88,10 +88,10 @@ namespace Miraclelist
    {
     var um = new UserManager("test", true, true);
     um.InitDefaultTasks();
-   }
 
-   var um2 = new UserManager("unittest", "unittest");
-   um2.InitDefaultTasks();
+    var um2 = new UserManager("unittest", "unittest");
+    um2.InitDefaultTasks();
+   }
 
    #endregion
   }
