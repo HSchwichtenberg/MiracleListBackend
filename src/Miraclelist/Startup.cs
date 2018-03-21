@@ -64,6 +64,8 @@ namespace Miraclelist
    }
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
+
+
    Console.WriteLine("ConnectionString=" + CS.Replace("London$", "xxxx"));
 
    // Inject connection string into DAL
@@ -88,10 +90,8 @@ namespace Miraclelist
    {
     var um = new UserManager("test", true, true);
     um.InitDefaultTasks();
-
-    var um2 = new UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
    }
+
 
    #endregion
   }
