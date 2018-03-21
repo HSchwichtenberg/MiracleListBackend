@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
-		EFTools-Test.ps1 = EFTools-Test.ps1
+		EFTools-Migration.ps1 = EFTools-Migration.ps1
 		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
 		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
 		notes.txt = notes.txt
@@ -34,8 +34,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSTools", "Tools\VSTools.csproj", "{A50EC846-6745-44A5-9F73-7AB2C0679B7A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{53D1E79B-108E-4889-A152-016FF8521436}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITV.AppUtil.NETStandard", "..\..\TFS\INT\Util\ITV.AppUtil.NETStandard\ITV.AppUtil.NETStandard.csproj", "{82DE0AA7-3242-4A77-BC89-1B24EBD911F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITVTagHelper", "..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj", "{A7C6B6F9-285A-4902-B313-753BD7C71CF1}"
 EndProject
@@ -72,10 +70,6 @@ Global
 		{A50EC846-6745-44A5-9F73-7AB2C0679B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A50EC846-6745-44A5-9F73-7AB2C0679B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A50EC846-6745-44A5-9F73-7AB2C0679B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82DE0AA7-3242-4A77-BC89-1B24EBD911F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82DE0AA7-3242-4A77-BC89-1B24EBD911F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82DE0AA7-3242-4A77-BC89-1B24EBD911F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82DE0AA7-3242-4A77-BC89-1B24EBD911F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
