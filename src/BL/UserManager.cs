@@ -280,25 +280,25 @@ namespace BL
     );
 
 
-    //var groups = (from u in ctx.UserSet
-    //              join x in ((from p in ctx.TaskSet
-    //                          group p by p.Category.UserID into g
-    //                          select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
-    //               on u.UserID equals x.userID
-    //              select new { u.UserName, x.Count });
+    var groups = (from u in ctx.UserSet
+                  join x in ((from p in ctx.TaskSet
+                              group p by p.Category.UserID into g
+                              select new { userID = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).Take(10))
+                   on u.UserID equals x.userID
+                  select new { u.UserName, x.Count });
 
-    //var r = new List<UserStatistics>();
-    //foreach (var g in groups)
-    //{
-    // r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
-    //}
+    var r = new List<UserStatistics>();
+    foreach (var g in groups)
+    {
+     r.Add(new UserStatistics() { UserName = g.UserName, NumberOfTasks = g.Count });
+    }
 
-    var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
-                          Task ON Category.CategoryID = Task.CategoryID INNER JOIN
-                          [User] ON Category.UserID = [User].UserID
-                          GROUP BY[User].UserName";
+    //var SQL = @"SELECT[User].UserName, COUNT(Task.TaskID) AS NumberOfTasks FROM Category INNER JOIN
+    //                      Task ON Category.CategoryID = Task.CategoryID INNER JOIN
+    //                      [User] ON Category.UserID = [User].UserID
+    //                      GROUP BY[User].UserName";
 
-    var r = ctx.UserStatistics.FromSql(SQL).OrderByDescending(x => x.NumberOfTasks).Take(10).ToList();
+    //var r = ctx.UserStatistics.FromSql(SQL).OrderByDescending(x => x.NumberOfTasks).Take(10).ToList();
 
     return r;
    }

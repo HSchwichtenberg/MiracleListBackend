@@ -39,14 +39,6 @@ namespace EFTools
 
   public static void Main(string[] args)
   {
-
-   //var m = new ITVisions.Mail.MailUtil();
-   //m.SendEmail("test", "hs@IT-Visions.de", "HS", "hs@IT-Visions.de", "TEST BETREFF", "INHALT");
-
-
-   //var m = new ITVisions.Mail.MailGun();
-
-   //new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("hs@IT-Visions.de", "hs@IT-Visions.de", "TEST BETREFF", "INHALT");
    PrintInfo("MiracleList Backend EFC Tools " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
    Context.ConnectionString = GetConnectionString();
@@ -92,20 +84,28 @@ namespace EFTools
    CUI.H1("(Re-)Creating Database...");
    try
    {
-    var ctx = new Context();
-
-    if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+    using (var ctx = new Context())
     {
-     Console.WriteLine("Deleting database...");
-     ctx.Database.EnsureDeleted();
+
+     if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+     {
+      Console.WriteLine("Deleting database...");
+      ctx.Database.EnsureDeleted();
+      Console.WriteLine("OK!");
+
+     }
     }
 
-    Migrate();
-
+    using (var ctx = new Context())
+    {
+     Console.WriteLine("Creating database...");
+     ctx.Database.EnsureCreated();
+     Console.WriteLine("OK!");
+    }
    }
    catch (Exception ex)
    {
-    PrintError("Migration Error", ex);
+    PrintError("Recreate Error", ex);
     System.Environment.Exit(2);
    }
 
@@ -155,6 +155,9 @@ namespace EFTools
   private static void CreateTestUser()
   {
    CUI.H1("Creating test users...");
+
+
+
    try
    {
     var zeit = DateTime.Now.ToString();
@@ -178,9 +181,10 @@ namespace EFTools
      CUI.PrintSuccess($"Client {guid} vorhanden!");
     }
 
-    var um = new BL.UserManager("test", "test", "test");
 
+    var um = new BL.UserManager("test", "test", "test");
     um.InitDefaultTasks();
+
     var cm = new BL.CategoryManager(um.CurrentUser.UserID);
     var cs = cm.GetCategorySet();
 
@@ -190,6 +194,12 @@ namespace EFTools
      PrintError("Data Test Error: Count=" + cs.Count);
      System.Environment.Exit(3);
     }
+
+    var um2 = new BL.UserManager("unittest", "unittest");
+    um2.InitDefaultTasks();
+
+
+
    }
    catch (Exception ex)
    {

@@ -92,7 +92,7 @@ namespace Miraclelist.Controllers
 
    new LogManager().Log(Event.ClientCreated, Severity.Information, email, "CreateClientID","",null, this.Request.HttpContext.Connection.RemoteIpAddress.ToString(), text + "\n\n" + s);
 
-   var e2 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MiracleList Client_ID", text + "\n\n-----\n" + s);
+  
    ViewBag.Status = e1.ToString();
 
    return View();
