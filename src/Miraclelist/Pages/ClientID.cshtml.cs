@@ -86,7 +86,13 @@ namespace Miraclelist_WebAPI.Pages
   {
    // ViewBag gibt es hier nicht!!!  ViewBag.ClientArten = ClientArten;
 
-   // War der Benutzer schon mal hier? (will er mehrere Clients registrieren? Dann zeige seine vorherigen Daten an)
+   // Counter via Session
+   int aufrufe = 0;
+   aufrufe = HttpContext.Session.GetInt32("aufrufe") ?? 0;
+   HttpContext.Session.SetInt32("aufrufe", ++aufrufe);
+   this.Aufrufe = aufrufe;
+
+   // if the user was here before, show his data (he might register multiple clients)
    var client = HttpContext.Session.GetObject<Client>("Client");
    if (client != null)
    {
@@ -96,17 +102,13 @@ namespace Miraclelist_WebAPI.Pages
    }
    else
    {
-    this.EMail = "test@it-visions.de";
-    this.Name = "Test";
-    this.Firma = "Test";
+    if (env.IsDevelopment())
+    {
+     this.EMail = "test@it-visions.de";
+     this.Name = "Test";
+     this.Firma = "Test";
+    }
    }
-
-   // Aufrufzähler
-   int aufrufe = 0;
-   aufrufe = HttpContext.Session.GetInt32("aufrufe") ?? 0;
-   HttpContext.Session.SetInt32("aufrufe", ++aufrufe);
-   this.Aufrufe = aufrufe;
-
   }
 
 
