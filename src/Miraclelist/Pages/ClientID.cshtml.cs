@@ -61,21 +61,18 @@ namespace Miraclelist_WebAPI.Pages
   [TempData]
   public string ClientIDModel_Name { get; set; }
   [TempData]
-  public string ClientIDModel_Result { get; set; }
+  public string ClientIDModel_Result { get; set; } // Name and EMail will be serialized here
   #endregion
 
   //public ClientIDModel()
   //{
   //// alternativ: ClientArten = (new List<String>() { "Web-Client", "Desktop-Client", "Mobile Client", "Server-Anwendung" }).ToSelectListItem();
   //}
-
   //public async void OnGetAsync()
   //{
-
   //}
 
-
-  IHostingEnvironment env; // wird per DI injiziert
+  private IHostingEnvironment env; // injected via DI
   public ClientIDModel(IHostingEnvironment env)
   {
    this.env = env;
@@ -84,7 +81,7 @@ namespace Miraclelist_WebAPI.Pages
 
   public void OnGet()
   {
-   // ViewBag gibt es hier nicht!!!  ViewBag.ClientArten = ClientArten;
+   // ViewBag not available in Razor Pages! ViewBag.ClientArten = ClientArten;
 
    // Counter via Session
    int aufrufe = 0;
@@ -104,13 +101,12 @@ namespace Miraclelist_WebAPI.Pages
    {
     if (env.IsDevelopment())
     {
-     this.EMail = "test@it-visions.de";
+     this.EMail = "test@abc.de";
      this.Name = "Test";
      this.Firma = "Test";
     }
    }
   }
-
 
   /// <summary>
   /// Handler für Download-Schaltfläche
@@ -127,7 +123,6 @@ namespace Miraclelist_WebAPI.Pages
   /// </summary>
   public IActionResult OnPostBeantragen()
   {
-
    #region Validierung
    if (string.IsNullOrEmpty(Name)) this.ModelState.AddModelError(nameof(Name), "Name darf nicht leer sein!");
    if (string.IsNullOrEmpty(Firma)) this.ModelState.AddModelError(nameof(Firma), "Firma darf nicht leer sein!");
@@ -146,7 +141,6 @@ namespace Miraclelist_WebAPI.Pages
 
    #region Logik
    // Client via Geschäftslogik registrieren und E-Mail senden
-   // im Buch nicht abgedruckt!
 
    var c = new Client();
    c.Name = Name;
@@ -176,14 +170,13 @@ namespace Miraclelist_WebAPI.Pages
     $"E-Mail: {c.EMail}\n" +
     (!String.IsNullOrEmpty(c.Type) ? $"Typ: {c.Type}\n" : "") +
     $"Client-ID: {c.ClientID}\n\n" +
-    "Sie benötigen eine personalisierte Client-ID, wenn Sie selbst einen Beispiel-Client für das MiracleList-Backend schreiben wollen. Die Client-ID ist bei als Parameter der Login-Operation zu übergeben.\n\nDr. Holger Schwichtenberg, www.IT-Visions.de";
+    "Sie benötigen eine personalisierte Client-ID, wenn Sie selbst einen Beispiel-Client für das MiracleList-Backend schreiben wollen. Die Client-ID ist als Parameter bei der Login-Operation zu übergeben.\n\nDr. Holger Schwichtenberg, www.IT-Visions.de";
 
    var e1 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("do-not-reply@mail.miraclelist.net", EMail, "Client-ID für MiracleList-Backend", text
      );
 
    new LogManager().Log(Event.ClientCreated, Severity.Information, EMail, "CreateClientID", "", null, this.Request.HttpContext.Connection.RemoteIpAddress.ToString(), text + "\n\n" + s);
 
-   var e2 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MiracleList Client_ID", text + "\n\n-----\n" + s);
    #endregion
 
    // Übergabewerte setzen
@@ -195,7 +188,7 @@ namespace Miraclelist_WebAPI.Pages
    this.ClientIDModel_Result = JsonConvert.SerializeObject(result);
 
    // Folgeseite aufrufen
-   return RedirectToPage("./ClientIDConfirmation");
+   return RedirectToPage("./" + nameof(ClientIDConfirmationModel).Replace("Model",""));
 
   }
 

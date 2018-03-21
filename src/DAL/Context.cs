@@ -86,7 +86,7 @@ namespace DAL
    #region Trick for pseudo entities for grouping and Views
 
    var p = System.Diagnostics.Process.GetCurrentProcess();
-   Console.WriteLine(p.ProcessName + "/" + System.Diagnostics.Debugger.IsAttached);
+   //Console.WriteLine(p.ProcessName + "/" + System.Diagnostics.Debugger.IsAttached);
 
 
    if (!IsRuntime)
