@@ -1,4 +1,5 @@
-﻿using ITVisions;
+﻿using BL;
+using ITVisions;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -43,6 +44,9 @@ namespace UnitTests
        break;
      }
      DAL.Context.IsRuntime = true;
+
+     var um2 = new UserManager("unittest", "unittest");
+     um2.InitDefaultTasks();
     }
    }
 
@@ -88,7 +92,8 @@ namespace UnitTests
    .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables e.g. "ConnectionStrings:MiracleListDB"
    IConfigurationRoot configuration = builder.Build();
    var cs = configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine("ENV: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB"));
+   Console.WriteLine("ENV Process: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB"));
+   Console.WriteLine("ENV Machine: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine));
    return cs;
   }
  }
