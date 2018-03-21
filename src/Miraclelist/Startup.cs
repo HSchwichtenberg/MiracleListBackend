@@ -26,7 +26,10 @@ namespace Miraclelist
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
-
+   Console.WriteLine("ApplicationName =" + env.ApplicationName);
+   Console.WriteLine("WebRootPath =" + env.WebRootPath);
+   Console.WriteLine("ContentRootPath =" + env.ContentRootPath);
+   Console.WriteLine("Production =" + env.IsProduction().ToString());
 
    #region Load configuration
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
