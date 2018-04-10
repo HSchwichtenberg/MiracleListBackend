@@ -24,13 +24,15 @@ namespace Miraclelist
   {
 
    CUI.MainHeadline("MiracleList Backend v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+   CUI.Headline("Main");
    CUI.Print("ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString());
-   CUI.Print("Runtime: .NET Core v " + ITVisions.CLRInfo.GetCoreClrVersion());
+   // TODO: GetCoreClrVersion() geht nicht auf LINUX! :-(
+   CUI.Print("Runtime: .NET Core v" + ITVisions.CLRInfo.GetCoreClrVersion());
 
    var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
      .AddCommandLine(args)
      .Build();
-
 
    var hostUrl = configuration["hosturl"];
    if (string.IsNullOrEmpty(hostUrl))
