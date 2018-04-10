@@ -86,10 +86,27 @@ namespace Miraclelist
    #endregion
 
    #region testuser
-   if (env.IsEnvironment("Development"))
+
+   try
    {
-    var um = new UserManager("test", true, true);
-    um.InitDefaultTasks();
+    if (env.IsEnvironment("Development"))
+    {
+     Console.WriteLine("Benutzer 'test' wird erstellt..");
+     var um = new UserManager("test", true, true);
+     um.InitDefaultTasks();
+    }
+    else
+    {
+     Console.WriteLine("Testing Database Access...");
+     UserManager.GetUserStatistics();
+     Console.WriteLine("OK");
+
+    }
+   }
+   catch (Exception ex)
+   {
+
+    Console.WriteLine("ERROR: " + ex.Message);
    }
 
 
