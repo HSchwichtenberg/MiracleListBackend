@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace ITVisions
 {
+
+ /// <summary>
+ /// Will generate &lt;div class="row"&gt;
+ /// </summary>
  [RestrictChildren(
   "xs", "xs1", "xs2", "xs3", "xs4", "xs5", "xs6", "xs7","xs8", "xs9", "xs10", "xs11", "xs12",
   "sm", "sm1", "sm2", "sm3", "sm4", "sm5", "sm6", "sm7", "sm8", "sm9", "sm10", "sm11", "sm12",
