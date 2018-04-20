@@ -65,9 +65,6 @@ namespace Miraclelist
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
 
-
-   Console.WriteLine("ConnectionString=" + CS.Replace("London$", "xxxx"));
-
    // Inject connection string into DAL
    DAL.Context.IsRuntime = true;
    DAL.Context.ConnectionString = CS;

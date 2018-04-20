@@ -283,7 +283,7 @@ namespace BL
     var groups = (from u in ctx.UserSet
                   join x in ((from p in ctx.TaskSet
                               group p by p.Category.UserID into g
-                              select new { userID = g.Key, Count = g.Count() }).OrderBy(x => x.Count).Take(10))
+                              select new { userID = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).Take(10))
                    on u.UserID equals x.userID
                   select new { u.UserName, x.Count });
 

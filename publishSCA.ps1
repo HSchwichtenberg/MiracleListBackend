@@ -1,6 +1,6 @@
 $ErrorActionPreference = "stop"
 
-$Ziel = "\\192.168.23.77\Documents\" # !!! Vorher authentifizieren
+$Ziel = "\\192.168.23.129\Documents\" # !!! Vorher authentifizieren
 
 if (-not (test-path $ziel)) { Write-Warning "Ziel nicht gefunden!" ; return }
 
