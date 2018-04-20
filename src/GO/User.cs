@@ -21,8 +21,8 @@ namespace BO
   public string Memo { get; set; }
   public int? MaxTasks { get; set; }
 
-  //[StringLength(2)]
-  //public string Language { get; set; }
+  [StringLength(2)]
+  public string Language { get; set; }
 
   // -------------- Navigation Properties
   public List<Category> CategorySet { get; set; }

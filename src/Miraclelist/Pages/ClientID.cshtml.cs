@@ -189,7 +189,7 @@ namespace Miraclelist_WebAPI.Pages
    this.ClientIDModel_Result = JsonConvert.SerializeObject(result);
 
    // Folgeseite aufrufen
-   return RedirectToPage("./ClientIDConfirmation");
+   return RedirectToPage("./" + nameof(ClientIDConfirmationModel).Replace("Model",""));
 
   }
 
