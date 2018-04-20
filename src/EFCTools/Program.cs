@@ -92,20 +92,28 @@ namespace EFTools
    CUI.H1("(Re-)Creating Database...");
    try
    {
-    var ctx = new Context();
-
-    if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+    using (var ctx = new Context())
     {
-     Console.WriteLine("Deleting database...");
-     ctx.Database.EnsureDeleted();
+
+     if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
+     {
+      Console.WriteLine("Deleting database...");
+      ctx.Database.EnsureDeleted();
+      Console.WriteLine("OK!");
+
+     }
     }
 
-    Migrate();
-
+    using (var ctx = new Context())
+    {
+     Console.WriteLine("Creating database...");
+     ctx.Database.EnsureCreated();
+     Console.WriteLine("OK!");
+    }
    }
    catch (Exception ex)
    {
-    PrintError("Migration Error", ex);
+    PrintError("Recreate Error", ex);
     System.Environment.Exit(2);
    }
 
