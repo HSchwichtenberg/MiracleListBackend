@@ -101,7 +101,7 @@ namespace Miraclelist_WebAPI.Pages
    {
     if (env.IsDevelopment())
     {
-     this.EMail = "test@it-visions.de";
+     this.EMail = "test@abc.de";
      this.Name = "Test";
      this.Firma = "Test";
     }
@@ -177,7 +177,6 @@ namespace Miraclelist_WebAPI.Pages
 
    new LogManager().Log(Event.ClientCreated, Severity.Information, EMail, "CreateClientID", "", null, this.Request.HttpContext.Connection.RemoteIpAddress.ToString(), text + "\n\n" + s);
 
-   var e2 = new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("system@mail.miraclelist.net", "hs_status@IT-Visions.de", "MiracleList Client_ID", text + "\n\n-----\n" + s);
    #endregion
 
    // Übergabewerte setzen

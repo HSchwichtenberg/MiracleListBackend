@@ -1,14 +1,14 @@
 Create database in Package Manager Console
 -----------------------------------------------
-Chaneg connection string: DAL/Context.cs
-Set as start Project: EFCTools
+Change connection string: DAL/Context.cs
+Set as Start Project: EFCTools
 Set as Default Project: DAL
 
 Execute Unit Tests
 -----------------------------------------------
 Test Explorer
 
-test the Website
+Test the Website
 -----------------------------------------------
 View in Browser (STRG SHIFT W)
 http://localhost:8887/index.html
@@ -26,7 +26,7 @@ BO:
 Install-Package System.ComponentModel.Annotations
 
 DAL and BL:
-Install-Package Microsoft.EntityFrameworkCore.sqlserver
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
 
 Web:
 Install-Package Microsoft.AspNet.Cors

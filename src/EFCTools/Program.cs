@@ -39,14 +39,6 @@ namespace EFTools
 
   public static void Main(string[] args)
   {
-
-   //var m = new ITVisions.Mail.MailUtil();
-   //m.SendEmail("test", "hs@IT-Visions.de", "HS", "hs@IT-Visions.de", "TEST BETREFF", "INHALT");
-
-
-   //var m = new ITVisions.Mail.MailGun();
-
-   //new ITVisions.NetworkUtil.MailUtil().SendMailTollerant("hs@IT-Visions.de", "hs@IT-Visions.de", "TEST BETREFF", "INHALT");
    PrintInfo("MiracleList Backend EFC Tools " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
    Context.ConnectionString = GetConnectionString();
