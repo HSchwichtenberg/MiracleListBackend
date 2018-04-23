@@ -96,14 +96,14 @@ namespace Miraclelist
     {
      Console.WriteLine("Testing Database Access...");
      UserManager.GetUserStatistics();
-     Console.WriteLine("OK");
+     CUI.PrintSuccess("OK");
 
     }
    }
    catch (Exception ex)
    {
 
-    Console.WriteLine("ERROR: " + ex.Message);
+    CUI.PrintError("ERROR: " + ex.Message);
    }
 
 

@@ -76,6 +76,9 @@ namespace UnitTests
 
   }
 
+  /// <summary>
+  /// Legt Aufgabe mit 100 Unteraufgaben an und ändert diese (was die 100 Unteraufgaben löscht und neu anlegt)
+  /// </summary>
   [Theory]
   [InlineData("test6")]
   [InlineData("test5")]

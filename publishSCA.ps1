@@ -1,6 +1,7 @@
 $ErrorActionPreference = "stop"
+$ip = "192.168.1.170"
 
-$Ziel = "\\192.168.23.129\Documents\" # !!! Vorher authentifizieren
+$Ziel = "\\$ip\Documents\" # !!! Vorher authentifizieren
 
 if (-not (test-path $ziel)) { Write-Warning "Ziel nicht gefunden!" ; return }
 
@@ -12,7 +13,7 @@ dotnet publish -c release --runtime ubuntu.14.04-x64 --self-contained --framewor
 
 #SCA kopieren in VM
 robocopy $temp $Ziel\MLB2_SCA /e
-
+#"dotnet miraclelist_webapi.dll --hosturl:$($ip):5000" | Set-Content "$Ziel\MLB2_SCA\miraclelist.sh"
 # Framework-dependent deployments (FDD) / Portable applications (PA) 
 $temp = "t:\mlb2_PA"
 dotnet publish -c release  --framework netcoreapp2.0 -o $temp
