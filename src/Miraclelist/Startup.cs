@@ -181,7 +181,7 @@ namespace Miraclelist
     {
      Version = "v2",
      Title = "MiracleList API",
-     Description = "Backend für MiracleList.de with token in HTTP header",
+     Description = "Backend for MiracleList.de with token in HTTP header",
      TermsOfService = "None",
      Contact = new Contact { Name = "Holger Schwichtenberg", Email = "", Url = "http://it-visions.de/kontakt" }
     });

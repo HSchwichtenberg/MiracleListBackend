@@ -1,5 +1,5 @@
 $ErrorActionPreference = "stop"
-$ip = "192.168.1.170"
+$ip = "192.168.43.176"
 
 $Ziel = "\\$ip\Documents\" # !!! Vorher authentifizieren
 
@@ -7,7 +7,7 @@ if (-not (test-path $ziel)) { Write-Warning "Ziel nicht gefunden!" ; return }
 
 cd $PSScriptRoot\src\Miraclelist
 #dotnet publish -h
-$temp = "t:\mlb2_SCA"
+$temp = "t:\mlb2_SCA4"
 # Self-contained deployment (SCD) / Self-contained application (SCA)
 dotnet publish -c release --runtime ubuntu.14.04-x64 --self-contained --framework netcoreapp2.0 -o $temp
 
