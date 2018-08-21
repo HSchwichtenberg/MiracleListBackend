@@ -1,4 +1,6 @@
-﻿$ErrorActionPreference = "stoP"
+﻿## Hallo Holger!
+
+$ErrorActionPreference = "stoP"
 #Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
 
 Install-Module PowerShellGet -Force
