@@ -37,6 +37,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{53D1E79B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITVTagHelper", "..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj", "{A7C6B6F9-285A-4902-B313-753BD7C71CF1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLLs", "DLLs", "{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\HibernatingRhinos.Profiler.Appender.dll = Lib\HibernatingRhinos.Profiler.Appender.dll
+		Lib\ITV.AppUtil.NETStandard.dll = Lib\ITV.AppUtil.NETStandard.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +127,7 @@ Global
 		{F367B5B9-8ACE-445F-B859-C323930584EF} = {3BC09110-05BA-4363-9A18-07035088B538}
 		{A50EC846-6745-44A5-9F73-7AB2C0679B7A} = {53D1E79B-108E-4889-A152-016FF8521436}
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
+		{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
