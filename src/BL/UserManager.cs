@@ -22,7 +22,7 @@ namespace BL
 
 
   // nur für Test
-  public UserManager(Context ctx) 
+  public UserManager(Context ctx)
   {
    this.ctx = ctx;
   }
@@ -90,7 +90,7 @@ namespace BL
   }
 
 
-  private User GetUserByToken(string token, bool CreateIfNotExists = true, bool PasswordReset = false )
+  private User GetUserByToken(string token, bool CreateIfNotExists = true, bool PasswordReset = false)
   {
    //Guid guid;
    //if (!Guid.TryParse(token, out guid)) return null;
@@ -268,16 +268,16 @@ namespace BL
   {
    using (var ctx = new Context())
    {
-    ctx.Log((x) =>
-   {
-    System.Diagnostics.Debug.WriteLine(x);
-    using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
-    {
-     sw.WriteLine(x);
-    }
+   // ctx.Log((x) =>
+   //{
+   // System.Diagnostics.Debug.WriteLine(x);
+   // using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
+   // {
+   //  sw.WriteLine(x);
+   // }
 
-   }
-    );
+   //}
+   // );
 
 
     var groups = (from u in ctx.UserSet
