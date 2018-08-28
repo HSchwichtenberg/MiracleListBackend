@@ -17,8 +17,6 @@ namespace EFTools
 {
  public class Program
  {
-
-
   private static string GetConnectionString()
   {
 
@@ -26,10 +24,24 @@ namespace EFTools
 
    var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "Data Source=D120;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" } };
 
-   var builder = new ConfigurationBuilder() // NUGET: Microsoft.Extensions.Configuration
-   .AddInMemoryCollection(dic)
-   .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
-   .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+   var builder = new ConfigurationBuilder(); // NUGET: Microsoft.Extensions.Configuration
+
+   // this check is necessary, because AddEnvironmentVariables() ohne loads process env variablens https://github.com/aspnet/Configuration/issues/721
+   var env_user = Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.User);
+   if (!String.IsNullOrEmpty(env_user))
+   { // user-Einstellung kann nur durch prozess-Einstellung überschrieben werden!
+    dic["ConnectionStrings:MiracleListDB"] = env_user;
+    builder.AddInMemoryCollection(dic)
+     .AddEnvironmentVariables(); // lädt nur Prozessvariablen! // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+   }
+   else
+   {
+    builder
+  .AddInMemoryCollection(dic)
+  .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
+  .AddEnvironmentVariables(); // lädt nur Prozessvariablen! // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+   }
+
 
    IConfigurationRoot configuration = builder.Build();
 
@@ -39,10 +51,11 @@ namespace EFTools
 
   public static void Main(string[] args)
   {
-   PrintInfo("MiracleList Backend EFC Tools " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+   PrintHeadline("MiracleList Backend EFC Tools " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
    Context.ConnectionString = GetConnectionString();
-
+   var ctx = new Context();
+   PrintInfo("Database:" + ctx.Database.ProviderName);
    PrintInfo("Connection String:" + Context.ConnectionString);
 
    if (String.IsNullOrEmpty(Context.ConnectionString))
@@ -156,12 +169,13 @@ namespace EFTools
   {
    CUI.H1("Creating test users...");
 
-
-
    try
    {
     var zeit = DateTime.Now.ToString();
     var guid = new Guid("11111111-1111-1111-1111-111111111111");
+
+    //var ctx = new Context();
+    //ctx.Log();
 
     var clm = new BL.ClientManager();
     if (clm.GetByID(guid) == null)
@@ -181,7 +195,6 @@ namespace EFTools
      CUI.PrintSuccess($"Client {guid} vorhanden!");
     }
 
-
     var um = new BL.UserManager("test", "test", "test");
     um.InitDefaultTasks();
 
@@ -197,9 +210,6 @@ namespace EFTools
 
     var um2 = new BL.UserManager("unittest", "unittest");
     um2.InitDefaultTasks();
-
-
-
    }
    catch (Exception ex)
    {
@@ -214,11 +224,17 @@ namespace EFTools
    //s = s += "##vso[task.logdetail]" + s;
    CUI.Print(s);
   }
+  public static void PrintHeadline(string s)
+  {
+   // VSO Logging Commands https://github.com/Microsoft/vsts-tasks/blob/master/docs/authoring/commands.md
+   //s = s += "##vso[task.logdetail]" + s;
+   CUI.Headline(s);
+  }
 
   public static void PrintError(string s, Exception ex = null)
   {
    // VSO Logging Commands https://github.com/Microsoft/vsts-tasks/blob/master/docs/authoring/commands.md
-   s = s += "##vso[task.logissue type=error;]" + s + (ex != null ? ": " + ex.Message : "");
+   s = s += "##vso[task.logissue type=error;]" + s + (ex != null ? ": " + ex.ToString() : "");
    CUI.PrintError(s);
   }
 

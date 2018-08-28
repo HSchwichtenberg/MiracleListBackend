@@ -65,14 +65,24 @@ namespace DAL
     if (Connection != null)
     {
      builder.UseSqlite(Context.Connection);
- 
     }
     else
     {
      if (!String.IsNullOrEmpty(Context.ConnectionString))
-      builder.UseSqlServer(Context.ConnectionString);
+     {
+      if (!Context.ConnectionString.Contains("Ora"))
+      {
+       builder.UseSqlServer(Context.ConnectionString);
+      }
+      else
+      {
+       builder.UseOracle(Context.ConnectionString);
+      }
+     }
      else
+     {
       builder.UseInMemoryDatabase("Miracle ListInMemoryDB");
+     }
     }
    }
   }
@@ -130,8 +140,11 @@ namespace DAL
    #endregion
 
    #region Computed Column
-   builder.Entity<Task>().Property(x => x.DueInDays)
-         .HasComputedColumnSql("DATEDIFF(day, GETDATE(), [Due])");
+   if (Database.IsSqlServer())
+    {
+    builder.Entity<Task>().Property(x => x.DueInDays)
+          .HasComputedColumnSql("DATEDIFF(day, GETDATE(), [Due])");
+   }
 
    builder.Entity<Task>().Property(x => x.Title).HasDefaultValue(BO.Task.DefaultTitle);
    #endregion
