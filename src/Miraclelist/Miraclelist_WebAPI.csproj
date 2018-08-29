@@ -19,11 +19,12 @@
     <PackageId>Miraclelist</PackageId>
     <RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <Version>0.8.9.1</Version>
+    <Version>0.8.10.0</Version>
     <Copyright>Dr. Holger Schwichtenberg</Copyright>
-    <AssemblyVersion>0.8.9.1</AssemblyVersion>
-    <FileVersion>0.8.9.1</FileVersion>
+    <AssemblyVersion>0.8.10.0</AssemblyVersion>
+    <FileVersion>0.8.10.0</FileVersion>
     <Company>www.IT-Visions.de</Company>
+    <PackageReleaseNotes>0.8.10: + RCL-Lib</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ITVRazorClassLibrary\ITVRazorClassLibrary.csproj" />
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\GO\BO.csproj" />
   </ItemGroup>
@@ -75,6 +77,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Address.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="wwwroot\AddedColumnsConfig.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

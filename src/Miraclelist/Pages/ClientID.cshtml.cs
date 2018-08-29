@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using BL;
 using BO;
 using ITVisions.AspNetCore; // Erweiterungsmethoden einbinden
@@ -20,6 +21,7 @@ namespace Miraclelist_WebAPI.Pages
   public string EMail { get; set; }
  }
 
+ // sollte in 2.1 gehen, geht aber nicht [BindPropertyAttribute], siehe https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.bindpropertyattribute?view=aspnetcore-2.1
  public class ClientIDModel : PageModel
  {
 
@@ -39,7 +41,7 @@ namespace Miraclelist_WebAPI.Pages
   #endregion
 
   #region Properties für Zwei-Wege-Bindung
-  [BindProperty]
+  [BindProperty]  // [Required]
   public string Name { get; set; }
   [BindProperty]
   public string Firma { get; set; }
@@ -101,9 +103,9 @@ namespace Miraclelist_WebAPI.Pages
    {
     if (env.IsDevelopment())
     {
-     this.EMail = "test@abc.de";
-     this.Name = "Test";
-     this.Firma = "Test";
+     //this.EMail = "test@abc.de";
+     //this.Name = "Test";
+     //this.Firma = "Test";
     }
    }
   }
@@ -124,6 +126,10 @@ namespace Miraclelist_WebAPI.Pages
   public IActionResult OnPostBeantragen()
   {
    #region Validierung
+
+   // [Required] wirkt nicht (vgl. https://docs.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-2.1&tabs=visual-studio#mark-page-properties-required), auch nicht mit TryValidateModel(this);
+   //if (!ModelState.IsValid) return Page();
+
    if (string.IsNullOrEmpty(Name)) this.ModelState.AddModelError(nameof(Name), "Name darf nicht leer sein!");
    if (string.IsNullOrEmpty(Firma)) this.ModelState.AddModelError(nameof(Firma), "Firma darf nicht leer sein!");
    if (string.IsNullOrEmpty(EMail)) this.ModelState.AddModelError(nameof(EMail), "EMail darf nicht leer sein!");

@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLLs", "DLLs", "{75530CE1-D
 		Lib\ITV.AppUtil.NETStandard.dll = Lib\ITV.AppUtil.NETStandard.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITVRazorClassLibrary", "ITVRazorClassLibrary\ITVRazorClassLibrary.csproj", "{75FF2D55-9242-4050-B7B2-4AF6176A0339}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,14 @@ Global
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1}.Release|x86.Build.0 = Release|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Debug|x86.Build.0 = Debug|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.ActiveCfg = Release|Any CPU
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +138,7 @@ Global
 		{A50EC846-6745-44A5-9F73-7AB2C0679B7A} = {53D1E79B-108E-4889-A152-016FF8521436}
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
 		{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
+		{75FF2D55-9242-4050-B7B2-4AF6176A0339} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
