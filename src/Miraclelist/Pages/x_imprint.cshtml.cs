@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Miraclelist_WebAPI.Pages
 {
-    public class imprintModel : PageModel
+    public class ImprintModel : PageModel
     {
         public void OnGet()
         {
