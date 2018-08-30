@@ -1,20 +1,23 @@
 ﻿@page
-@model ITVRazorClassLibrary.MyFeature.Pages.Page1Model
+@model ITVRazorClassLibrary.Pages.ImprintModel
 @{
  Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers*@
+
+
 <html>
 <head>
  <meta name="viewport" content="width=device-width" />
  <title>Imprint</title>
 </head>
 <body>
- <h1>Imprint -  Information in accordance with German TMG Section 5</h1>
-
+ <h1>Imprint</h1><h3>Information in accordance with German Telemedia Act (TMG) Section 5</h3>
  <partial name="Address" />
+ <hr />
+ @Html.Partial("Address")
  <h2>Disclaimer</h2>
  Accountability for content<br>
  The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents'
@@ -37,6 +40,7 @@
  <br><br>
  <i>Quelle: </i><a href="http://www.translate-24h.de" target="_blank">translate-24h Übersetzungen</a> <br><br>
 
+ Version: @ITVRazorClassLibrary.Logik.GetVersion()
 
 </body>
 </html>
