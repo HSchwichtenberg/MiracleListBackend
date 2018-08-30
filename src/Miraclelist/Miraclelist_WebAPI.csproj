@@ -77,7 +77,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\X_Address.cshtml">
+    <Content Update="Pages\Address.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Impressum\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="wwwroot\AddedColumnsConfig.txt">
