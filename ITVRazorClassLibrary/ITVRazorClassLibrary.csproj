@@ -9,6 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\MyFeature\" />
+    <Content Update="Pages\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 </Project>

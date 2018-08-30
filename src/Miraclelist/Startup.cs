@@ -264,6 +264,9 @@ namespace Miraclelist
    #region  MVC with Routing
    app.UseMvc(routes =>
   {
+   //routes.MapAreaRoute("blog_route", "StandardPages",
+   // "Standard/{controller}/{action}/{id?}");
+
    routes.MapRoute(
                 name: "default",
                 template: "{controller}/{action}/{id?}",
