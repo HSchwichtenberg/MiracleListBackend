@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ITVRazorClassLibrary.MyFeature.Pages
+namespace ITVRazorClassLibrary.Pages
 {
- public class Page1Model : PageModel
+ public class ImprintModel : PageModel
  {
   public void OnGet()
   {
