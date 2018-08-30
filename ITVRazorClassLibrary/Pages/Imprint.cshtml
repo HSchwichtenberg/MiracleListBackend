@@ -1,12 +1,11 @@
 ﻿@page
 @model ITVRazorClassLibrary.Pages.ImprintModel
 @{
- Layout = "~/Views/Shared/_Layout.cshtml";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!DOCTYPE html>
 
-@*@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers*@
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <html>
 <head>
@@ -16,8 +15,7 @@
 <body>
  <h1>Imprint</h1><h3>Information in accordance with German Telemedia Act (TMG) Section 5</h3>
  <partial name="Address" />
- <hr />
- @Html.Partial("Address")
+ @*oder:  @Html.Partial("Address")*@
  <h2>Disclaimer</h2>
  Accountability for content<br>
  The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents'

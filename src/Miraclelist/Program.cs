@@ -17,9 +17,6 @@ namespace Miraclelist
  /// </summary>
  public class Program
  {
-
-
-
   public static string GetNetCoreVersion()
   {
    var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
@@ -38,7 +35,7 @@ namespace Miraclelist
    return null;
   }
   /// <summary>
-  /// Start code for ASP.NET Core 2.0, see https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/
+  /// Start code for ASP.NET Core >= 2.0, see https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/
   /// </summary>
   /// <param name="args"></param>
   public static void Main(string[] args)
@@ -51,7 +48,6 @@ namespace Miraclelist
    CUI.Print("Webframework: ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString());
    // TODO: GetCoreClrVersion() geht nicht auf LINUX! :-(
   
-
    var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
      .AddCommandLine(args)
      .Build();
