@@ -26,6 +26,7 @@
     <Company>www.IT-Visions.de</Company>
     <PackageReleaseNotes>0.8.10: + RCL-Lib
 0.9: OS-Version_Info</PackageReleaseNotes>
+    <UserSecretsId>17877888-c559-4d28-bbed-c3436690aec2</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
