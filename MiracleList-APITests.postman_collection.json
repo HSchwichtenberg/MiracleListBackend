@@ -206,7 +206,7 @@
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"tests[\"Backend\"] = jsonData[1] === \"MiracleListBackend\";",
-							"tests[\"DB\"] = jsonData[6] === \"Database Status: OK\";"
+							"tests[\"DB\"] = jsonData[7] === \"Database Status: OK\";"
 						]
 					}
 				}
