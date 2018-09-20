@@ -57,7 +57,7 @@ namespace BL
    t.Stop();
 
    var versions = ITVisions.CLRInfo.GetCoreClrVersion();
-   return new string[] { DateTime.Now.ToString(), "MiracleListBackend", "(C) Dr. Holger Schwichtenberg, www.IT-Visions.de", "Web Server: " + System.Environment.MachineName, "Server Version: " + Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion, ".NET Core Version: " + versions.DOTNETVersion, "OS Version: " + versions.OSVersion, "Database Status: " + DbStatus, "Database Name: " + DbName, "Database Version: " + DbVersion, clientCount + " Clients", userCount + " Users", taskCount + " Tasks", logCount + " Log Entries", t.ElapsedMilliseconds + "ms"
+   return new string[] { DateTime.Now.ToString(), "MiracleListBackend", "(C) Dr. Holger Schwichtenberg, www.IT-Visions.de", "Web Server: " + System.Environment.MachineName, "Server Version: " + Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion, ".NET Core Version: " + versions.DOTNETVersion + " / v" + ITVisions.CLRInfo.GetCoreClrVersion_WindowsOnly(), "OS Version: " + versions.OSVersion.Trim(), "Database Status: " + DbStatus, "Database Name: " + DbName, "Database Version: " + DbVersion, clientCount + " Clients", userCount + " Users", taskCount + " Tasks", logCount + " Log Entries", t.ElapsedMilliseconds + "ms"
   };
   }
  }
