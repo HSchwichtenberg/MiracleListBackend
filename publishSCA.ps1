@@ -1,6 +1,6 @@
 $ErrorActionPreference = "stop"
 $ip = "192.168.1.191"
-$no = 8
+$no = 10
 $Ziel = "\\$ip\Doc\" # !!! Vorher authentifizieren
 
 if (-not (test-path $ziel)) { Write-Warning "Ziel nicht gefunden!" ; return }
