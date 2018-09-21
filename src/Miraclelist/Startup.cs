@@ -29,6 +29,8 @@ namespace Miraclelist
    Console.WriteLine("ApplicationName =" + env.ApplicationName);
    Console.WriteLine("WebRootPath =" + env.WebRootPath);
    Console.WriteLine("ContentRootPath =" + env.ContentRootPath);
+   Console.WriteLine("ApplicationBasePath =" + PlatformServices.Default.Application.ApplicationBasePath);
+   Console.WriteLine("CurrentDirectory =" + System.Environment.CurrentDirectory);
    Console.WriteLine("Production =" + env.IsProduction().ToString());
 
    #region Load configuration
@@ -191,6 +193,7 @@ namespace Miraclelist
 
     // include XML comments in Swagger doc
     var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+    if (String.IsNullOrEmpty(basePath)) basePath = System.Environment.CurrentDirectory;
     var xmlPath = Path.Combine(basePath, "Miraclelist_WebAPI.xml");
     c.IncludeXmlComments(xmlPath);
    });
