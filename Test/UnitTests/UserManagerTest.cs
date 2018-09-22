@@ -26,17 +26,17 @@ namespace UnitTests
   [Trait("Category", "Integration")]
   public void GetLatestUsersTest()
   {
-   Skip.If(Util.GetConnectionString() == "", "Only runs as integration test as the InMem-DB does not support SQL!");
+   Skip.If(DAL.Context.ConnectionString == "", "Only runs as integration test as the InMem-DB does not support SQL!");
    var um = new UserManager("test", true);
    var stat = UserManager.GetLatestUserSet();
    Assert.True(stat.Count > 0);
   }
 
   [SkippableFact]
-  [Trait("Category", "Integration")]
+  //[Trait("Category", "Integration")] // kann seit EFC 2.1 als Unit Test laufen -)
   public void GetUserStatistics()
   {
-   Skip.If(Util.GetConnectionString() == "", "Only runs as integration test as the InMem-DB does not support SQL!");
+   //Skip.If(Util.GetConnectionString() == "", "Only runs as integration test as the InMem-DB does not support SQL!");
    var um = new UserManager("test", true);
    var stat = UserManager.GetUserStatistics();
    Assert.True(stat.Count > 0);
