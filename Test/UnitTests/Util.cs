@@ -2,8 +2,11 @@
 using ITVisions;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace UnitTests
 {
@@ -16,6 +19,8 @@ namespace UnitTests
   /// </summary>
   public static void Init()
   {
+  
+
    lock (ConnectionString)
    {
     if (ConnectionString == "notset")
@@ -34,13 +39,13 @@ namespace UnitTests
       case "InMemory":
       case "InMemoryDB":
        DAL.Context.ConnectionString = "";
-       CUI.PrintSuccess("Connection to InMemoryDB");
+       CUI.PrintSuccess("Connection to InMemoryDB!");
        break;
       default:
        DAL.Context.ConnectionString = ConnectionString;
        // Enable EF Profiler
        HibernatingRhinos.Profiler.Appender.EntityFramework.EntityFrameworkProfiler.Initialize();
-       CUI.PrintSuccess("Connection to " + ConnectionString);
+       CUI.PrintSuccess("Connection to: " + ConnectionString);
        break;
      }
      DAL.Context.IsRuntime = true;
@@ -84,6 +89,19 @@ namespace UnitTests
   /// <returns></returns>
   public static string GetConnectionString()
   {
+
+
+   // Launch Settings werden nicht automatisch in Unit Test-Projekten berücksichtigt :-(
+   // https://stackoverflow.com/questions/43927955/should-getenvironmentvariable-work-in-xunit-test
+   using (var file = File.OpenText("Properties\\launchSettings.json"))
+   {
+    var reader = new JsonTextReader(file);
+    var jObject = JObject.Load(reader);
+    var csLaunchSettings = jObject["profiles"]?["UnitTests"]?["environmentVariables"]["ConnectionStrings:MiracleListDB"]?.Value<string>();
+    if (!String.IsNullOrEmpty(csLaunchSettings))  System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", csLaunchSettings);
+   }
+
+
    // Build configuration sources (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration)
    var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "" } };
    var builder = new ConfigurationBuilder() // NUGET: Microsoft.Extensions.Configuration
@@ -92,8 +110,16 @@ namespace UnitTests
    .AddEnvironmentVariables(); // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables e.g. "ConnectionStrings:MiracleListDB"
    IConfigurationRoot configuration = builder.Build();
    var cs = configuration["ConnectionStrings:MiracleListDB"];
-   Console.WriteLine("ENV Process: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB"));
-   Console.WriteLine("ENV Machine: " + System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine));
+
+ 
+
+   var e1 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Process);
+   var e2 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine);
+  
+   Console.WriteLine("ENV Process: " + e1);
+   Console.WriteLine("ENV Machine: " + e2);
+
+
    return cs;
   }
  }
