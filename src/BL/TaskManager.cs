@@ -194,9 +194,9 @@ namespace BL
   }
 
 
-  public List<User> GetImportantTaskSet()
+  public List<Task> GetImportantTaskSet()
   {
-   var r = ctx.UserSet.FromSql("Select * from [task] where important = 1").OrderByDescending(x => x.Created).Take(10).ToList();
+   var r = ctx.TaskSet.FromSql("Select * from [task] where importance = 1").OrderByDescending(x => x.Created).Take(10).ToList();
 
    return r;
 

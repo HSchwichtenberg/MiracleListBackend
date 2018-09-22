@@ -24,14 +24,14 @@ namespace Miraclelist_WebAPI.Pages
   // this.Message = "Kein Parameter!";
   //}
 
-  public void OnGet(int id)
+  public void OnGet(int? id)
   {
    if (id == null)
    {
     this.Message = "Parameter id= fehlt!";
     return;
    }
-   var um = new UserManager(id);
+   var um = new UserManager(id.Value);
    this.MLUser = um.CurrentUser;
    if (User!= null)    this.Message = "User #" + id + " geladen!";
    else this.Message = "User #" + id + " nicht gefunden!";
