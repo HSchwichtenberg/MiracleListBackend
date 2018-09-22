@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace Miraclelist
 {
@@ -33,7 +34,7 @@ namespace Miraclelist
    CUI.Print("OS: " + versions.OSVersion);
    CUI.Print("Runtime: " + versions.DOTNETVersion);
    CUI.Print("Webframework: ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString());
-  
+
    var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
      .AddCommandLine(args)
      .Build();
@@ -44,19 +45,28 @@ namespace Miraclelist
 
    CUI.Print("HostURL: " + hostUrl);
 
-   var buidler = WebHost.CreateDefaultBuilder(args)
+   var builder = WebHost.CreateDefaultBuilder(args)
     .UseUrls(hostUrl)
     .UseSetting("detailedErrors", "true")
     .UseStartup<Startup>()
     .CaptureStartupErrors(true)
     .Build();
 
-   foreach(var sf in buidler.ServerFeatures)
+   CUI.H2("Server Features:");
+   foreach (var sf in builder.ServerFeatures)
    {
     Console.WriteLine(sf.Key + "=" + sf.Value);
+    if (sf.Value is IServerAddressesFeature)
+    {
+     var saf = sf.Value as IServerAddressesFeature;
+     foreach (var a in saf.Addresses)
+     {
+      Console.WriteLine(a);
+     }
+    }
    }
 
-   buidler.Run();
+   builder.Run();
   }
 
   // old start code for ASP.NET Core 1.x
@@ -74,5 +84,5 @@ namespace Miraclelist
   //}
 
 
-  }
+ }
 }
