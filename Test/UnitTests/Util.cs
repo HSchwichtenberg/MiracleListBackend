@@ -82,23 +82,37 @@ namespace UnitTests
   //  return new DbContextOptionsBuilder<DAL.Context>().UseSqlite(_conn);
   // }
   //}
-  
+
   /// <summary>
   /// Get Connection String from Memory, AppSettings.json or Environment
+  /// Developer PC: will switch Connection String using appsettings.json, can optional use launchsettings.json
+  /// Server Build: will set $ENV:ConnectionStrings:MiracleListDB, which has higher Priority
   /// </summary>
   /// <returns></returns>
   public static string GetConnectionString()
   {
+   System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
+
+   var e1 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Process);
+   var e2 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.User);
+   var e3 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine);
+
+   Console.WriteLine("ENV Process: " + e1);
+   Console.WriteLine("ENV User: " + e2);
+   Console.WriteLine("ENV Machine: " + e3);
 
 
-   // Launch Settings werden nicht automatisch in Unit Test-Projekten berücksichtigt :-(
-   // https://stackoverflow.com/questions/43927955/should-getenvironmentvariable-work-in-xunit-test
-   using (var file = File.OpenText("Properties\\launchSettings.json"))
+   if (String.IsNullOrEmpty(e1))
    {
-    var reader = new JsonTextReader(file);
-    var jObject = JObject.Load(reader);
-    var csLaunchSettings = jObject["profiles"]?["UnitTests"]?["environmentVariables"]["ConnectionStrings:MiracleListDB"]?.Value<string>();
-    if (!String.IsNullOrEmpty(csLaunchSettings))  System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", csLaunchSettings);
+    // Launch Settings werden nicht automatisch in Unit Test-Projekten berücksichtigt :-(
+    // https://stackoverflow.com/questions/43927955/should-getenvironmentvariable-work-in-xunit-test
+    using (var file = File.OpenText("Properties\\launchSettings.json"))
+    {
+     var reader = new JsonTextReader(file);
+     var jObject = JObject.Load(reader);
+     var csLaunchSettings = jObject["profiles"]?["UnitTests"]?["environmentVariables"]["ConnectionStrings:MiracleListDB"]?.Value<string>();
+     if (!String.IsNullOrEmpty(csLaunchSettings)) System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", csLaunchSettings);
+    }
    }
 
 
@@ -112,12 +126,6 @@ namespace UnitTests
    var cs = configuration["ConnectionStrings:MiracleListDB"];
 
  
-
-   var e1 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Process);
-   var e2 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine);
-  
-   Console.WriteLine("ENV Process: " + e1);
-   Console.WriteLine("ENV Machine: " + e2);
 
 
    return cs;
