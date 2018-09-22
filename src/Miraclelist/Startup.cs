@@ -56,7 +56,7 @@ namespace Miraclelist
    }
    else
    {
-    // nothing to co currently
+    // nothing to do currently
    }
 
    // build configuration now

@@ -24,7 +24,7 @@ namespace UnitTests
   [Trait("Category", "Integration")]
   public void GetImportantTaskTest()
   {
-   Skip.IfNot(Util.GetConnectionString() != "", "Only runs as integration test as the InMem-DB does not support SQL!");
+   Skip.If(DAL.Context.ConnectionString == "", "Only runs as integration test as the InMem-DB does not support SQL!");
    var um = new UserManager("test", true);
    var stat = new TaskManager(um.CurrentUser.UserID).GetImportantTaskSet();
    Assert.True(stat.Count > 0);
@@ -58,7 +58,7 @@ namespace UnitTests
   [Trait("Category", "Integration")]
   public void CreateTaskDueInDaysTest()
   {
-   Skip.IfNot(Util.GetConnectionString() != "", "Only runs as integration test as the InMem-DB does not support Default Values and Cumputed Columns!");
+   Skip.If(DAL.Context.ConnectionString == "", "Only runs as integration test as the InMem-DB does not support Default Values and Cumputed Columns!");
 
    var um = new UserManager("CreateTaskTestUser", true);
    um.InitDefaultTasks();

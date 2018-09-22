@@ -268,19 +268,32 @@ namespace BL
   {
    using (var ctx = new Context())
    {
-   // ctx.Log((x) =>
-   //{
-   // System.Diagnostics.Debug.WriteLine(x);
-   // using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
-   // {
-   //  sw.WriteLine(x);
-   // }
+    // ctx.Log((x) =>
+    //{
+    // System.Diagnostics.Debug.WriteLine(x);
+    // using (StreamWriter sw = File.AppendText(@"c:\temp\EFCLog.txt"))
+    // {
+    //  sw.WriteLine(x);
+    // }
 
-   //}
-   // );
+    //}
+    // );
 
+    // wird ab EFC 2.1 korrekt in SQL umgesetzt
 
-    var groups = (from u in ctx.UserSet
+//    SELECT[t].[userID],
+//       [t].[Count],
+//       [u].[UserName]
+//  FROM[User] AS[u]
+//       INNER JOIN(SELECT TOP(10 /* @__p_0 */) [p.Category].[UserID] AS[userID],
+//                                      COUNT(*)              AS[Count]
+//                   FROM[Task] AS[p]
+//                       INNER JOIN[Category] AS[p.Category]
+//                            ON[p].[CategoryID] = [p.Category].[CategoryID]
+//  GROUP BY[p.Category].[UserID]
+//  ORDER BY[Count] DESC) AS[t]
+//ON[u].[UserID] = [t].[userID]
+  var groups = (from u in ctx.UserSet
                   join x in ((from p in ctx.TaskSet
                               group p by p.Category.UserID into g
                               select new { userID = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count).Take(10))
