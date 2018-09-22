@@ -27,6 +27,7 @@ namespace Miraclelist
   {
    CUI.Headline("Startup");
    Console.WriteLine("ApplicationName =" + env.ApplicationName);
+   Console.WriteLine("EnvironmentName =" + env.EnvironmentName);
    Console.WriteLine("WebRootPath =" + env.WebRootPath);
    Console.WriteLine("ContentRootPath =" + env.ContentRootPath);
    Console.WriteLine("ApplicationBasePath =" + PlatformServices.Default.Application.ApplicationBasePath);
