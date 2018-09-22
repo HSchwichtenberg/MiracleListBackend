@@ -21,7 +21,7 @@ namespace UnitTests
    Util.Init();
   }
 
-
+  [Fact]
   public void GetImportantTaskTest()
   {
    var um = new UserManager("test", true);
@@ -117,7 +117,7 @@ subtaskList);
    Assert.Equal(testwert.ToString(), t.Note);
    Assert.True(t.Done);
    Assert.Equal(subTaskCount, t.SubTaskSet.Count);
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.True(st.Title.EndsWith(testwert.ToString())));
+   Assert.All<SubTask>(t.SubTaskSet, st => Assert.EndsWith(st.Title, testwert.ToString()));
    Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
   
 }

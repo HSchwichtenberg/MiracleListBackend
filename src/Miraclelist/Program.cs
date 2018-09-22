@@ -44,12 +44,19 @@ namespace Miraclelist
 
    CUI.Print("HostURL: " + hostUrl);
 
-   WebHost.CreateDefaultBuilder(args)
+   var buidler = WebHost.CreateDefaultBuilder(args)
     .UseUrls(hostUrl)
     .UseSetting("detailedErrors", "true")
     .UseStartup<Startup>()
     .CaptureStartupErrors(true)
-    .Build().Run();
+    .Build();
+
+   foreach(var sf in buidler.ServerFeatures)
+   {
+    Console.WriteLine(sf.Key + "=" + sf.Value);
+   }
+
+   buidler.Run();
   }
 
   // old start code for ASP.NET Core 1.x
