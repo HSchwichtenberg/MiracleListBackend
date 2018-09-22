@@ -7,7 +7,6 @@ using BL;
 using BO;
 using DAL;
 
-
 // XUNIT: https://xunit.github.io/docs/getting-started-dotnet-core.html
 
 namespace UnitTests
@@ -21,9 +20,11 @@ namespace UnitTests
    Util.Init();
   }
 
-  [Fact]
+  [SkippableFact] // NUGET: Xunit.SkippableFact https://github.com/AArnott/Xunit.SkippableFact
+  [Trait("Category", "Integration")]
   public void GetImportantTaskTest()
   {
+   Skip.IfNot(Util.GetConnectionString() != "", "Only runs as integration test as the InMem-DB does not support SQL!");
    var um = new UserManager("test", true);
    var stat = new TaskManager(um.CurrentUser.UserID).GetImportantTaskSet();
    Assert.True(stat.Count > 0);
