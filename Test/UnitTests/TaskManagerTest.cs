@@ -117,7 +117,7 @@ subtaskList);
    Assert.Equal(testwert.ToString(), t.Note);
    Assert.True(t.Done);
    Assert.Equal(subTaskCount, t.SubTaskSet.Count);
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.EndsWith(st.Title, testwert.ToString()));
+   Assert.All<SubTask>(t.SubTaskSet, st => Assert.EndsWith(testwert.ToString(), st.Title));
    Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
   
 }
@@ -168,6 +168,7 @@ public void ChangeTest(string name)
    Assert.Equal(c.CategoryID, t.CategoryID);
    Assert.Equal(testwert.ToString(), t.Title);
    Assert.Equal(testwert.ToString(), t.Note);
+   Assert.True(t.Done);
    Assert.True(t.Done);
    Assert.Equal(2, t.SubTaskSet.Count);
    Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(testwert.ToString(), st.Title));
