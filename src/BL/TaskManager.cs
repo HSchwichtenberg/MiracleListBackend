@@ -90,7 +90,7 @@ namespace BL
   public Task ChangeTask(int taskID, string title, string note, DateTime due, Importance? importance, bool done, decimal? effort, List<SubTask> subtasks)
   {
    ctx = new Context();
-   ctx.Log();
+   //ctx.Log();
    // Delete subtasks and then create new ones instead of change detection!
    stm.DeleteSubTasks(taskID);
 
