@@ -35,7 +35,7 @@ namespace Miraclelist
    Console.WriteLine("Production =" + env.IsProduction().ToString());
 
    #region Load configuration
-   //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB",))
+   //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
 
    // Get all configuration sources
    // NUGET: Microsoft.Extensions.Configuration.JSON
