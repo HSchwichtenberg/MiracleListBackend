@@ -1,4 +1,4 @@
-﻿## Hallo Holger!
+﻿## Azure-Ressourcen für DevOps-Workshop mit PowerShell anlegen
 
 $ErrorActionPreference = "stoP"
 #Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
@@ -10,39 +10,34 @@ Install-Module -Name AzureRM -AllowClobber
 Import-Module -Name AzureRM
 
 Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path
-Login-AzureRmAccount -
 
+# Anmelden interaktiv!!!
+Login-AzureRmAccount 
 
 # Buchdemo
-
-New-AzureRmWebApp -Name BuchWebsite2 -Location "West Europe" -AppServicePlan BuchDemosFree -ResourceGroupName BuchWebsite
-
+# New-AzureRmWebApp -Name BuchWebsite -Location "West Europe" -AppServicePlan BuchDemosFree -ResourceGroupName BuchWebsite
 
 $webappnames="MLBASTABackend-Produktion","MLBASTABackend-Staging","MLBASTAClient-Produktion","MLBASTAClient-Staging"
-#$webappnames="BASTA3","BASTA4"
 $location="West Europe"
 $RessourceGroup = "DEMO_MiracleList"
 $Serviceplan = "WestEurope-F1Free"
 
-foreach($webappname in $webappnames)
-{
-Write-Host $webappname -ForegroundColor Yellow
-
-# Create a resource group.
+# Optional: Create a resource group.
 #New-AzureRmResourceGroup -Name myResourceGroup -Location $location
 #Remove-AzureRmResourceGroup -Name myResourceGroup 
-
 Get-AzureRmResourceGroup $RessourceGroup
 
-# Create an App Service plan in `Free` tier.
+# Optional: Service Plan anlegen
 #New-AzureRmAppServicePlan -Name $webappname -Location $location -ResourceGroupName myResourceGroup -Tier Free
 $sp = Get-AzureRmAppServicePlan -Name Serviceplan
 
+foreach($webappname in $webappnames)
+{
+Write-Host "Creating $webappname" -ForegroundColor Yellow
 # Create a web app.
 New-AzureRmWebApp -Name $webappname -Location $location -AppServicePlan $sp -ResourceGroupName $RessourceGroup
-
 $wa = Get-AzureRmWebApp -Name $webappname
-if ($wa -eq $null) { return }
+if ($wa -eq $null) { Write-Error "WebApp wurde nicht angelegt!"; return; }
 else { write-host "OK" -ForegroundColor Green }
 }
 
@@ -55,11 +50,11 @@ else { write-host "OK" -ForegroundColor Green }
 $resourcegroupname = "DEMO_MiracleList"
 $location = "WestEurope"
 # The logical server name: Use a random value or replace with your own value (do not capitalize)
-$servername = "bastasqlserver2"
+$servername = "bastasqlserver"
 # Set an admin login and password for your database
 # The login information for the server
-$adminlogin = "ServerAdmin"
-$password = "geheim+123"
+$adminlogin = "MLBASTAAdmin"
+$password = "211e2868-8ad0-4fb1-9d7a-aa94a2e8dc97"
 # The ip address range that you want to allow to access your server - change as appropriate
 $startip = "0.0.0.0"
 $endip = "255.255.255.255"
@@ -76,4 +71,5 @@ New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $serve
 $databasename = "MLBASTADB-Produktion"
 New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  -DatabaseName $databasename   -RequestedServiceObjectiveName "S0"
 
+# Test
 #"BASTA1","BASTA2","BASTA3","BASTA4" | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup }
