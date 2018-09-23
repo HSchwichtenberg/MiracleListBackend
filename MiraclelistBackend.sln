@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
-		azurepowershell.ps1 = azurepowershell.ps1
 		EFTools-Migration.ps1 = EFTools-Migration.ps1
 		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
 		MiracleList-APITests.postman_environment.dev.json = MiracleList-APITests.postman_environment.dev.json
@@ -46,6 +45,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLLs", "DLLs", "{75530CE1-D
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITVRazorClassLibrary", "ITVRazorClassLibrary\ITVRazorClassLibrary.csproj", "{75FF2D55-9242-4050-B7B2-4AF6176A0339}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Build", "DevOps Build", "{43F60664-E191-4763-A577-16F239C50740}"
+	ProjectSection(SolutionItems) = preProject
+		Build.yaml = Build.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Release", "{CFE4DA07-B777-4A56-B4EF-6A5357250707}"
+	ProjectSection(SolutionItems) = preProject
+		azurepowershell.ps1 = azurepowershell.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +150,8 @@ Global
 		{A7C6B6F9-285A-4902-B313-753BD7C71CF1} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
 		{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
+		{43F60664-E191-4763-A577-16F239C50740} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
+		{CFE4DA07-B777-4A56-B4EF-6A5357250707} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
