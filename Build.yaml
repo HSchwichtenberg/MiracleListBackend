@@ -1,0 +1,133 @@
+resources:
+- repo: self
+queue:
+  name: Default
+#Your build pipeline references an undefined variable named ‘Parameters.RestoreBuildProjects’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘Parameters.RestoreBuildProjects’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references an undefined variable named ‘Parameters.TestProjects’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+
+    projects: '$(Parameters.RestoreBuildProjects)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(Parameters.RestoreBuildProjects)'
+
+    arguments: '--configuration $(BuildConfiguration)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Unit Tests'
+  inputs:
+    command: test
+
+    projects: '$(Parameters.TestProjects)'
+
+    arguments: '--configuration $(BuildConfiguration) --filter Category!=Integration'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Web Project'
+  inputs:
+    command: publish
+
+    publishWebProjects: True
+
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+
+    zipAfterPublish: True
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact Web project'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish EFCTools'
+  inputs:
+    command: publish
+
+    publishWebProjects: false
+
+    projects: src/EFCTools/EFCTools.csproj
+
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/EFCTools'
+
+    zipAfterPublish: false
+
+    modifyOutputPath: false
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact EFCTools'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/EFCTools'
+
+    ArtifactName: EFCTools
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish UnitTests'
+  inputs:
+    command: publish
+
+    publishWebProjects: false
+
+    projects: Test/UnitTests/UnitTests.csproj
+
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/UnitTests'
+
+    zipAfterPublish: false
+
+    modifyOutputPath: false
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: UnitTests'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/UnitTests'
+
+    ArtifactName: UnitTests
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Postman Tests to: $(build.artifactstagingdirectory)/PostmanTests'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+
+    Contents: |
+     MiracleList-APITests.postman_collection.json
+     MiracleList-APITests.postman_environment.json
+
+    TargetFolder: '$(build.artifactstagingdirectory)/PostmanTests'
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: PostmanTests'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)/PostmanTests'
+
+    ArtifactName: PostmanTests
+
+
+- task: CmdLine@1
+  displayName: 'Run cmd '
+  inputs:
+    filename: 'cmd '
+
+    arguments: '/c dir'
+
+  enabled: false
