@@ -2,6 +2,7 @@
 using BO;
 using ITVisions;
 using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -38,10 +39,12 @@ namespace Miraclelist.Controllers
   CategoryManager cm;
 
   private IConfigurationRoot Configuration;
+  private IHostingEnvironment Env;
 
-  public MiracleListApiController(IConfigurationRoot configuration)
+  public MiracleListApiController(IConfigurationRoot configuration, IHostingEnvironment env)
   {
    this.Configuration = configuration;
+   this.Env = env;
   }
 
   /// <summary>
@@ -101,6 +104,8 @@ namespace Miraclelist.Controllers
    var s = new AppManager().GetAppInfo();
    s = s.Append("API-Version: v2");
    s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
+   s = s.Append("Environment: " + this.Env.EnvironmentName);
+   s = s.Append("ApplicationName: " + this.Env.ApplicationName);
    return s;
   }
 

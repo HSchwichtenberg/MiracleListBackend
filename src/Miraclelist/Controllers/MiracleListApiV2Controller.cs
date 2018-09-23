@@ -3,6 +3,7 @@ using BO;
 using ITVisions;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -26,11 +27,14 @@ namespace Miraclelist.Controllers
   CategoryManager cm;
 
   private IConfigurationRoot Configuration;
+  private IHostingEnvironment Env;
 
-  public MiracleListApiV2Controller(IConfigurationRoot configuration)
+  public MiracleListApiV2Controller(IConfigurationRoot configuration, IHostingEnvironment env)
   {
    this.Configuration = configuration;
+   this.Env = env;
   }
+
 
   /// <summary>
   /// Hilfsroutine für alle Actions mit auth
@@ -99,7 +103,7 @@ namespace Miraclelist.Controllers
   public async System.Threading.Tasks.Task<LoginInfo> Login([FromBody] LoginInfo loginInfo)
   {
 
-   return await new MiracleListApiController(this.Configuration).Login(loginInfo);
+   return await new MiracleListApiController(this.Configuration, this.Env).Login(loginInfo);
 
   }
 
