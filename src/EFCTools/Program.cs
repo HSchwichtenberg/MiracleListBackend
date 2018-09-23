@@ -22,12 +22,13 @@ namespace EFTools
 
    // Wenn es einen Eintrag in mehr als einer Datei gibt, gewinnt der zuletzt hinzugefügte Eintrag
 
-   var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "Data Source=D120;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" } };
+   var dic = new Dictionary<string, string> { { "ConnectionStrings:MiracleListDB", "Data Source=.;Initial Catalog=MiracleList_Test;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" } };
 
    var builder = new ConfigurationBuilder(); // NUGET: Microsoft.Extensions.Configuration
 
-   // this check is necessary, because AddEnvironmentVariables() ohne loads process env variablens https://github.com/aspnet/Configuration/issues/721
+   // this check is necessary, because AddEnvironmentVariables() only loads process env variables https://github.com/aspnet/Configuration/issues/721
    var env_user = Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.User);
+
    if (!String.IsNullOrEmpty(env_user))
    { // user-Einstellung kann nur durch prozess-Einstellung überschrieben werden!
     dic["ConnectionStrings:MiracleListDB"] = env_user;
@@ -37,11 +38,10 @@ namespace EFTools
    else
    {
     builder
-  .AddInMemoryCollection(dic)
-  .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
-  .AddEnvironmentVariables(); // lädt nur Prozessvariablen! // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
+    .AddInMemoryCollection(dic)
+    .AddJsonFile("appsettings.json") // NUGET: Microsoft.Extensions.Configuration.Json
+    .AddEnvironmentVariables(); // lädt nur Prozessvariablen! // NUGET: Microsoft.Extensions.Configuration.EnvironmentVariables
    }
-
 
    IConfigurationRoot configuration = builder.Build();
 
@@ -55,8 +55,8 @@ namespace EFTools
 
    Context.ConnectionString = GetConnectionString();
    var ctx = new Context();
-   PrintInfo("Database:" + ctx.Database.ProviderName);
-   PrintInfo("Connection String:" + Context.ConnectionString);
+   PrintInfo("Database: " + ctx.Database.ProviderName);
+   PrintInfo("Connection String: " + Context.ConnectionString);
 
    if (String.IsNullOrEmpty(Context.ConnectionString))
    {

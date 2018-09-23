@@ -45,7 +45,7 @@ namespace Miraclelist
        .AddInMemoryCollection()
        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-       .AddEnvironmentVariables();
+       .AddEnvironmentVariables(); // only loads process env variables https://github.com/aspnet/Configuration/issues/721
 
    if (env.IsEnvironment("Development"))
    {
