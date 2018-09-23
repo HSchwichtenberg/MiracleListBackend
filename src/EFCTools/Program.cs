@@ -88,9 +88,7 @@ namespace EFTools
    CUI.PrintSuccess("DONE!");
    System.Environment.Exit(0);
    //Console.ReadLine();
-
   }
-
 
   private static void Recreate()
   {
@@ -105,7 +103,6 @@ namespace EFTools
       Console.WriteLine("Deleting database...");
       ctx.Database.EnsureDeleted();
       Console.WriteLine("OK!");
-
      }
     }
 
@@ -121,21 +118,16 @@ namespace EFTools
     PrintError("Recreate Error", ex);
     System.Environment.Exit(2);
    }
-
   }
-
 
   private static void Migrate()
   {
    CUI.H1("Migrate Database...");
-
    try
    {
     var ctx = new Context();
-
     PrintMigrationStatus(ctx);
     ctx.Database.Migrate();
-
    }
    catch (Exception ex)
    {
@@ -143,7 +135,6 @@ namespace EFTools
     System.Environment.Exit(2);
    }
   }
-
 
   private static void PrintMigrationStatus(DbContext ctx)
   {
