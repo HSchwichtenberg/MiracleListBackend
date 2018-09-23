@@ -41,7 +41,7 @@ namespace Miraclelist_WebAPI.Pages
   #endregion
 
   #region Properties für Zwei-Wege-Bindung
-  [BindProperty]  // [Required]
+  [BindProperty] [Required]
   public string Name { get; set; }
   [BindProperty]
   public string Firma { get; set; }
@@ -53,17 +53,18 @@ namespace Miraclelist_WebAPI.Pages
   public string ClientArt { get; set; }
   #endregion
 
-  #region Properties für Datenübergabe an Folgeseite
+  #region Properties für Datenübergabe an Folgeseite mit [TempData]
   //[TempData]// kann nicht gleichzeitig [BindProperty] sein
   // System.InvalidOperationException: The 'Miraclelist_WebAPI.Pages.ClientIDModel.ClientIDModelResult' property with TempDataAttribute is invalid. A property using TempDataAttribute must be of primitive or string type.
   //public ClientIDModelResult ClientIDModelResult { get; set; }
 
   [TempData]
+  public string ClientIDModel_Result { get; set; } // Name and EMail can be serialized here in one JSON string
+  // Alternative: One string per Input Box
+  [TempData]
   public string ClientIDModel_EMail { get; set; }
   [TempData]
   public string ClientIDModel_Name { get; set; }
-  [TempData]
-  public string ClientIDModel_Result { get; set; } // Name and EMail will be serialized here
   #endregion
 
   //public ClientIDModel()
@@ -79,7 +80,6 @@ namespace Miraclelist_WebAPI.Pages
   {
    this.env = env;
   }
-
 
   public void OnGet()
   {
@@ -103,9 +103,9 @@ namespace Miraclelist_WebAPI.Pages
    {
     if (env.IsDevelopment())
     {
-     //this.EMail = "test@abc.de";
-     //this.Name = "Test";
-     //this.Firma = "Test";
+     this.EMail = "test@abc.de";
+     this.Name = "Test";
+     this.Firma = "Test";
     }
    }
   }
@@ -128,7 +128,7 @@ namespace Miraclelist_WebAPI.Pages
    #region Validierung
 
    // [Required] wirkt nicht (vgl. https://docs.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-2.1&tabs=visual-studio#mark-page-properties-required), auch nicht mit TryValidateModel(this);
-   //if (!ModelState.IsValid) return Page();
+   //daher hilft das nicht: if (!ModelState.IsValid) return Page();
 
    if (string.IsNullOrEmpty(Name)) this.ModelState.AddModelError(nameof(Name), "Name darf nicht leer sein!");
    if (string.IsNullOrEmpty(Firma)) this.ModelState.AddModelError(nameof(Firma), "Firma darf nicht leer sein!");
@@ -185,9 +185,9 @@ namespace Miraclelist_WebAPI.Pages
 
    #endregion
 
-   // Übergabewerte setzen
+   // Übergabewerte einzeln setzen
    // this.ClientIDModel_EMail = this.EMail;
-   //this.ClientIDModel_Name = this.Name;
+   // this.ClientIDModel_Name = this.Name;
 
    // oder serialisieren:
    var result = new ClientIDModelResult() { Name = this.Name, EMail = this.EMail };
@@ -195,7 +195,6 @@ namespace Miraclelist_WebAPI.Pages
 
    // Folgeseite aufrufen
    return RedirectToPage("./" + nameof(ClientIDConfirmationModel).Replace("Model",""));
-
   }
 
 
