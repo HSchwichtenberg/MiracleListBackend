@@ -99,10 +99,3 @@
  </form>
  <hr />
  Seite erstellt mit ASP.NET Core v@(typeof(Microsoft.AspNetCore.WebHost).Assembly.GetName().Version.ToString()) Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.
-
- @{  int i = 0;}
- <ul>
-  <repeater count="@Model.Aufrufe-1">
-   <li>@(++i). Aufruf</li>
-  </repeater>
- </ul>
