@@ -1,26 +1,26 @@
 ﻿## Azure-Ressourcen für DevOps-Workshop mit PowerShell anlegen
 
 $ErrorActionPreference = "stoP"
+
+
+#region Installation
 #Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
-
 Install-Module PowerShellGet -Force # geht nur als Admin!
-
-Install-Module -Name AzureRM -AllowClobber
-
-Import-Module -Name AzureRM
-
-Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path
+Install-Module -Name AzureRM -force -AllowClobber
+Import-Module -Name AzureRM 
+Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | ft
+#endregion
 
 # Anmelden interaktiv!!!
 Login-AzureRmAccount 
 
-# Buchdemo
-# New-AzureRmWebApp -Name BuchWebsite -Location "West Europe" -AppServicePlan BuchDemosFree -ResourceGroupName BuchWebsite
-
-$webappnames="MLBASTABackend-Produktion","MLBASTABackend-Staging","MLBASTAClient-Produktion","MLBASTAClient-Staging"
-$location="West Europe"
+# Wichtige Festlegungen
 $RessourceGroup = "DEMO_MiracleList"
 $Serviceplan = "WestEurope-F1Free"
+$location="West Europe"
+
+#region Websites
+$webappnames="MLBASTABackend-Produktion","MLBASTABackend-Staging","MLBASTAClient-Produktion","MLBASTAClient-Staging"
 
 # Optional: Create a resource group.
 #New-AzureRmResourceGroup -Name myResourceGroup -Location $location
@@ -31,6 +31,7 @@ Get-AzureRmResourceGroup $RessourceGroup
 #New-AzureRmAppServicePlan -Name $webappname -Location $location -ResourceGroupName myResourceGroup -Tier Free
 $sp = Get-AzureRmAppServicePlan -Name Serviceplan
 
+
 foreach($webappname in $webappnames)
 {
 Write-Host "Creating $webappname" -ForegroundColor Yellow
@@ -40,12 +41,16 @@ $wa = Get-AzureRmWebApp -Name $webappname
 if ($wa -eq $null) { Write-Error "WebApp wurde nicht angelegt!"; return; }
 else { write-host "OK" -ForegroundColor Green }
 }
+# Kontrolle:
+Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*basta*" | ft
 
 # Get publishing profile for the web app
 #$xml = (Get-AzureRmWebAppPublishingProfile -Name $webappname `
 #-ResourceGroupName DEMO_MiracleList `
 #-OutputFile null)
+#endregion
 
+#region SQL Server
 # The data center and resource name for your resources
 $resourcegroupname = "DEMO_MiracleList"
 $location = "WestEurope"
@@ -71,5 +76,12 @@ New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $serve
 $databasename = "MLBASTADB-Produktion"
 New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  -DatabaseName $databasename   -RequestedServiceObjectiveName "S0"
 
-# Test
-#"BASTA1","BASTA2","BASTA3","BASTA4" | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup }
+# Kontrolle
+Get-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  | ft
+
+#endregion
+
+#region Alles wieder löschen (mit Nachfrage!)
+#$webappnames | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup }
+#Remove-AzureRmSqlServer -ResourceGroupName $resourcegroupname -ServerName $servername 
+#endregion
