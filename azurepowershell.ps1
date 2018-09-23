@@ -3,7 +3,7 @@
 $ErrorActionPreference = "stoP"
 #Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
 
-Install-Module PowerShellGet -Force
+Install-Module PowerShellGet -Force # geht nur als Admin!
 
 Install-Module -Name AzureRM -AllowClobber
 
