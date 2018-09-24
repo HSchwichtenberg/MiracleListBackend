@@ -52,6 +52,7 @@ namespace EFTools
 
    Context.ConnectionString = GetConnectionString();
    var ctx = new Context();
+   PrintInfo("Args: " + String.Join(" ", args));
    PrintInfo("Database: " + ctx.Database.ProviderName);
    PrintInfo("Connection String: " + Context.ConnectionString);
 
@@ -72,9 +73,9 @@ namespace EFTools
     args[i] = args[i].ToLower().Replace("-", "").Replace("/", "");
    }
 
-   if (args.Contains("recreate")) Recreate();
-   if (args.Contains("migrate")) Migrate();
-   if (args.Contains("createtestuser")) CreateTestUser();
+   if (args.Contains("recreate")) Recreate(args.Contains("whatif"));
+   if (args.Contains("migrate")) Migrate(args.Contains("whatif"));
+   if (args.Contains("createtestuser")) CreateTestUser(args.Contains("whatif"));
 
 
    //var ctx = new Context();
@@ -87,7 +88,7 @@ namespace EFTools
    //Console.ReadLine();
   }
 
-  private static void Recreate()
+  private static void Recreate(bool whatif = false)
   {
    CUI.H1("(Re-)Creating Database...");
    try
@@ -98,7 +99,7 @@ namespace EFTools
      if ((ctx.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
      {
       Console.WriteLine("Deleting database...");
-      ctx.Database.EnsureDeleted();
+   if (!whatif)   ctx.Database.EnsureDeleted();
       Console.WriteLine("OK!");
      }
     }
@@ -106,7 +107,7 @@ namespace EFTools
     using (var ctx = new Context())
     {
      Console.WriteLine("Creating database...");
-     ctx.Database.EnsureCreated();
+     if (!whatif) ctx.Database.EnsureCreated();
      Console.WriteLine("OK!");
     }
    }
@@ -117,14 +118,14 @@ namespace EFTools
    }
   }
 
-  private static void Migrate()
+  private static void Migrate(bool whatif = false)
   {
    CUI.H1("Migrate Database...");
    try
    {
     var ctx = new Context();
     PrintMigrationStatus(ctx);
-    ctx.Database.Migrate();
+    if (!whatif) ctx.Database.Migrate();
    }
    catch (Exception ex)
    {
@@ -153,7 +154,7 @@ namespace EFTools
    }
 
   }
-  private static void CreateTestUser()
+  private static void CreateTestUser(bool whatif = false)
   {
    CUI.H1("Creating test users...");
 
@@ -175,7 +176,7 @@ namespace EFTools
      c.Created = DateTime.Now;
      c.ClientID = guid;
      c.Type = "Test";
-     clm.New(c);
+     if (!whatif) clm.New(c);
      CUI.PrintSuccess($"Client {guid} angelegt!");
     }
     else
@@ -184,7 +185,7 @@ namespace EFTools
     }
 
     var um = new BL.UserManager("test", "test", "test");
-    um.InitDefaultTasks();
+    if (!whatif) um.InitDefaultTasks();
 
     var cm = new BL.CategoryManager(um.CurrentUser.UserID);
     var cs = cm.GetCategorySet();
@@ -197,7 +198,7 @@ namespace EFTools
     }
 
     var um2 = new BL.UserManager("unittest", "unittest");
-    um2.InitDefaultTasks();
+  if (!whatif)  um2.InitDefaultTasks();
    }
    catch (Exception ex)
    {
