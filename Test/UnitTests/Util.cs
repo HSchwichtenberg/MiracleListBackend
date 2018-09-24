@@ -91,8 +91,6 @@ namespace UnitTests
   /// <returns></returns>
   public static string GetConnectionString()
   {
-   System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
-
    var e1 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Process);
    var e2 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.User);
    var e3 = System.Environment.GetEnvironmentVariable("ConnectionStrings:MiracleListDB", EnvironmentVariableTarget.Machine);
