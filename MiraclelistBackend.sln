@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{53D1E79B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITVTagHelper", "..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj", "{A7C6B6F9-285A-4902-B313-753BD7C71CF1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DLLs", "DLLs", "{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LIBs", "LIBs", "{75530CE1-DE0B-4FD6-BAF8-8DA4A88C9316}"
 	ProjectSection(SolutionItems) = preProject
 		Lib\HibernatingRhinos.Profiler.Appender.dll = Lib\HibernatingRhinos.Profiler.Appender.dll
 		Lib\ITV.AppUtil.NETStandard.dll = Lib\ITV.AppUtil.NETStandard.dll
