@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-using BL;
+﻿using BL;
 using BO;
-using DAL;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using System;
+using Xunit;
 
 
 // XUNIT: https://xunit.github.io/docs/getting-started-dotnet-core.html
@@ -40,7 +34,6 @@ namespace UnitTests
    var um = new UserManager("test", true);
    var stat = UserManager.GetUserStatistics();
    Assert.True(stat.Count > 0);
-
   }
 
   [Fact]
