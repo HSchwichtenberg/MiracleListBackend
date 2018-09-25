@@ -11,7 +11,6 @@ using DAL;
 
 namespace UnitTests
 {
-
  public class TaskManagerTest
  {
 
