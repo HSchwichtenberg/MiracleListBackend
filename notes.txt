@@ -15,7 +15,7 @@ http://localhost:8887/index.html
 
 Web
 -----------------------------------------------
-URL:
+URLs zu den Live-Systemen:
 http://miraclelist.azurewebsites.net
 http://miraclelistbackend.azurewebsites.net
 

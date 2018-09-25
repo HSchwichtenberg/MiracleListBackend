@@ -7,15 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
-		EFTools-Migration.ps1 = EFTools-Migration.ps1
-		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
-		MiracleList-APITests.postman_environment.dev.json = MiracleList-APITests.postman_environment.dev.json
-		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
 		notes.txt = notes.txt
-		Postman-Test.ps1 = Postman-Test.ps1
 		publishSCA.ps1 = publishSCA.ps1
 		Rules.ruleset = Rules.ruleset
-		run-xunittests.ps1 = run-xunittests.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3BC09110-05BA-4363-9A18-07035088B538}"
@@ -49,11 +43,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Build", "DevOps Build", "{43F60664-E191-4763-A577-16F239C50740}"
 	ProjectSection(SolutionItems) = preProject
 		Build.yaml = Build.yaml
+		run-xunittests.ps1 = run-xunittests.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Release", "{CFE4DA07-B777-4A56-B4EF-6A5357250707}"
 	ProjectSection(SolutionItems) = preProject
 		azurepowershell.ps1 = azurepowershell.ps1
+		EFTools-Migration.ps1 = EFTools-Migration.ps1
+		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
+		MiracleList-APITests.postman_environment.dev.json = MiracleList-APITests.postman_environment.dev.json
+		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
+		Postman-Test.ps1 = Postman-Test.ps1
 	EndProjectSection
 EndProject
 Global
