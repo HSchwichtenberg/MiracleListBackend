@@ -48,6 +48,7 @@ namespace Miraclelist_WebAPI.Pages
       foreach (var col in DAL.Context.AdditionalColumnSet.Where(x => x.StartsWith("BO.User")))
       {
        string columnname = col.Split(';')[1];
+       // access shadow properties using ctx.Entry()
        row[columnname] = ctx.Entry(u).Property(columnname).CurrentValue;
       }
      }
