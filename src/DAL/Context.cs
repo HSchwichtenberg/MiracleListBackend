@@ -87,7 +87,6 @@ namespace DAL
    }
   }
 
-
   public static bool IsRuntime { get; set; } = false;
 
   protected override void OnModelCreating(ModelBuilder builder)
@@ -126,9 +125,12 @@ namespace DAL
    }
    #endregion
 
-   #region Mass configuration via model class
+   #region Mass configuration via model class (--> Custom Convention)
    foreach (IMutableEntityType entity in builder.Model.GetEntityTypes())
    {
+    // EFC Standard is to use the DbSet property name as table name
+    // e.g. class "Task" --> table "TaskSet"
+    // this code will change this convention
     // all table names = class names (as with EF 6.x), 
     // except the classes that have [Table] annotation
     var annotation = entity.ClrType.GetCustomAttribute<TableAttribute>();
