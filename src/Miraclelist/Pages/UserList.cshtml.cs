@@ -36,7 +36,6 @@ namespace Miraclelist_WebAPI.Pages
    {
     var UserList = ctx.UserSet.Include(x => x.CategorySet).ToList();
 
-
     foreach (var u in UserList)
     {
      var row = UserDT.NewRow();
