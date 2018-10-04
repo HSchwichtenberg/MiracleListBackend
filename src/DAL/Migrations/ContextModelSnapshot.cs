@@ -15,15 +15,13 @@ namespace DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BO.Category", b =>
                 {
                     b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Created");
 
@@ -72,8 +70,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("BO.Log", b =>
                 {
                     b.Property<int>("LogID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Client")
                         .HasMaxLength(15);
@@ -104,8 +101,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("BO.SubTask", b =>
                 {
                     b.Property<int>("SubTaskID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Created");
 
@@ -126,8 +122,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("BO.Task", b =>
                 {
                     b.Property<int>("TaskID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategoryID");
 
@@ -172,8 +167,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("BO.User", b =>
                 {
                     b.Property<int>("UserID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("ClientID");
 
@@ -189,9 +183,6 @@ namespace DAL.Migrations
                     b.Property<string>("Memo");
 
                     b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PlanetUID")
-                        .HasMaxLength(2000);
 
                     b.Property<byte[]>("Salt");
 
