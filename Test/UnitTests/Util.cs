@@ -1,6 +1,7 @@
 ﻿using BL;
 using ITVisions;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,20 +20,20 @@ namespace UnitTests
   /// </summary>
   public static void Init()
   {
-  
 
    lock (ConnectionString)
    {
-    if (ConnectionString == "notset")
+    if (ConnectionString == "notset" && DAL.Context.Connection == null)
     {
      ConnectionString = Util.GetConnectionString();
      switch (ConnectionString)
      {
-      case "SQLite":
-       DAL.Context.Connection = Util.SQLiteInMemoryConnection;
+      case "SQLiteInMemory":
+       SetSQLLiteInMemoryConnection();
+
        CUI.PrintSuccess("Connection to SQLite InMemory");
        break;
-       // as "" will not be working with Environment Variables, we must offer other options here as well
+      // as "" will not be working with Environment Variables, we must offer other options here as well
       case "":
       case "-":
       case "InMem":
@@ -55,24 +56,34 @@ namespace UnitTests
     }
    }
 
-    //var serviceProvider = new ServiceCollection()
-    //      .AddDbContext<DAL.Context>(opt=>opt.UseSqlite(Util.conn));
-   }
+   //var serviceProvider = new ServiceCollection()
+   //      .AddDbContext<DAL.Context>(opt=>opt.UseSqlite(Util.conn));
+  }
 
   public static string ConnectionString = "notset";
 
-   public static SqliteConnection _SQLiteInMemoryConnection;
-  public static SqliteConnection SQLiteInMemoryConnection {  get
+  public static SqliteConnection _SQLiteInMemoryConnection;
+
+  public static void SetSQLLiteInMemoryConnection(bool force = false)
+  {
+   if (_SQLiteInMemoryConnection == null || force)
    {
-    if (_SQLiteInMemoryConnection == null)
+    _SQLiteInMemoryConnection = new SqliteConnection("DataSource=:memory:");
+    _SQLiteInMemoryConnection.Open();
+    DAL.Context.Connection = _SQLiteInMemoryConnection;
+    using (var ctx = new DAL.Context())
     {
-     _SQLiteInMemoryConnection = new SqliteConnection("DataSource=:memory:");
-     _SQLiteInMemoryConnection.Open();
-     var ctx = new DAL.Context();
      ctx.Database.EnsureCreated();
     }
-    return _SQLiteInMemoryConnection; 
    }
+   // alt:
+   //var options = new DbContextOptionsBuilder<DAL.Context>()
+   //    .UseSqlite(_SQLiteInMemoryConnection)
+   //    .Options;
+   //using (var ctx = new DAL.Context(options))
+   //{
+   // ctx.Database.EnsureCreated();
+   //}
   }
 
   //public static DbContextOptionsBuilder<DAL.Context> builder
@@ -123,7 +134,7 @@ namespace UnitTests
    IConfigurationRoot configuration = builder.Build();
    var cs = configuration["ConnectionStrings:MiracleListDB"];
 
- 
+
 
 
    return cs;

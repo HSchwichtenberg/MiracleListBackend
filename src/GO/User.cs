@@ -24,8 +24,6 @@ namespace BO
   [StringLength(2)]
   public string Language { get; set; }
 
-  [StringLength(2000)]
-  public string PlanetUID { get; set; }
 
   // -------------- Navigation Properties
   public List<Category> CategorySet { get; set; }
