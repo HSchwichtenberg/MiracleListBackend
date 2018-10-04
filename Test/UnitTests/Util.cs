@@ -75,15 +75,17 @@ namespace UnitTests
     {
      ctx.Database.EnsureCreated();
     }
+    // alternative:
+    //var options = new DbContextOptionsBuilder<DAL.Context>()
+    //    .UseSqlite(_SQLiteInMemoryConnection)
+    //    .Options;
+    //using (var ctx = new DAL.Context(options))
+    //{
+    // ctx.Database.EnsureCreated();
+    //}
+
    }
-   // alt:
-   //var options = new DbContextOptionsBuilder<DAL.Context>()
-   //    .UseSqlite(_SQLiteInMemoryConnection)
-   //    .Options;
-   //using (var ctx = new DAL.Context(options))
-   //{
-   // ctx.Database.EnsureCreated();
-   //}
+
   }
 
   //public static DbContextOptionsBuilder<DAL.Context> builder
