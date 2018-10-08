@@ -113,18 +113,18 @@ namespace UnitTests
    Console.WriteLine("ENV Machine: " + e3);
 
 
-   if (String.IsNullOrEmpty(e1))
-   {
-    // Launch Settings werden nicht automatisch in Unit Test-Projekten berücksichtigt :-(
-    // https://stackoverflow.com/questions/43927955/should-getenvironmentvariable-work-in-xunit-test
-    using (var file = File.OpenText("Properties\\launchSettings.json"))
-    {
-     var reader = new JsonTextReader(file);
-     var jObject = JObject.Load(reader);
-     var csLaunchSettings = jObject["profiles"]?["UnitTests"]?["environmentVariables"]["ConnectionStrings:MiracleListDB"]?.Value<string>();
-     if (!String.IsNullOrEmpty(csLaunchSettings)) System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", csLaunchSettings);
-    }
-   }
+   //if (String.IsNullOrEmpty(e1))
+   //{
+   // // Launch Settings werden nicht automatisch in Unit Test-Projekten berücksichtigt :-(
+   // // https://stackoverflow.com/questions/43927955/should-getenvironmentvariable-work-in-xunit-test
+   // using (var file = File.OpenText("Properties\\launchSettings.json"))
+   // {
+   //  var reader = new JsonTextReader(file);
+   //  var jObject = JObject.Load(reader);
+   //  var csLaunchSettings = jObject["profiles"]?["UnitTests"]?["environmentVariables"]["ConnectionStrings:MiracleListDB"]?.Value<string>();
+   //  if (!String.IsNullOrEmpty(csLaunchSettings)) System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", csLaunchSettings);
+   // }
+   //}
 
 
    // Build configuration sources (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?tabs=basicconfiguration)
