@@ -64,16 +64,13 @@ namespace UnitTests
    var tm = new TaskManager(um.CurrentUser.UserID);
    var cm = new CategoryManager(um.CurrentUser.UserID);
    var t = new BO.Task();
-   //t.Title not set --> title will be set to default title 
-
    t.CategoryID = cm.GetCategorySet().ElementAt(0).CategoryID;
-   t.Due = DateTime.Now.AddDays(3);
+   t.Due = DateTime.Now.AddDays(3).AddHours(-2);
    tm.CreateTask(t);
    Assert.True(t.TaskID > 0);
  
    Assert.Equal(BO.Task.DefaultTitle, t.Title); // Default Value Test: not supported in InMem-DB
    Assert.Equal(3, t.DueInDays);// Computed Column Test: not supported in InMem-DB
-
   }
 
   /// <summary>
