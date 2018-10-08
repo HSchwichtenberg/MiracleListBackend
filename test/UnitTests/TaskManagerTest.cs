@@ -65,7 +65,7 @@ namespace UnitTests
    var cm = new CategoryManager(um.CurrentUser.UserID);
    var t = new BO.Task();
    t.CategoryID = cm.GetCategorySet().ElementAt(0).CategoryID;
-   t.Due = DateTime.Now.AddDays(3);
+   t.Due = DateTime.Now.AddDays(3).AddHours(-2);
    tm.CreateTask(t);
    Assert.True(t.TaskID > 0);
  
