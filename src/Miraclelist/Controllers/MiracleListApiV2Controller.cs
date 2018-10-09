@@ -58,6 +58,9 @@ namespace Miraclelist.Controllers
   {
    var s = new AppManager().GetAppInfo();
    s = s.Append("API-Version: v2");
+   s = s.Append("ApplicationName: " + this.Env.ApplicationName);
+   s = s.Append("Application Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+   s = s.Append("Environment: " + this.Env.EnvironmentName);
    s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
    return s;
   }
