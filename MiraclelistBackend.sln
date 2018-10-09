@@ -42,18 +42,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITVRazorClassLibrary", "ITV
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Build", "DevOps Build", "{43F60664-E191-4763-A577-16F239C50740}"
 	ProjectSection(SolutionItems) = preProject
-		Build.yaml = Build.yaml
+		DevOps_Build\Build.yaml = DevOps_Build\Build.yaml
+		DevOps_Build\MiracleListBackend-CI.json = DevOps_Build\MiracleListBackend-CI.json
+		DevOps_Build\MiracleListClient-CI.json = DevOps_Build\MiracleListClient-CI.json
 		run-xunittests.ps1 = run-xunittests.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Release", "{CFE4DA07-B777-4A56-B4EF-6A5357250707}"
 	ProjectSection(SolutionItems) = preProject
-		azurepowershell.ps1 = azurepowershell.ps1
-		EFTools-Migration.ps1 = EFTools-Migration.ps1
-		MiracleList-APITests.postman_collection.json = MiracleList-APITests.postman_collection.json
-		MiracleList-APITests.postman_environment.dev.json = MiracleList-APITests.postman_environment.dev.json
+		DevOps_Release\CreateAzureRessources.ps1 = DevOps_Release\CreateAzureRessources.ps1
+		DevOps_Release\EFTools-Migration.ps1 = DevOps_Release\EFTools-Migration.ps1
+		DevOps_Release\MiracleList-APITests.postman_collection.json = DevOps_Release\MiracleList-APITests.postman_collection.json
+		DevOps_Release\MiracleList-APITests.postman_environment.dev.json = DevOps_Release\MiracleList-APITests.postman_environment.dev.json
 		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
-		Postman-Test.ps1 = Postman-Test.ps1
+		DevOps_Release\MiracleList_DEV.postman_collection.json = DevOps_Release\MiracleList_DEV.postman_collection.json
+		DevOps_Release\Postman-Test.ps1 = DevOps_Release\Postman-Test.ps1
 	EndProjectSection
 EndProject
 Global
