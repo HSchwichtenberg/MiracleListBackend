@@ -1,10 +1,10 @@
-﻿## Azure-Ressourcen für DevOps-Workshop mit PowerShell anlegen
+﻿# Azure-Ressourcen für Release-Pipeline mit PowerShell anlegen
+# (C) Dr. Holger Schwichtenberg 2018
 
-$ErrorActionPreference = "stoP"
-
+$ErrorActionPreference = "stop"
 
 #region Installation
-#Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
+Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
 Install-Module PowerShellGet -Force # geht nur als Admin!
 Install-Module -Name AzureRM -force -AllowClobber
 Import-Module -Name AzureRM 
@@ -15,34 +15,41 @@ Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | 
 Login-AzureRmAccount 
 
 # Wichtige Festlegungen
+$prefix = "HD-"
 $RessourceGroup = "DEMO_MiracleList"
-$Serviceplan = "WestEurope-F1Free"
+$Serviceplan = "DEMOMiracleListFREE"
 $location="West Europe"
 
-#region Websites
-$webappnames="MLBASTABackend-Produktion","MLBASTABackend-Staging","MLBASTAClient-Produktion","MLBASTAClient-Staging"
-
+#region Ressourcen prüfen
 # Optional: Create a resource group.
 #New-AzureRmResourceGroup -Name myResourceGroup -Location $location
 #Remove-AzureRmResourceGroup -Name myResourceGroup 
-Get-AzureRmResourceGroup $RessourceGroup
-
+$rg = Get-AzureRmResourceGroup $RessourceGroup
+if (-not $sp) { Write-Error "SResourceGroupnicht gefunden!" : return }
 # Optional: Service Plan anlegen
 #New-AzureRmAppServicePlan -Name $webappname -Location $location -ResourceGroupName myResourceGroup -Tier Free
-$sp = Get-AzureRmAppServicePlan -Name Serviceplan
+$sp = Get-AzureRmAppServicePlan -Name $Serviceplan
+if (-not $sp) { Write-Error "Service Plan nicht gefunden!" : return }
 
+# TODO:
+#$lo = Get-AzureLocation $location
+#if (-not $lo) { Write-Error "Location nicht gefunden!" : return }
+#endregion
+
+#region Websites
+$webappnames="$($prefix)MLBackend-Produktion","$($prefix)MLBackend-Staging","$($prefix)MLClient-Produktion","$($prefix)MLClient-Staging"
 
 foreach($webappname in $webappnames)
 {
 Write-Host "Creating $webappname" -ForegroundColor Yellow
 # Create a web app.
-New-AzureRmWebApp -Name $webappname -Location $location -AppServicePlan $sp -ResourceGroupName $RessourceGroup
+New-AzureRmWebApp -Name $webappname -Location $location -AppServicePlan $Serviceplan -ResourceGroupName $RessourceGroup
 $wa = Get-AzureRmWebApp -Name $webappname
 if ($wa -eq $null) { Write-Error "WebApp wurde nicht angelegt!"; return; }
 else { write-host "OK" -ForegroundColor Green }
 }
 # Kontrolle:
-Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*basta*" | ft
+Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*$prefix*" | ft
 
 # Get publishing profile for the web app
 #$xml = (Get-AzureRmWebAppPublishingProfile -Name $webappname `
@@ -51,30 +58,33 @@ Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName 
 #endregion
 
 #region SQL Server
-# The data center and resource name for your resources
-$resourcegroupname = "DEMO_MiracleList"
-$location = "WestEurope"
+$dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
+
 # The logical server name: Use a random value or replace with your own value (do not capitalize)
-$servername = "bastasqlserver"
+$servername = "$($prefix)MLSQLServer"
 # Set an admin login and password for your database
 # The login information for the server
-$adminlogin = "MLBASTAAdmin"
-$password = "211e2868-8ad0-4fb1-9d7a-aa94a2e8dc97"
+$adminlogin = "MLSQLAdmin"
+$password = New-Guid
+Write-Host "SQL Server password is: $password" -ForegroundColor Green
 # The ip address range that you want to allow to access your server - change as appropriate
 $startip = "0.0.0.0"
 $endip = "255.255.255.255"
 # The database name
 
-New-AzureRmSqlServer -ResourceGroupName $resourcegroupname `
+New-AzureRmSqlServer -ResourceGroupName $RessourceGroup `
     -ServerName $servername `
     -Location $location `
     -SqlAdministratorCredentials $(New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $adminlogin, $(ConvertTo-SecureString -String $password -AsPlainText -Force))
 
-$databasename = "MLBASTADB-Staging"
-New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  -DatabaseName $databasename    -RequestedServiceObjectiveName "S0"
+New-AzureRmSqlServerFirewallRule -ResourceGroupName $RessourceGroup `
+    -ServerName $servername `
+    -FirewallRuleName "AllowAll" -StartIpAddress "0.0.0.0" -EndIpAddress $endip
 
-$databasename = "MLBASTADB-Produktion"
-New-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  -DatabaseName $databasename   -RequestedServiceObjectiveName "S0"
+foreach($databasename in $dbnames)
+{ 
+New-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $servername  -DatabaseName $databasename    -RequestedServiceObjectiveName "S0"
+}
 
 # Kontrolle
 Get-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  | ft
@@ -82,6 +92,6 @@ Get-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $serve
 #endregion
 
 #region Alles wieder löschen (mit Nachfrage!)
-#$webappnames | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup }
-#Remove-AzureRmSqlServer -ResourceGroupName $resourcegroupname -ServerName $servername 
+$webappnames | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup -confirm }
+Remove-AzureRmSqlServer -ResourceGroupName $resourcegroupname -ServerName $servername -Confirm
 #endregion
