@@ -54,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Re
 		DevOps_Release\EFTools-Migration.ps1 = DevOps_Release\EFTools-Migration.ps1
 		DevOps_Release\MiracleList-APITests.postman_collection.json = DevOps_Release\MiracleList-APITests.postman_collection.json
 		DevOps_Release\MiracleList-APITests.postman_environment.dev.json = DevOps_Release\MiracleList-APITests.postman_environment.dev.json
-		MiracleList-APITests.postman_environment.json = MiracleList-APITests.postman_environment.json
+		DevOps_Release\MiracleList-APITests.postman_environment.json = DevOps_Release\MiracleList-APITests.postman_environment.json
 		DevOps_Release\MiracleList_DEV.postman_collection.json = DevOps_Release\MiracleList_DEV.postman_collection.json
 		DevOps_Release\Postman-Test.ps1 = DevOps_Release\Postman-Test.ps1
 	EndProjectSection
