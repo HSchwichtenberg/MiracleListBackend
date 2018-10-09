@@ -56,7 +56,11 @@ namespace Miraclelist.Controllers
   [HttpGet]
   public IEnumerable<string> About()
   {
+   var httpConnectionFeature = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpConnectionFeature>();
+
    var s = new AppManager().GetAppInfo();
+   s = s.Append("Server-IP: " + httpConnectionFeature?.LocalIpAddress);
+   s = s.Append("Client-IP: " + httpConnectionFeature?.RemoteIpAddress);
    s = s.Append("API-Version: v2");
    s = s.Append("ApplicationName: " + this.Env.ApplicationName);
    s = s.Append("Application Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
