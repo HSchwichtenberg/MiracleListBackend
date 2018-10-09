@@ -15,18 +15,6 @@ namespace Miraclelist.Controllers
 {
 
  /// <summary>
- /// DTO
- /// </summary>
- public class LoginInfo
- {
-  public string ClientID;
-  public string Username;
-  public string Password;
-  public string Token;
-  public string Message;
- }
-
- /// <summary>
  /// API v1
  /// </summary>
  [Route("")]
@@ -102,11 +90,13 @@ namespace Miraclelist.Controllers
   public IEnumerable<string> About()
   {
    var s = new AppManager().GetAppInfo();
-   s = s.Append("API-Version: v2");
-   s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
-   s = s.Append("Environment: " + this.Env.EnvironmentName);
+   s = s.Append("API-Version: v1");
    s = s.Append("ApplicationName: " + this.Env.ApplicationName);
+   s = s.Append("Application Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+   s = s.Append("Environment: " + this.Env.EnvironmentName);
+   s = s.Append("Release-Date: " + this.Configuration["AppInfo:ReleaseDate"]);
    return s;
+
   }
 
   /// <summary>
