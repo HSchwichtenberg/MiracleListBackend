@@ -4,11 +4,15 @@
 $ErrorActionPreference = "stop"
 
 #region Installation
-Get-Module -Name PowerShellGet -ListAvailable | Select-Object -Property Name,Version,Path
-Install-Module PowerShellGet -Force # geht nur als Admin!
-Install-Module -Name AzureRM -force -AllowClobber
+Install-Module PowerShellGet -Force -Scope currentuser # globaler Scope geht nur als Admin!
+Install-Module -Name AzureRM -force -AllowClobber -Scope currentuser
 Import-Module -Name AzureRM 
 Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | ft
+"Anzahl geladener Azure-Module: " + (Get-Module AzureRM.* -ListAvailable | Select-Object -Property Name,Version,Path).Count
+"Anzahl verfügbarer Azure-Befehle: " + (Get-Command -module AzureRM*).Count
+
+
+
 #endregion
 
 # Anmelden interaktiv!!!
@@ -25,7 +29,7 @@ $location="West Europe"
 #New-AzureRmResourceGroup -Name myResourceGroup -Location $location
 #Remove-AzureRmResourceGroup -Name myResourceGroup 
 $rg = Get-AzureRmResourceGroup $RessourceGroup
-if (-not $sp) { Write-Error "SResourceGroupnicht gefunden!" : return }
+if (-not $sp) { Write-Error "Resource Group nicht gefunden!" : return }
 # Optional: Service Plan anlegen
 #New-AzureRmAppServicePlan -Name $webappname -Location $location -ResourceGroupName myResourceGroup -Tier Free
 $sp = Get-AzureRmAppServicePlan -Name $Serviceplan
