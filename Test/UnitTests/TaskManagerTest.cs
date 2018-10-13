@@ -120,7 +120,48 @@ subtaskList);
 }
 
 
-[Theory]
+  [Theory]
+  [InlineData("Aufgabe1")]
+  [InlineData("Aufgabe2")]
+  [InlineData("Aufgabe3")]
+  public void CreateTaskTest(string name)
+  {
+   var um = new UserManager(name, true);
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   um.InitDefaultTasks();
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var cset1 = cm.GetCategorySet();
+
+   var dat = DateTime.Now;
+
+   var t = tm.CreateTask(cset1.ElementAt(0).CategoryID, name, name, dat, Importance.A, 1);
+
+   Assert.NotNull(t);
+   Assert.Equal(dat, t.Due);
+  }
+
+
+  [Theory]
+  [InlineData("Aufgabe1")]
+  [InlineData("Aufgabe2")]
+  [InlineData("Aufgabe3")]
+  public void CreateTaskTestOhneDatum(string name)
+  {
+   var um = new UserManager(name, true);
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   um.InitDefaultTasks();
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var cset1 = cm.GetCategorySet();
+
+   
+   var t = tm.CreateTask(cset1.ElementAt(0).CategoryID, name, name, null, Importance.A, 1);
+
+   Assert.NotNull(t);
+   Assert.Null(t.Due);
+  }
+
+
+  [Theory]
 [InlineData("test6")]
 [InlineData("test5")]
 [InlineData("test4")]
