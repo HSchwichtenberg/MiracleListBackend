@@ -61,7 +61,7 @@ namespace BL
   /// <summary>
   /// Create a new task from details
   /// </summary>
-  public Task CreateTask(int categoryID, string title, string note, DateTime due, Importance importance, decimal? effort, List<SubTask> subtasks = null)
+  public Task CreateTask(int categoryID, string title, string note, DateTime? due, Importance importance, decimal? effort, List<SubTask> subtasks = null)
   {
    this.StartTracking();
    var t = new Task();

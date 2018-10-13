@@ -25,7 +25,7 @@ namespace BO
   public bool Done { get; set; }
   public decimal? Effort { get; set; }
   public int Order { get; set; }
-  public int DueInDays  { get; set; } // Computed Column
+  public int? DueInDays  { get; set; } // Computed Column, must be nullable as Due is nullable!
   //public int DueInDays2 {  get { return (this.Due.GetValueOrDefault() - System.DateTime.Now).Days;  } }
 
   // -------------- Navigation Properties
