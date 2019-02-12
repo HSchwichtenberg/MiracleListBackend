@@ -20,10 +20,10 @@
   <VersionPrefix>0.7</VersionPrefix>
   <Authors>Dr. Holger Schwichtenberg</Authors>
   
-  <Version>0.12.0.0</Version>
+  <Version>0.12.1.0</Version>
   <Copyright>Dr. Holger Schwichtenberg</Copyright>
   <AssemblyVersion>0.12.1.0</AssemblyVersion>
-  <FileVersion>0.12.0.0</FileVersion>
+  <FileVersion>0.12.1.0</FileVersion>
   <Company>www.IT-Visions.de</Company>
   <PackageReleaseNotes>0.12: Update auf ASP.NET Core 2.1
 0.11: Ausgabe AppVersion
