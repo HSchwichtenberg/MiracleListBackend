@@ -22,16 +22,15 @@
   
   <Version>0.12.0.0</Version>
   <Copyright>Dr. Holger Schwichtenberg</Copyright>
-  <AssemblyVersion>0.12.0.0</AssemblyVersion>
+  <AssemblyVersion>0.12.1.0</AssemblyVersion>
   <FileVersion>0.12.0.0</FileVersion>
   <Company>www.IT-Visions.de</Company>
-  <PackageReleaseNotes>
-   0.8.10: + RCL-Lib
-   0.9: OS-Version_Info
-   0.10: Verbesserte Anzeige beim Start des Webservers
-   0.11: Ausgabe AppVersion
-   0.12: Update auf ASP.NET Core 2.1
-  </PackageReleaseNotes>
+  <PackageReleaseNotes>0.12: Update auf ASP.NET Core 2.1
+0.11: Ausgabe AppVersion
+0.10: Verbesserte Anzeige beim Start des Webservers
+0.9: OS-Version_Info
+0.8.10: + RCL-Lib
+</PackageReleaseNotes>
   <UserSecretsId>17877888-c559-4d28-bbed-c3436690aec2</UserSecretsId>
  </PropertyGroup>
 
@@ -65,7 +64,7 @@
 
  <ItemGroup>
   <!--<PackageReference Include="EntityFrameworkProfiler" Version="5.0.5032" />-->
-  <PackageReference Include="Microsoft.AspNetCore.App"  />
+  <PackageReference Include="Microsoft.AspNetCore.App" />
   <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
 
 
