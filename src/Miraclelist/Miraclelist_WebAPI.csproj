@@ -98,8 +98,6 @@
   </Content>
  </ItemGroup>
 
- <ItemGroup>
-  <PackageReference Update="Microsoft.NETCore.App" Version="2.2.1" />
- </ItemGroup>
+
 
 </Project>
