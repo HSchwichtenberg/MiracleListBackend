@@ -271,26 +271,26 @@ namespace Miraclelist
    #region  MVC with Routing
    app.UseMvc(routes =>
   {
-   //routes.MapAreaRoute("blog_route", "StandardPages",
-   // "Standard/{controller}/{action}/{id?}");
+  //routes.MapAreaRoute("blog_route", "StandardPages",
+  //"Standard/{controller}/{action}/{id?}");
 
-   //routes.MapRoute(
-   //             name: "default",
-   //             template: "{controller}/{action}/{id?}",
-   //             defaults: new { controller = "Home", action = "Index" });
+   routes.MapRoute(
+                name: "default",
+                template: "{controller}/{action}/{id?}",
+                defaults: new { controller = "Home", action = "Index" });
 
-   //// iX tutorial 2017
-   //routes.MapRoute(
-   //           name: "iX",
-   //           template: "iX",
-   //           defaults: new { controller = "Client", action = "Index" });
+   // iX tutorial 2017
+   routes.MapRoute(
+              name: "iX",
+              template: "iX",
+              defaults: new { controller = "Client", action = "Index" });
 
 
-   //// Schulungsteilnehmer ab Jan 2017
-   //routes.MapRoute(
-   //          name: "Schulung",
-   //          template: "Schulung",
-   //          defaults: new { controller = "Client", action = "Index" });
+   // Schulungsteilnehmer ab Jan 2017
+   routes.MapRoute(
+             name: "Schulung",
+             template: "Schulung",
+             defaults: new { controller = "Client", action = "Index" });
   });
    #endregion
 
