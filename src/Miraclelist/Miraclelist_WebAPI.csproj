@@ -1,45 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
+ <PropertyGroup Label="Globals">
+  <SccProjectName>SAK</SccProjectName>
+  <SccProvider>SAK</SccProvider>
+  <SccAuxPath>SAK</SccAuxPath>
+  <SccLocalPath>SAK</SccLocalPath>
+ </PropertyGroup>
 
-  <PropertyGroup>
-   <CodeAnalysisRuleSet>..\..\rules.ruleset</CodeAnalysisRuleSet>
-    <Description>Backend for MiracleList (Sample Application)</Description>
-    <VersionPrefix>0.7</VersionPrefix>
-    <Authors>Dr. Holger Schwichtenberg</Authors>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>Miraclelist_WebAPI</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>Miraclelist</PackageId>
-    <RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
-   <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <Version>0.12.0.0</Version>
-    <Copyright>Dr. Holger Schwichtenberg</Copyright>
-    <AssemblyVersion>0.12.0.0</AssemblyVersion>
-    <FileVersion>0.12.0.0</FileVersion>
-    <Company>www.IT-Visions.de</Company>
-    <PackageReleaseNotes>0.8.10: + RCL-Lib
-0.9: OS-Version_Info
-0.10: Verbesserte Anzeige beim Start des Webservers
-0.11: Ausgabe AppVersion
-0.12: Update auf ASP.NET Core 2.1
-    </PackageReleaseNotes>
-    <UserSecretsId>17877888-c559-4d28-bbed-c3436690aec2</UserSecretsId>
-  </PropertyGroup>
+ <PropertyGroup>
+  <TargetFramework>netcoreapp2.2</TargetFramework>
+  <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
-  </PropertyGroup>
+  <AssemblyName>Miraclelist_WebAPI</AssemblyName>
+  <OutputType>Exe</OutputType>
+  <PackageId>Miraclelist</PackageId>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
-  </PropertyGroup>
+  <CodeAnalysisRuleSet>..\..\rules.ruleset</CodeAnalysisRuleSet>
+  <Description>Backend for MiracleList (Sample Application)</Description>
+  <VersionPrefix>0.7</VersionPrefix>
+  <Authors>Dr. Holger Schwichtenberg</Authors>
+  
+  <Version>0.12.0.0</Version>
+  <Copyright>Dr. Holger Schwichtenberg</Copyright>
+  <AssemblyVersion>0.12.0.0</AssemblyVersion>
+  <FileVersion>0.12.0.0</FileVersion>
+  <Company>www.IT-Visions.de</Company>
+  <PackageReleaseNotes>
+   0.8.10: + RCL-Lib
+   0.9: OS-Version_Info
+   0.10: Verbesserte Anzeige beim Start des Webservers
+   0.11: Ausgabe AppVersion
+   0.12: Update auf ASP.NET Core 2.1
+  </PackageReleaseNotes>
+  <UserSecretsId>17877888-c559-4d28-bbed-c3436690aec2</UserSecretsId>
+ </PropertyGroup>
+
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <DocumentationFile>bin\Debug\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
+ </PropertyGroup>
+
+ <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <DocumentationFile>bin\Release\netcoreapp2.0\Miraclelist_WebAPI.xml</DocumentationFile>
+ </PropertyGroup>
 
  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
   <ItemGroup>
@@ -48,55 +50,56 @@
   <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
  </Target>
 
-  <ItemGroup>
-    <None Update="wwwroot\**\*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
+ <ItemGroup>
+  <None Update="wwwroot\**\*">
+   <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+  </None>
+ </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj" />
-    <ProjectReference Include="..\..\ITVRazorClassLibrary\ITVRazorClassLibrary.csproj" />
-    <ProjectReference Include="..\BL\BL.csproj" />
-    <ProjectReference Include="..\GO\BO.csproj" />
-  </ItemGroup>
+ <ItemGroup>
+  <ProjectReference Include="..\..\..\..\TFS\Demos\NETCore\ITVTagHelper\ITVTagHelper.csproj" />
+  <ProjectReference Include="..\..\ITVRazorClassLibrary\ITVRazorClassLibrary.csproj" />
+  <ProjectReference Include="..\BL\BL.csproj" />
+  <ProjectReference Include="..\GO\BO.csproj" />
+ </ItemGroup>
 
-  <ItemGroup>
-   <PackageReference Include="EntityFrameworkProfiler" Version="5.0.5032" />
-   <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="2.10.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+ <ItemGroup>
+  <!--<PackageReference Include="EntityFrameworkProfiler" Version="5.0.5032" />-->
+  <PackageReference Include="Microsoft.AspNetCore.App"  />
+  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
 
-  </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
+  <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
 
-  <ItemGroup>
-    <Reference Include="ITV.AppUtil.NETStandard">
-      <HintPath>..\..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
 
-  <ItemGroup>
-    <Content Update="Pages\Address.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Impressum\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="wwwroot\AddedColumnsConfig.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+ </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.0.0" />
-  </ItemGroup>
+ <ItemGroup>
+  <Folder Include="Properties\PublishProfiles\" />
+ </ItemGroup>
+
+ <ItemGroup>
+  <Reference Include="ITV.AppUtil.NETStandard">
+   <HintPath>..\..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
+  </Reference>
+ </ItemGroup>
+
+ <ItemGroup>
+  <Content Update="Pages\Address.cshtml">
+   <Pack>$(IncludeRazorContentInPack)</Pack>
+  </Content>
+  <Content Update="Views\Impressum\Index.cshtml">
+   <Pack>$(IncludeRazorContentInPack)</Pack>
+  </Content>
+  <Content Update="wwwroot\AddedColumnsConfig.txt">
+   <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+ </ItemGroup>
+
+ <ItemGroup>
+  <PackageReference Update="Microsoft.NETCore.App" Version="2.2.1" />
+ </ItemGroup>
 
 </Project>
