@@ -23,7 +23,7 @@ namespace Miraclelist
  public class Startup
  {
   public IConfigurationRoot Configuration { get; }
-
+  public static string ConfigurationDump { get; set; }
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
@@ -60,12 +60,29 @@ namespace Miraclelist
     // nothing to do currently
    }
 
+
+
    // build configuration now
    Configuration = builder.Build();
+
+
    foreach (var p in builder.Sources)
    {
-    Console.WriteLine(p);
+    ConfigurationDump += "Config Source: " + p.ToString() + "\n";
    }
+
+
+   foreach (var geschichte in Configuration.GetChildren())
+   {
+    foreach (var geschichtseintrag in geschichte.GetChildren())
+    {
+     ConfigurationDump += geschichtseintrag.Key + "=" + ITVisions.RegEx.RegExUtil.ReplacePasswordInConnectionString(geschichtseintrag.Value) + "\n";
+    }
+   }
+
+
+
+
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
 
@@ -315,6 +332,10 @@ namespace Miraclelist
    s += " on ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString() + " GlobalExceptionFilter: ";
 
    context.HttpContext.Response.WriteAsync(s + context.Exception.ToString());
+
+   context.HttpContext.Response.WriteAsync("\n---Config:\n");
+
+   context.HttpContext.Response.WriteAsync(Startup.ConfigurationDump);
   }
  }
 
