@@ -1,6 +1,0 @@
-﻿
- @{ int i = 0;}<ul>
-   <repeater count="@Model.Aufrufe-1">
-    <li>@(++i). Aufruf</li>
-   </repeater>
-  </ul>
