@@ -50,6 +50,7 @@ namespace ITVisions.RegEx
   {
    cs = MaskField(cs, "PWD");
    cs = MaskField(cs, "PASSWORD");
+   cs = MaskField(cs, "InstrumentationKey");
    return cs;
   }
  }
