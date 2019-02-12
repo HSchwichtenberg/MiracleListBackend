@@ -27,13 +27,14 @@ namespace Miraclelist
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
-   Console.WriteLine("ApplicationName =" + env.ApplicationName);
-   Console.WriteLine("EnvironmentName =" + env.EnvironmentName);
-   Console.WriteLine("WebRootPath =" + env.WebRootPath);
-   Console.WriteLine("ContentRootPath =" + env.ContentRootPath);
-   Console.WriteLine("ApplicationBasePath =" + PlatformServices.Default.Application.ApplicationBasePath);
-   Console.WriteLine("CurrentDirectory =" + System.Environment.CurrentDirectory);
-   Console.WriteLine("Production =" + env.IsProduction().ToString());
+
+   ConfigurationDump += ("ApplicationName=" + env.ApplicationName +"\n");
+   ConfigurationDump += ("EnvironmentName=" + env.EnvironmentName + "\n");
+   ConfigurationDump += ("WebRootPath=" + env.WebRootPath + "\n");
+   ConfigurationDump += ("ContentRootPath=" + env.ContentRootPath + "\n");
+   ConfigurationDump += ("ApplicationBasePath=" + PlatformServices.Default.Application.ApplicationBasePath + "\n");
+   ConfigurationDump += ("CurrentDirectory=" + System.Environment.CurrentDirectory + "\n");
+   ConfigurationDump += ("Production=" + env.IsProduction().ToString() + "\n");
 
    #region Load configuration
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
@@ -60,11 +61,8 @@ namespace Miraclelist
     // nothing to do currently
    }
 
-
-
    // build configuration now
    Configuration = builder.Build();
-
 
    foreach (var p in builder.Sources)
    {
@@ -81,7 +79,7 @@ namespace Miraclelist
    }
 
 
-
+   Console.WriteLine(ConfigurationDump);
 
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
