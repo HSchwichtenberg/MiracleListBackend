@@ -1,6 +1,8 @@
 ﻿using System;
 using BL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Miraclelist_WebAPI.Util;
 
 namespace ASPNET.Controllers
 {
@@ -10,8 +12,9 @@ namespace ASPNET.Controllers
   public string Index()
   {
    //return System.DateTime.Now + ": Hello World!";
-   var daten = new AppManager().GetAppInfo();
-   return string.Join("\n", daten);
+   //var daten = (HttpContext.Cu .GetService(typeof(EnvInfo)) as EnvInfo).GetAll();
+   //return string.Join("\n", daten);
+   return "Test: OK!";
   }
 
 

@@ -11,8 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
+using Miraclelist_WebAPI.Util;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,18 +25,12 @@ namespace Miraclelist
  public class Startup
  {
   public IConfigurationRoot Configuration { get; }
-  public static string ConfigurationDump { get; set; }
+
   public Startup(IHostingEnvironment env)
   {
    CUI.Headline("Startup");
 
-   ConfigurationDump += ("ApplicationName=" + env.ApplicationName +"\n");
-   ConfigurationDump += ("EnvironmentName=" + env.EnvironmentName + "\n");
-   ConfigurationDump += ("WebRootPath=" + env.WebRootPath + "\n");
-   ConfigurationDump += ("ContentRootPath=" + env.ContentRootPath + "\n");
-   ConfigurationDump += ("ApplicationBasePath=" + PlatformServices.Default.Application.ApplicationBasePath + "\n");
-   ConfigurationDump += ("CurrentDirectory=" + System.Environment.CurrentDirectory + "\n");
-   ConfigurationDump += ("Production=" + env.IsProduction().ToString() + "\n");
+
 
    #region Load configuration
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
@@ -64,22 +60,7 @@ namespace Miraclelist
    // build configuration now
    Configuration = builder.Build();
 
-   foreach (var p in builder.Sources)
-   {
-    ConfigurationDump += "Config Source: " + p.ToString() + "\n";
-   }
-
-
-   foreach (var geschichte in Configuration.GetChildren())
-   {
-    foreach (var geschichtseintrag in geschichte.GetChildren())
-    {
-     ConfigurationDump += geschichtseintrag.Key + "=" + ITVisions.RegEx.RegExUtil.ReplacePasswordInConnectionString(geschichtseintrag.Value) + "\n";
-    }
-   }
-
-
-   Console.WriteLine(ConfigurationDump);
+   Console.WriteLine(string.Join("\n", new EnvInfo(Configuration, env, null).GetAll()));
 
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
@@ -154,6 +135,12 @@ namespace Miraclelist
     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
    });
    #endregion
+
+   #region DI
+
+   services.AddScoped(typeof(EnvInfo));
+   #endregion
+
 
    #region Sessions (used in Razor Pages)
    services.AddMemoryCache();
@@ -333,7 +320,9 @@ namespace Miraclelist
 
    context.HttpContext.Response.WriteAsync("\n---Config:\n");
 
-   context.HttpContext.Response.WriteAsync(Startup.ConfigurationDump);
+   IEnumerable<String> e = (context.HttpContext.RequestServices.GetService(typeof(EnvInfo)) as EnvInfo).GetAll();
+   
+   context.HttpContext.Response.WriteAsync(String.Join("\n",e));
   }
  }
 
