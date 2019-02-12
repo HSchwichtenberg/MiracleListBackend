@@ -17,15 +17,18 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Miraclelist
 {
-
  public class Startup
  {
-  public IConfigurationRoot Configuration { get; }
 
-  public Startup(IHostingEnvironment env)
+  public IConfiguration Configuration { get; }
+
+  public Startup(IHostingEnvironment env) // IConfiguration configuration, 
   {
+   //Configuration = configuration;
+
    CUI.Headline("Startup");
    Console.WriteLine("ApplicationName =" + env.ApplicationName);
    Console.WriteLine("EnvironmentName =" + env.EnvironmentName);
@@ -114,9 +117,9 @@ namespace Miraclelist
    #endregion
   }
 
-  /// <summary>
-  /// Called by ASP.NET Core during startup
-  /// </summary>
+
+
+  // This method gets called by the runtime. Use this method to add services to the container.
   public void ConfigureServices(IServiceCollection services)
   {
    CUI.Headline("ConfigureServices");
@@ -133,11 +136,11 @@ namespace Miraclelist
    services.AddMvc()
      .SetCompatibilityVersion(CompatibilityVersion.Version_2_2) // ab 2.2
     .AddJsonOptions(options =>
-   {
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-    options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
-    options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
-   });
+    {
+     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+     options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+     options.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+    });
    #endregion
 
    #region Sessions (used in Razor Pages)
@@ -153,13 +156,15 @@ namespace Miraclelist
    #endregion
 
    #region Enable MVC
-   services.AddMvc(options =>
+   //services.AddMvc();
+   services
+    .AddMvc(options =>
    {
     // Exception Filter
     options.Filters.Add(typeof(GlobalExceptionFilter));
     //options.Filters.Add(typeof(GlobalExceptionAsyncFilter)); 
     options.Filters.Add(typeof(LoggingActionFilter));
-   });
+   }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
    #endregion
 
    #region Enable CORS 
@@ -202,45 +207,49 @@ namespace Miraclelist
     c.IncludeXmlComments(xmlPath);
    });
    #endregion
+
+
   }
 
-  /// <summary>
-  /// Called by ASP.NET Core during startup
-  /// </summary>
-  public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+  // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+  public void Configure(IApplicationBuilder app, IHostingEnvironment env)
   {
-   #region Error handling
-
-   app.UseExceptionHandler(errorApp =>
+   if (env.IsDevelopment())
    {
-    errorApp.Run(async context =>
+    app.UseDeveloperExceptionPage();
+   }
+   else
+   {
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+
+    app.UseExceptionHandler(errorApp =>
     {
-     context.Response.StatusCode = 500;
-     context.Response.ContentType = "text/plain";
-
-     var error = context.Features.Get<IExceptionHandlerFeature>();
-     if (error != null)
+     errorApp.Run(async context =>
      {
-      var ex = error.Error;
-      await context.Response.WriteAsync("ASP.NET Core Exception Middleware:" + ex.ToString());
-     }
+      context.Response.StatusCode = 500;
+      context.Response.ContentType = "text/plain";
+
+      var error = context.Features.Get<IExceptionHandlerFeature>();
+      if (error != null)
+      {
+       var ex = error.Error;
+       await context.Response.WriteAsync("ASP.NET Core Exception Middleware:" + ex.ToString());
+      }
+     });
     });
-   });
 
-   // ---------------------------- letzte Fehlerbehandlung: Fehlerseite für HTTP-Statuscode
-   app.UseStatusCodePages();
+    // ---------------------------- letzte Fehlerbehandlung: Fehlerseite für HTTP-Statuscode
+    app.UseStatusCodePages();
+   }
 
-   #endregion
+   //app.UseHttpsRedirection();
 
-   #region ASP.NET Core services
 
    app.UseSession();  // Sessions aktivieren
    app.UseDefaultFiles();
    app.UseStaticFiles();
    app.UseDirectoryBrowser();
-   //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-   //loggerFactory.AddDebug();
-   #endregion
 
    #region CORS
    // NUGET: install-Package Microsoft.AspNet.Cors
@@ -268,32 +277,29 @@ namespace Miraclelist
    });
    #endregion
 
-   #region  MVC with Routing
    app.UseMvc(routes =>
-  {
-   //routes.MapAreaRoute("blog_route", "StandardPages",
-   // "Standard/{controller}/{action}/{id?}");
+   {
 
-   //routes.MapRoute(
-   //             name: "default",
-   //             template: "{controller}/{action}/{id?}",
-   //             defaults: new { controller = "Home", action = "Index" });
+   //"Standard/{controller}/{action}/{id?}");
 
-   //// iX tutorial 2017
-   //routes.MapRoute(
-   //           name: "iX",
-   //           template: "iX",
-   //           defaults: new { controller = "Client", action = "Index" });
+   routes.MapRoute(
+                name: "default",
+                template: "{controller}/{action}/{id?}",
+                defaults: new { controller = "Home", action = "Index" });
+
+   // iX tutorial 2017
+   routes.MapRoute(
+              name: "iX",
+              template: "iX",
+              defaults: new { controller = "Client", action = "Index" });
 
 
-   //// Schulungsteilnehmer ab Jan 2017
-   //routes.MapRoute(
-   //          name: "Schulung",
-   //          template: "Schulung",
-   //          defaults: new { controller = "Client", action = "Index" });
+   // Schulungsteilnehmer ab Jan 2017
+   routes.MapRoute(
+             name: "Schulung",
+             template: "Schulung",
+             defaults: new { controller = "Client", action = "Index" });
   });
-   #endregion
-
   }
  }
 

@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Re
 		DevOps_Release\Postman-Test.ps1 = DevOps_Release\Postman-Test.ps1
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiracleList_WebAPI2", "src\MiracleList_WebAPI2\MiracleList_WebAPI2.csproj", "{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +140,14 @@ Global
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.ActiveCfg = Release|Any CPU
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.Build.0 = Release|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Debug|x86.Build.0 = Debug|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Release|x86.ActiveCfg = Release|Any CPU
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +165,7 @@ Global
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
 		{43F60664-E191-4763-A577-16F239C50740} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
 		{CFE4DA07-B777-4A56-B4EF-6A5357250707} = {07904EA8-7969-42CB-B5A7-5BDA087AA900}
+		{5AF82C4A-430A-425A-AEB2-ACAC3E1F0AA9} = {D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
