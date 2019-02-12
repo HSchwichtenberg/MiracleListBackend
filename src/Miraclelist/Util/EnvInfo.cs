@@ -14,6 +14,10 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace Miraclelist_WebAPI.Util
 {
+
+ /// <summary>
+ /// Ergebnis des Refactoring am 12.2.2019
+ /// </summary>
  public class EnvInfo
  {
 
@@ -35,10 +39,8 @@ namespace Miraclelist_WebAPI.Util
   public List<string> GetAll()
   {
 
-
    var t = new Stopwatch();
    t.Start();
-
 
    // TODO: https://blogs.msdn.microsoft.com/martijnh/2010/07/15/sql-serverhow-to-quickly-retrieve-accurate-row-count-for-table/
    // SELECT CONVERT(bigint, rows)
