@@ -1,0 +1,123 @@
+﻿@page "/"
+@using MiracleList_RC.App.Services
+@using System.Collections.Generic
+@using BO
+@using System.Reflection
+@using BL
+@using System.Linq.Expressions
+@inject WeatherForecastService ForecastService
+
+ <div class="row">
+  <!-- ### Spalte 1: Kategorien-->
+  @if (categorySet != null)
+  {
+   @*<span class="col-xs-12">
+    <p>Kat: @(categorySet.Length)</p>
+   </span>*@
+
+
+   <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
+    <!-- ---------- Überschrift Spalte 1-->
+    <h4> @(categorySet.Count) <span>Categories @(categorySet.Count)</span></h4>
+
+    <input id="NewCategory" type="text" class="form-control" bind="@newCategoryName" placeholder="new Category..." />
+
+    <ol class="list-group scroll">
+     @foreach (var c in categorySet)
+     {
+      <li class="list-group-item" onclick="@(() => selectCategory(c))">@c.Name</li>
+     }
+
+    </ol>
+   </div>
+
+  }
+
+  <div class="WLPanel col-sm-6 col-md-5 col-lg-6">
+
+   <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span> @category.Name</h4>
+
+   @if (taskSet != null)
+   {<ol class="list-group scroll">
+     @foreach (var t in taskSet)
+     {
+      <li class="list-group-item" onclick="@(() => selectTask(t))">@t.Title</li>
+     }
+
+    </ol>
+
+   }
+  </div>
+ </div>  @*end row*@
+  @functions {
+   int userID = 1; // Demo ohne Login!
+   WeatherForecast[] forecasts;
+   List<Category> categorySet;
+   List<BO.Task> taskSet;
+   Category category;
+   BO.Task task;
+
+   string _newCategoryName;
+   string newCategoryName
+   {
+    get { return _newCategoryName; }
+    set
+    {
+     createCategory(value);
+     _newCategoryName = "";
+    }
+   }
+
+   private void selectCategory(Category c)
+   {
+    this.category = c;
+    this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
+
+   }
+
+   private void selectTask(BO.Task t)
+   {
+    this.task = t;
+   }
+
+   private void createCategory(string newCategoryName)
+   {
+    if (string.IsNullOrEmpty(newCategoryName)) return;
+    System.Console.WriteLine("createCategory: " + newCategoryName);
+    new CategoryManager(userID).CreateCategory(newCategoryName);
+    LoadCategories();
+   }
+
+   private void LoadCategories()
+   {
+
+    categorySet = new CategoryManager(userID).GetCategorySet();
+    System.Console.WriteLine("LoadCategories: " + categorySet.Count);
+    if (this.categorySet.Count > 0) selectCategory(categorySet[0]);
+    //ForecastService.GetForecastAsync(DateTime.Now);
+   }
+
+
+   protected override void OnInit()
+   {
+    LoadCategories();
+
+
+   }
+  }
+
+  @functions
+{
+   void OnChange<TObject, TValue>(UIChangeEventArgs uIChangeEventArgs, TObject target, Expression<Func<TObject, TValue>> propertyGetter)
+   {
+    if (uIChangeEventArgs?.Value != null)
+    {
+     var expression = (MemberExpression)propertyGetter.Body;
+     var property = (PropertyInfo)expression.Member;
+     property.SetValue(target, uIChangeEventArgs.Value);
+
+     // Do your own stuff here
+    }
+   }
+  }
+

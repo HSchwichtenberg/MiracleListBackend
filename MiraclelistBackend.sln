@@ -60,6 +60,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Re
 		DevOps_Release\Postman-Test.ps1 = DevOps_Release\Postman-Test.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiracleList_RC.Server", "src\MiracleList_RC\MiracleList_RC.Server\MiracleList_RC.Server.csproj", "{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiracleList_RC.App", "src\MiracleList_RC\MiracleList_RC.App\MiracleList_RC.App.csproj", "{E10C55D6-1736-43C4-83DA-B81330230B52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +143,22 @@ Global
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|Any CPU.Build.0 = Release|Any CPU
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.ActiveCfg = Release|Any CPU
 		{75FF2D55-9242-4050-B7B2-4AF6176A0339}.Release|x86.Build.0 = Release|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Debug|x86.Build.0 = Debug|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Release|x86.ActiveCfg = Release|Any CPU
+		{48C64B10-2FDC-4548-948A-DDFFBEEBEB21}.Release|x86.Build.0 = Release|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Debug|x86.Build.0 = Debug|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Release|x86.ActiveCfg = Release|Any CPU
+		{E10C55D6-1736-43C4-83DA-B81330230B52}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
