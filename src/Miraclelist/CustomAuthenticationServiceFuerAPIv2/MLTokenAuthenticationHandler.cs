@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Miraclelist_WebAPI.CustomAuthenticationService;
+using MiracleList.CustomAuthenticationService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
  }
 }
 
-namespace Miraclelist_WebAPI.CustomAuthenticationService
+namespace MiracleList.CustomAuthenticationService
 {
 
  public class MLTokenAuthenticationOptions : AuthenticationSchemeOptions

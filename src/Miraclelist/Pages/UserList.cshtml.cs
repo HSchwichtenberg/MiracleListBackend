@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace Miraclelist_WebAPI.Pages
+namespace MiracleList.Pages
 {
  public class UserListModel : PageModel
  {

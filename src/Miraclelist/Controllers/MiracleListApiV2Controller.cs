@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Miraclelist_WebAPI.Util;
+using MiracleList.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Miraclelist.Controllers
+namespace MiracleList.Controllers
 {
  /// <summary>
  /// Zweite API-Version
