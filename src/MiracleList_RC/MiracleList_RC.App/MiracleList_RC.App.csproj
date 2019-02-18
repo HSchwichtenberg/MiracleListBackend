@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview-19075-0444" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Build" Version="3.0.0-preview-19075-0444" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BL\BL.csproj" />
+    <ProjectReference Include="..\..\GO\BO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ITV.AppUtil.NETStandard">
+      <HintPath>..\..\..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
