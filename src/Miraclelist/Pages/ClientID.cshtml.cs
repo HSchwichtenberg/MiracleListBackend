@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
-namespace Miraclelist_WebAPI.Pages
+namespace MiracleList.Pages
 {
 
  public class ClientIDModelResult
@@ -55,7 +55,7 @@ namespace Miraclelist_WebAPI.Pages
 
   #region Properties für Datenübergabe an Folgeseite mit [TempData]
   //[TempData]// kann nicht gleichzeitig [BindProperty] sein
-  // System.InvalidOperationException: The 'Miraclelist_WebAPI.Pages.ClientIDModel.ClientIDModelResult' property with TempDataAttribute is invalid. A property using TempDataAttribute must be of primitive or string type.
+  // System.InvalidOperationException: The 'MiracleList.Pages.ClientIDModel.ClientIDModelResult' property with TempDataAttribute is invalid. A property using TempDataAttribute must be of primitive or string type.
   //public ClientIDModelResult ClientIDModelResult { get; set; }
 
   [TempData]

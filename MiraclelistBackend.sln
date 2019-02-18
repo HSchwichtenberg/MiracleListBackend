@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28531.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}"
 EndProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3BC09110-05BA-4363-9A18-07035088B538}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miraclelist_WebAPI", "src\Miraclelist\Miraclelist_WebAPI.csproj", "{4EC419E1-6372-470F-AD41-089578534010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiracleList_WebAPI", "src\Miraclelist\MiracleList_WebAPI.csproj", "{4EC419E1-6372-470F-AD41-089578534010}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BO", "src\GO\BO.csproj", "{878E6447-B349-498F-81DD-63350CB408F6}"
 EndProject

@@ -1,4 +1,4 @@
-﻿namespace Miraclelist.Controllers
+﻿namespace MiracleList.Controllers
 {
  /// <summary>
  /// DTO

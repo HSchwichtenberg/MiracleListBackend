@@ -2,7 +2,7 @@
 using BL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Miraclelist_WebAPI.Util;
+using MiracleList.Util;
 
 namespace ASPNET.Controllers
 {

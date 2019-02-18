@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using BO;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Miraclelist.Controllers
+namespace MiracleList.Controllers
 {
 
  [Route("api/[controller]")]
