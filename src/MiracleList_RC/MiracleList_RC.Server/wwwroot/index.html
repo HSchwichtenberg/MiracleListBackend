@@ -14,8 +14,16 @@
  </style>
 </head>
 <body>
-    <app>Loading...</app>
+ <div class="container-fluid">
+  <app>Loading...</app>
 
-    <script src="_framework/components.server.js"></script>
+  <script src="_framework/components.server.js"></script>
+
+  <script>
+   window.log = (s) => {
+    console.log(s);
+   };
+  </script>
+ </div>
 </body>
 </html>
