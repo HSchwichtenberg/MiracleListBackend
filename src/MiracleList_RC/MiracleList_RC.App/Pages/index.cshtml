@@ -45,11 +45,17 @@
   {<ol class="list-group scroll">
     @foreach (var t in taskSet)
     {
-     <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
-      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" value=@(t.Done) class="form-control MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
+    <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
+     <label>
+      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
 
-      <b> @t.Title</b>
-     </li>
+      <b> @t.Title </b>
+      </label>
+      @if (t.Due.HasValue)
+      {
+       <div>Fällig am @t.Due.Value.ToShortDateString()</div>
+      }
+    </li>
     }
 
    </ol>
@@ -111,7 +117,7 @@
 
 void ChangeTask(BO.Task t)
  {
-  Log("Change Task: " + t.TaskID);
+  Log("Change Task: " + t.TaskID + " Done: " + t.Done);
   new TaskManager(userID).ChangeTask(t);
  }
 
