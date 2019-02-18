@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace Miraclelist
+namespace MiracleList
 {
  public class SwaggerTokenHeaderParameter : IOperationFilter
  {

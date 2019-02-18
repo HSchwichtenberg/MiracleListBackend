@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Miraclelist_WebAPI.Pages
+namespace MiracleList.Pages
 {
     public class AdminModel : PageModel
     {

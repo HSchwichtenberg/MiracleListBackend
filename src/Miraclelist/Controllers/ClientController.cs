@@ -10,7 +10,7 @@ using ITVisions.NetworkUtil;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Miraclelist.Controllers
+namespace MiracleList.Controllers
 {
  [ApiExplorerSettings(IgnoreApi = true)]
  public class ClientController : Controller
