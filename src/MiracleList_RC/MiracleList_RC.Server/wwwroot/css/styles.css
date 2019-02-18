@@ -25,7 +25,19 @@ h4 {
     margin: 2px;
 }
 
+.MLcheckbox {
+ width: 30px;
+ height: 30px;
+ display: inline;
+}
 
+.MLselected {
+ background-color: #E0EEFA !important;
+}
+
+.scroll {
+ overflow-y: auto;
+}
 /*Ladeanimation. Quelle: http://tobiasahlin.com/spinkit/*/
 
 .spinner {
