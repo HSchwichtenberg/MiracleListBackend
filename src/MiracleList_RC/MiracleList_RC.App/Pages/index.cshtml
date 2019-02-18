@@ -6,6 +6,7 @@
 @using BL
 @using System.Linq.Expressions
 @inject WeatherForecastService ForecastService
+@inject IJSRuntime JsRuntime;
 
 <div class="row">
  <!-- ### Spalte 1: Kategorien-->
@@ -18,7 +19,7 @@
 
   <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
    <!-- ---------- Überschrift Spalte 1-->
-   <h4> @(categorySet.Count) <span>Categories @(categorySet.Count)</span></h4>
+   <h4> @(categorySet.Count) <span>Categories</span></h4>
 
    <input id="NewCategory" type="text" class="form-control" bind="@newCategoryName" placeholder="new Category..." />
 
@@ -33,24 +34,28 @@
 
  }
 
-<div class="WLPanel col-sm-6 col-md-5 col-lg-6">
+ <div class="WLPanel col-sm-6 col-md-5 col-lg-6">
 
- <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span> @category.Name</h4>
+  <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span> @category.Name</h4>
 
- <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
+  <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
 
 
- @if (taskSet != null)
- {<ol class="list-group scroll">
-   @foreach (var t in taskSet)
-   {
-    <li class="list-group-item" onclick="@(() => selectTask(t))">@t.Title</li>
-   }
+  @if (taskSet != null)
+  {<ol class="list-group scroll">
+    @foreach (var t in taskSet)
+    {
+     <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
+      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" value=@(t.Done) class="form-control MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
 
-  </ol>
+      <b> @t.Title</b>
+     </li>
+    }
 
- }
-</div>
+   </ol>
+
+  }
+ </div>
 </div>  @*end row*@
 @functions {
  int userID = 1; // Demo ohne Login!
@@ -84,22 +89,30 @@
 
  private void showTaskSet(Category c)
  {
+     Log(nameof(showTaskSet) + ": " + c.CategoryID);
   this.category = c;
   this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
 
  }
 
- private void selectTask(BO.Task t)
+ private void showTaskDetail(BO.Task t)
  {
+   Log(nameof(showTaskDetail) + ": " + t.TaskID);
   this.task = t;
  }
 
  private void createCategory(string newCategoryName)
  {
   if (string.IsNullOrEmpty(newCategoryName)) return;
-  System.Console.WriteLine("createCategory: " + newCategoryName);
+  Log("createCategory: " + newCategoryName);
   new CategoryManager(userID).CreateCategory(newCategoryName);
   showCategorySet();
+ }
+
+void ChangeTask(BO.Task t)
+ {
+  Log("Change Task: " + t.TaskID);
+  new TaskManager(userID).ChangeTask(t);
  }
 
  private void createTask(string newTaskTitle)
@@ -117,15 +130,16 @@
   t.Done = false;
 
   if (string.IsNullOrEmpty(newTaskTitle)) return;
-  System.Console.WriteLine("createTask: " + newTaskTitle);
+  Log("createTask: " + newTaskTitle);
   new TaskManager(userID).CreateTask(t);
   showTaskSet(this.category);
  }
 
- private void showCategorySet()
+ private async void showCategorySet()
  {
   categorySet = new CategoryManager(userID).GetCategorySet();
-  System.Console.WriteLine("LoadCategories: " + categorySet.Count);
+  
+  Log("LoadCategories: " + categorySet.Count);
   if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
   //ForecastService.GetForecastAsync(DateTime.Now);
  }
@@ -135,10 +149,8 @@
  {
   showCategorySet();
  }
-}
 
-@functions
-{
+
  void OnChange<TObject, TValue>(UIChangeEventArgs uIChangeEventArgs, TObject target, Expression<Func<TObject, TValue>> propertyGetter)
  {
   if (uIChangeEventArgs?.Value != null)
@@ -150,5 +162,12 @@
    // Do your own stuff here
   }
  }
+
+ public async void Log(string s)
+    {
+        await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
+
+        this.StateHasChanged();
+    }
 }
 
