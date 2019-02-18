@@ -11,7 +11,7 @@ using System;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.Logging;
 
-namespace Miraclelist
+namespace MiracleList
 {
 
  /// <summary>

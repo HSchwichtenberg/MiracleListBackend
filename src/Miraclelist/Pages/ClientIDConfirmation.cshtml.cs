@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
-namespace Miraclelist_WebAPI.Pages
+namespace MiracleList.Pages
 {
  public class ClientIDConfirmationModel : PageModel
  {
