@@ -5,11 +5,10 @@
 @using BO
 @using BL
 @inject IJSRuntime JsRuntime;
+@inherits TaskEditModel
 
 @if (task != null)
 {
- <div> Task @task.TaskID @task.Title</div>
-
  <div style="padding: 0">
   <div>
    <h4>Task</h4>
@@ -74,52 +73,4 @@
 
 @functions {
 
- [Parameter]
- private int TaskID { get; set; }
-
- [Parameter]
- private Action<int> TaskIDChanged { get; set; }
-
- [Parameter]
- Action<int> TaskHasChanged { get; set; }
-
- BO.Task task;
- int userID = 1; // Demo ohne Login!
-
- protected override void OnInit()
- {
-  Log(nameof(OnInit) + ": " + TaskID);
-  GetTask(TaskID);
- }
-
- // wenn Parameter gesetzt wird
- protected override void OnParametersSet()
- {
-  GetTask(TaskID);
- }
-
- private void Save()
- {
-  Log(nameof(Save) + ": " + TaskID);
-  new BL.TaskManager(userID).ChangeTask(this.task);
-  TaskHasChanged?.Invoke(TaskID);
-  //this.StateHasChanged();
- }
-
- private void Cancel()
- {
-  Log(nameof(Cancel) + ": " + TaskID);
- }
- private void GetTask(int id)
- {
-  Log(nameof(GetTask) + ": " + id);
-  this.task = new BL.TaskManager(userID).GetTask(id);
-
- }
- public async void Log(string s)
- {
-  await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
-
-  this.StateHasChanged();
- }
 }
