@@ -4,65 +4,69 @@
 @using System.Linq.Expressions
 @using BO
 @using BL
-@inject IJSRuntime JsRuntime;
 
-<div class="row">
- <!-- ### Spalte 1: Kategorien-->
- @if (categorySet != null)
- {
-  @*<span class="col-xs-12">
+ <div class="row">
+  <!-- ### Spalte 1: Kategorien-->
+  @if (categorySet != null)
+  {
+   @*<span class="col-xs-12">
     <p>Kat: @(categorySet.Length)</p>
    </span>*@
-
-  <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
-   <!-- ---------- Überschrift Spalte 1-->
-   <h4> @(categorySet.Count) <span>Categories</span></h4>
-   <!-- ---------- neue Kategorie eingeben-->
-   <input id="NewCategory" type="text" class="form-control" bind="@newCategoryName" placeholder="new Category..." />
-   <!-- ---------- Kategorieliste ausgeben-->
-   <ol class="list-group scroll">
-    @foreach (var c in categorySet)
-    {
-     <li class="list-group-item" onclick="@(() => showTaskSet(c))" style="@(c.CategoryID == this.category?.CategoryID ? "Background-color:#E0EEFA" : "Background-color:white")">@c.Name</li>
-    }
-   </ol>
-  </div>
- }
-
- <!-- ### Spalte 2: Aufgabenliste-->
- <div class="@(this.task!=null ? "WLPanel col-sm-6 col-md-5 col-lg-6" : "col-xs-8 col-sm-8 col-md-9 col-lg-10 WLPanel")">
-  <!-- ---------- Überschrift Spalte 2-->
-  <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span> @category.Name</h4>
-  <!-- ---------- neue Aufgaben eingeben-->
-  <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
-  <!-- ---------- Aufgabenliste ausgeben-->
-  @if (taskSet != null)
-  {<ol class="list-group scroll">
-    @foreach (var t in taskSet)
-    {
-     <li class="list-group-item" onclick="@(() => showTaskDetail(t))" style="@(t.TaskID == this.task?.TaskID ? "Background-color:#E0EEFA" : "Background-color:white")">
-
-      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
-
-      <b> @t.Title </b>
-
-      @if (t.Due.HasValue)
-      {
-       <div>Fällig am @t.Due.Value.ToShortDateString()</div>
-      }
-     </li>
-    }
-   </ol>
+  <span>NCN  @newCategoryName NTT @newTaskTitle</span>
+   <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
+    <!-- ---------- Überschrift Spalte 1-->
+    <h4> @(categorySet.Count) <span>Categories</span></h4>
+    <!-- ---------- neue Kategorie eingeben-->
+    <input id="NewCategory" type="text" class="form-control" bind="@newCategoryName" placeholder="new Category..." />
+    <!-- ---------- Kategorieliste ausgeben-->
+    <ol class="list-group scroll">
+     @foreach (var c in categorySet)
+     {
+      <li class="list-group-item" onclick="@(() => ShowTaskSet(c))" style="@(this.category != null && c.CategoryID == this.category.CategoryID ? "Background-color:#E0EEFA" : "Background-color:white")">
+       @c.Name
+       <span style="float:right;" class="glyphicon glyphicon-remove-circle" onclick="@(() => RemoveCategory(c))"></span>
+      </li>
+     }
+    </ol>
+   </div>
   }
- </div>
- <!-- ### Spalte 3: Aufgabendetails-->
- @if (task != null)
- {
-  <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
-   <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
+
+  <!-- ### Spalte 2: Aufgabenliste-->
+  <div class="@(this.task!=null ? "WLPanel col-sm-6 col-md-5 col-lg-6" : "col-xs-8 col-sm-8 col-md-9 col-lg-10 WLPanel")">
+   <!-- ---------- Überschrift Spalte 2-->
+   <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span><i> @category.Name</i></h4>
+   <!-- ---------- neue Aufgaben eingeben-->
+   <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
+   <!-- ---------- Aufgabenliste ausgeben-->
+   @if (taskSet != null)
+   {<ol class="list-group scroll">
+     @foreach (var t in taskSet)
+     {
+      <li class="list-group-item" onclick="@(() => ShowTaskDetail(t))" style="@(t.TaskID == this.task?.TaskID ? "Background-color:#E0EEFA" : "Background-color:white")">
+       <span style="float:right;" class="glyphicon glyphicon-remove-circle" onclick="@(() => RemoveTask(t))"></span>
+
+       <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
+
+       <b>@t.Title</b>
+
+       @if (t.Due.HasValue)
+       {
+        <div>Fällig am @t.Due.Value.ToShortDateString()</div>
+       }
+
+      </li>
+     }
+    </ol>
+   }
   </div>
- }
-</div> @*end row*@
+  <!-- ### Spalte 3: Aufgabendetails-->
+  @if (task != null)
+  {
+   <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
+   </div>
+  }
+ </div> @*end row*@
 @functions {
  int userID = 1; // Demo ohne Util.Login!
 
@@ -77,8 +81,10 @@
   get { return _newCategoryName; }
   set
   {
-   createCategory(value);
+    if (!String.IsNullOrEmpty(value)) CreateCategory(value);
    _newCategoryName = "";
+   Util.Log("_newCategoryName");
+     this.StateHasChanged();
   }
  }
 
@@ -88,39 +94,61 @@
   get { return _newTaskTitle; }
   set
   {
-   createTask(value);
+   if (!String.IsNullOrEmpty(value)) CreateTask(value);
    _newTaskTitle = "";
+      Util.Log("_newTaskTitle");
+     this.StateHasChanged();
   }
  }
 
  private void ReloadTasks(int taskID)
  {
   Util.Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
-  showTaskSet(this.category);
+  ShowTaskSet(this.category);
   this.task = null;
   this.StateHasChanged();
  }
 
- private void showTaskSet(Category c)
+ private void ShowTaskSet(Category c)
  {
-  Util.Log(nameof(showTaskSet) + ": " + c.CategoryID);
+  Util.Log(nameof(ShowTaskSet) + ": " + c.CategoryID);
   this.category = c;
   this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
  }
 
- private void showTaskDetail(BO.Task t)
+ private void ShowTaskDetail(BO.Task t)
  {
-  Util.Log(nameof(showTaskDetail) + ": " + t.TaskID);
+  Util.Log(nameof(ShowTaskDetail) + ": " + t.TaskID);
   this.task = t;
   //this.StateHasChanged();
  }
 
- private void createCategory(string newCategoryName)
+ private async void RemoveTask(BO.Task t)
+ {
+  if (!await Util.Confirm("Aufgabe #" + t.TaskID, "Endgültig löschen?")) return;
+  new TaskManager(userID).Remove(t.TaskID);
+  ShowTaskSet(this.category);
+  this.task = null;
+  this.StateHasChanged();
+ }
+
+ private async void RemoveCategory(BO.Category c)
+ {
+  if (!await Util.Confirm("Kategorie #" + c.CategoryID, "Mit allen Aufgaben endgültig löschen?")) return;
+  new CategoryManager(userID).Remove(c.CategoryID);
+    this.category = null;
+  ShowCategorySet();
+
+  this.StateHasChanged();
+ }
+
+ private void CreateCategory(string newCategoryName)
  {
   if (string.IsNullOrEmpty(newCategoryName)) return;
   Util.Log("createCategory: " + newCategoryName);
-  new CategoryManager(userID).CreateCategory(newCategoryName);
-  showCategorySet();
+  var cat = new CategoryManager(userID).CreateCategory(newCategoryName);
+  ShowCategorySet();
+  ShowTaskSet(cat);
  }
 
  void ChangeTask(BO.Task t)
@@ -129,7 +157,7 @@
   new TaskManager(userID).ChangeTask(t);
  }
 
- private void createTask(string newTaskTitle)
+ private void CreateTask(string newTaskTitle)
  {
   if (string.IsNullOrEmpty(newTaskTitle)) return;
   var t = new BO.Task();
@@ -146,20 +174,22 @@
   if (string.IsNullOrEmpty(newTaskTitle)) return;
   Util.Log("createTask: " + newTaskTitle);
   new TaskManager(userID).CreateTask(t);
-  showTaskSet(this.category);
+  ShowTaskSet(this.category);
+  this.newTaskTitle = "";
+    this.StateHasChanged();
  }
 
- private async void showCategorySet()
+ private async void ShowCategorySet()
  {
   categorySet = new CategoryManager(userID).GetCategorySet();
   Util.Log("LoadCategories: " + categorySet.Count);
-  if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
+  if (this.categorySet.Count > 0) ShowTaskSet(categorySet[0]);
   //ForecastService.GetForecastAsync(DateTime.Now);
  }
 
  protected override void OnInit()
  {
-  showCategorySet();
+  ShowCategorySet();
  }
 
  void OnChange<TObject, TValue>(UIChangeEventArgs uIChangeEventArgs, TObject target, Expression<Func<TObject, TValue>> propertyGetter)
