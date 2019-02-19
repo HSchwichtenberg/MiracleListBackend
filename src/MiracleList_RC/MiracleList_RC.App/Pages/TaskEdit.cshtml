@@ -44,14 +44,19 @@
      <!--Aufwand-->
      <span class="col-xs-3" style="padding-left: 2px; padding-right: 2px">
       <label for="taskeffort " i18n>Effort</label>
-      <input id="taskeffort" name="taskeffort" type="number" bind="@task.Effort" class="form-control" />
+      <input id="taskeffort" name="taskeffort" bind="@task.Effort" class="form-control" />
+
+      @*TODO: type="number" https://github.com/aspnet/AspNetCore/issues/5610*@
      </span>
      <!--Fälligkeit-->
      <span class="col-xs-6" style="padding-left: 2px; ">
       <div class="form-group">
        <label for="taskDue" i18n>Due</label>
+
+       <input id="taskdue" name="taskdue" format-value="dd.MM.yyyy" type="datetime" bind="@task.DueNN" class="form-control" />
+
        @*<datetime id="taskDue" name="taskDue " [(ngModel)]="task.due"
-        [datepicker]="{autoclose: true, format: 'dd.MM.yyyy'}" [timepicker]="false">*@
+  [datepicker]="{autoclose: true, format: 'dd.MM.yyyy'}" [timepicker]="false">*@
        @*</datetime>*@
       </div>
      </span>
