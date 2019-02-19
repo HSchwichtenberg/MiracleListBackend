@@ -25,7 +25,7 @@ namespace MiracleList_RC.App.Pages
   protected override void OnInit()
   {
    Util.Log(nameof(OnInit) + ": " + TaskID);
-   GetTask(TaskID);
+   //GetTask(TaskID);
   }
 
   // wenn Parameter gesetzt wird
@@ -37,6 +37,7 @@ namespace MiracleList_RC.App.Pages
   protected void Save()
   {
    Util.Log(nameof(Save) + ": " + TaskID);
+   Util.Log(this.task);
    new BL.TaskManager(userID).ChangeTask(this.task);
    TaskHasChanged?.Invoke(TaskID);
    //this.StateHasChanged();
@@ -45,12 +46,13 @@ namespace MiracleList_RC.App.Pages
   protected void Cancel()
   {
    Util.Log(nameof(Cancel) + ": " + TaskID);
+   GetTask(TaskID);
   }
   private void GetTask(int id)
   {
    Util.Log(nameof(GetTask) + ": " + id);
    this.task = new BL.TaskManager(userID).GetTask(id);
-
+   Util.Log(this.task);
   }
 
  }
