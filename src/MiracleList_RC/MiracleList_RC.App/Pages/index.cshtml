@@ -14,163 +14,152 @@
     <p>Kat: @(categorySet.Length)</p>
    </span>*@
 
-
   <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
    <!-- ---------- Überschrift Spalte 1-->
    <h4> @(categorySet.Count) <span>Categories</span></h4>
-
+   <!-- ---------- neue Kategorie eingeben-->
    <input id="NewCategory" type="text" class="form-control" bind="@newCategoryName" placeholder="new Category..." />
-
+   <!-- ---------- Kategorieliste ausgeben-->
    <ol class="list-group scroll">
     @foreach (var c in categorySet)
     {
-     <li class="list-group-item" onclick="@(() => showTaskSet(c))">@c.Name</li>
+     <li class="list-group-item" onclick="@(() => showTaskSet(c))" style="@(c.CategoryID == this.category?.CategoryID ? "Background-color:#E0EEFA" : "Background-color:white")">@c.Name</li>
     }
-
    </ol>
   </div>
-
  }
 
- <div class="WLPanel col-sm-6 col-md-5 col-lg-6">
-
+ <!-- ### Spalte 2: Aufgabenliste-->
+ <div class="@(this.task!=null ? "WLPanel col-sm-6 col-md-5 col-lg-6" : "col-xs-8 col-sm-8 col-md-9 col-lg-10 WLPanel")">
+  <!-- ---------- Überschrift Spalte 2-->
   <h4 id="TaskHeadline">@taskSet.Count  <span>Tasks in</span> @category.Name</h4>
-
+  <!-- ---------- neue Aufgaben eingeben-->
   <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
-
+  <!-- ---------- Aufgabenliste ausgeben-->
   @if (taskSet != null)
   {<ol class="list-group scroll">
     @foreach (var t in taskSet)
     {
-     <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
-      
-       <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
+     <li class="list-group-item" onclick="@(() => showTaskDetail(t))" style="@(t.TaskID == this.task?.TaskID ? "Background-color:#E0EEFA" : "Background-color:white")">
 
-       <b> @t.Title </b>
-    
+      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
+
+      <b> @t.Title </b>
+
       @if (t.Due.HasValue)
       {
        <div>Fällig am @t.Due.Value.ToShortDateString()</div>
       }
      </li>
     }
-
    </ol>
-
-
-
   }
  </div>
-
+ <!-- ### Spalte 3: Aufgabendetails-->
  @if (task != null)
  {
   <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
-     <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
+   <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
   </div>
  }
-
-
 </div> @*end row*@
 @functions {
-  int userID = 1; // Demo ohne Util.Login!
+ int userID = 1; // Demo ohne Util.Login!
 
-  List<Category> categorySet;
-  List<BO.Task> taskSet;
-  Category category;
-  BO.Task task;
+ List<Category> categorySet;
+ List<BO.Task> taskSet;
+ Category category;
+ BO.Task task;
 
-  string _newCategoryName;
-  string newCategoryName
+ string _newCategoryName;
+ string newCategoryName
  {
-   get { return _newCategoryName; }
-   set
+  get { return _newCategoryName; }
+  set
   {
-    createCategory(value);
-    _newCategoryName = "";
-   }
+   createCategory(value);
+   _newCategoryName = "";
   }
+ }
 
-  string _newTaskTitle;
-  string newTaskTitle
+ string _newTaskTitle;
+ string newTaskTitle
  {
-   get { return _newTaskTitle; }
-   set
+  get { return _newTaskTitle; }
+  set
   {
-    createTask(value);
-    _newTaskTitle = "";
-   }
+   createTask(value);
+   _newTaskTitle = "";
   }
+ }
 
-  private void ReloadTasks(int taskID)
-  {
-   Util.Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
+ private void ReloadTasks(int taskID)
+ {
+  Util.Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
   showTaskSet(this.category);
-  }
+  this.task = null;
+ }
 
-  private void showTaskSet(Category c)
-  {
-   Util.Log(nameof(showTaskSet) + ": " + c.CategoryID);
-   this.category = c;
-   this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
+ private void showTaskSet(Category c)
+ {
+  Util.Log(nameof(showTaskSet) + ": " + c.CategoryID);
+  this.category = c;
+  this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
+ }
 
-  }
+ private void showTaskDetail(BO.Task t)
+ {
+  Util.Log(nameof(showTaskDetail) + ": " + t.TaskID);
+  this.task = t;
+  this.StateHasChanged();
+ }
 
-  private void showTaskDetail(BO.Task t)
-  {
-   Util.Log(nameof(showTaskDetail) + ": " + t.TaskID);
-   this.task = t;
-   this.StateHasChanged();
-  }
+ private void createCategory(string newCategoryName)
+ {
+  if (string.IsNullOrEmpty(newCategoryName)) return;
+  Util.Log("createCategory: " + newCategoryName);
+  new CategoryManager(userID).CreateCategory(newCategoryName);
+  showCategorySet();
+ }
 
-  private void createCategory(string newCategoryName)
-  {
-   if (string.IsNullOrEmpty(newCategoryName)) return;
-   Util.Log("createCategory: " + newCategoryName);
-   new CategoryManager(userID).CreateCategory(newCategoryName);
-   showCategorySet();
-  }
+ void ChangeTask(BO.Task t)
+ {
+  Util.Log("Change Task: " + t.TaskID + " Done: " + t.Done);
+  new TaskManager(userID).ChangeTask(t);
+ }
 
-  void ChangeTask(BO.Task t)
-  {
-   Util.Log("Change Task: " + t.TaskID + " Done: " + t.Done);
-   new TaskManager(userID).ChangeTask(t);
-  }
+ private void createTask(string newTaskTitle)
+ {
+  if (string.IsNullOrEmpty(newTaskTitle)) return;
+  var t = new BO.Task();
+  t.TaskID = 0; // notwendig für Server, da der die ID vergibt
+  t.Title = newTaskTitle;
+  t.CategoryID = this.category.CategoryID;
+  t.Importance = BO.Importance.B;
+  t.Created = DateTime.Now;
+  t.Due = null;
+  t.Order = 0;
+  t.Note = "";
+  t.Done = false;
 
-  private void createTask(string newTaskTitle)
-  {
-   if (string.IsNullOrEmpty(newTaskTitle)) return;
-   var t = new BO.Task();
-   t.TaskID = 0; // notwendig für Server, da der die ID vergibt
-   t.Title = newTaskTitle;
-   t.CategoryID = this.category.CategoryID;
-   t.Importance = BO.Importance.B;
-   t.Created = DateTime.Now;
-   t.Due = null;
-   t.Order = 0;
-   t.Note = "";
-   t.Done = false;
+  if (string.IsNullOrEmpty(newTaskTitle)) return;
+  Util.Log("createTask: " + newTaskTitle);
+  new TaskManager(userID).CreateTask(t);
+  showTaskSet(this.category);
+ }
 
-   if (string.IsNullOrEmpty(newTaskTitle)) return;
-   Util.Log("createTask: " + newTaskTitle);
-   new TaskManager(userID).CreateTask(t);
-   showTaskSet(this.category);
-  }
-
-  private async void showCategorySet()
-  {
-   categorySet = new CategoryManager(userID).GetCategorySet();
-
-   Util.Log("LoadCategories: " + categorySet.Count);
-   if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
-   //ForecastService.GetForecastAsync(DateTime.Now);
-  }
-
+ private async void showCategorySet()
+ {
+  categorySet = new CategoryManager(userID).GetCategorySet();
+  Util.Log("LoadCategories: " + categorySet.Count);
+  if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
+  //ForecastService.GetForecastAsync(DateTime.Now);
+ }
 
  protected override void OnInit()
  {
   showCategorySet();
  }
-
 
  void OnChange<TObject, TValue>(UIChangeEventArgs uIChangeEventArgs, TObject target, Expression<Func<TObject, TValue>> propertyGetter)
  {
@@ -184,6 +173,4 @@
   }
  }
 
-
 }
-

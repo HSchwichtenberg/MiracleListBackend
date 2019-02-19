@@ -47,6 +47,7 @@ namespace MiracleList_RC.App.Pages
   {
    Util.Log(nameof(Cancel) + ": " + TaskID);
    GetTask(TaskID);
+   TaskHasChanged?.Invoke(TaskID);
   }
   private void GetTask(int id)
   {
