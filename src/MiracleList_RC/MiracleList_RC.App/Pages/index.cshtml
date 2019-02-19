@@ -1,11 +1,9 @@
 ﻿@page "/"
-@using MiracleList_RC.App.Services
 @using System.Collections.Generic
-@using BO
 @using System.Reflection
-@using BL
 @using System.Linq.Expressions
-@inject WeatherForecastService ForecastService
+@using BO
+@using BL
 @inject IJSRuntime JsRuntime;
 
 <div class="row">
@@ -40,32 +38,44 @@
 
   <input id="NewTask" type="text" class="form-control" bind="@newTaskTitle" placeholder="new Task..." />
 
-
   @if (taskSet != null)
   {<ol class="list-group scroll">
     @foreach (var t in taskSet)
     {
-    <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
-     <label>
-      <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
+     <li class="list-group-item" onclick="@(() => showTaskDetail(t))">
+      
+       <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
 
-      <b> @t.Title </b>
-      </label>
+       <b> @t.Title </b>
+    
       @if (t.Due.HasValue)
       {
        <div>Fällig am @t.Due.Value.ToShortDateString()</div>
       }
-    </li>
+     </li>
     }
 
    </ol>
 
+
+
   }
  </div>
-</div>  @*end row*@
+
+ @if (task != null)
+ {
+  <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+   Details
+
+   <TaskEdit bind-TaskID="@task.TaskID"></TaskEdit>
+  </div>
+ }
+
+
+</div> @*end row*@
 @functions {
  int userID = 1; // Demo ohne Login!
- WeatherForecast[] forecasts;
+
  List<Category> categorySet;
  List<BO.Task> taskSet;
  Category category;
@@ -95,7 +105,7 @@
 
  private void showTaskSet(Category c)
  {
-     Log(nameof(showTaskSet) + ": " + c.CategoryID);
+  Log(nameof(showTaskSet) + ": " + c.CategoryID);
   this.category = c;
   this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
 
@@ -103,8 +113,9 @@
 
  private void showTaskDetail(BO.Task t)
  {
-   Log(nameof(showTaskDetail) + ": " + t.TaskID);
+  Log(nameof(showTaskDetail) + ": " + t.TaskID);
   this.task = t;
+  this.StateHasChanged();
  }
 
  private void createCategory(string newCategoryName)
@@ -115,7 +126,7 @@
   showCategorySet();
  }
 
-void ChangeTask(BO.Task t)
+ void ChangeTask(BO.Task t)
  {
   Log("Change Task: " + t.TaskID + " Done: " + t.Done);
   new TaskManager(userID).ChangeTask(t);
@@ -144,7 +155,7 @@ void ChangeTask(BO.Task t)
  private async void showCategorySet()
  {
   categorySet = new CategoryManager(userID).GetCategorySet();
-  
+
   Log("LoadCategories: " + categorySet.Count);
   if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
   //ForecastService.GetForecastAsync(DateTime.Now);
@@ -170,10 +181,10 @@ void ChangeTask(BO.Task t)
  }
 
  public async void Log(string s)
-    {
-        await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
+ {
+  await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
 
-        this.StateHasChanged();
-    }
+  this.StateHasChanged();
+ }
 }
 
