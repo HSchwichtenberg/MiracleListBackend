@@ -22,6 +22,18 @@ namespace BO
   public Importance? Importance { get; set; }
   public string Note { get; set; }
 
+  [NotMapped]
+  public Importance ImportanceNN {
+   get
+   {
+    return this.Importance ?? BO.Importance.A;
+   }
+   set
+   {
+    this.Importance = value;
+   }
+  }
+
   public bool Done { get; set; }
   public decimal? Effort { get; set; }
   public int Order { get; set; }
