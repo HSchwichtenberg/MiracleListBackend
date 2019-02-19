@@ -1,0 +1,50 @@
+﻿@page "/edit/"
+@using System.Collections.Generic
+@using System.Reflection
+@using System.Linq.Expressions
+@using BO
+@using BL
+@inject IJSRuntime JsRuntime;
+
+@if (task != null)
+{
+ <div> Task @task.TaskID @task.Title</div>
+}
+
+
+@functions {
+
+ [Parameter]
+ private int TaskID { get; set; }
+
+ [Parameter]
+ private Action<int> TaskIDChanged { get; set; }
+
+ BO.Task task;
+ int userID = 1; // Demo ohne Login!
+
+ protected override void OnInit()
+ {
+  Log(nameof(OnInit) + ": " + TaskID);
+  getTask(TaskID);
+ }
+
+ protected override void OnParametersSet()
+ {
+    getTask(TaskID);
+ }
+
+
+ private void getTask(int id)
+ {
+  Log(nameof(getTask) + ": " + id);
+  this.task = new BL.TaskManager(userID).GetTask(id);
+
+ }
+ public async void Log(string s)
+ {
+  await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
+
+  this.StateHasChanged();
+ }
+}
