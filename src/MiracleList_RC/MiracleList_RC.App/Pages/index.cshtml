@@ -98,6 +98,7 @@
   Util.Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
   showTaskSet(this.category);
   this.task = null;
+  this.StateHasChanged();
  }
 
  private void showTaskSet(Category c)
@@ -111,7 +112,7 @@
  {
   Util.Log(nameof(showTaskDetail) + ": " + t.TaskID);
   this.task = t;
-  this.StateHasChanged();
+  //this.StateHasChanged();
  }
 
  private void createCategory(string newCategoryName)
