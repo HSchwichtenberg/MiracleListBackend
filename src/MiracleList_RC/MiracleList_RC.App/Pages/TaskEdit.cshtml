@@ -9,7 +9,67 @@
 @if (task != null)
 {
  <div> Task @task.TaskID @task.Title</div>
+
+ <div style="padding: 0">
+  <div>
+   <h4>Task</h4>
+   <form>
+    <!--Schaltflächen-->
+    <button type="button" title="Änderungen speichern"
+            onclick="@Save" class="btn btn-success">
+     <span class="glyphicon  glyphicon-floppy-save"></span> <span class="hidden-xs" i18n>Save</span>
+    </button>
+    <button type="button" title="Änderungen verwerfen" onclick="@Cancel" class="btn btn-warning"><span class="glyphicon glyphicon-remove"></span> <span class="hidden-xs" i18n>Cancel</span></button>
+    <!--Titel-->
+    <div class="form-group">
+     <label for="tasktitle">Titel</label>
+     <input id="tasktitle" name="tasktitle" type="text" bind="@task.Title" required class="form-control" />
+    </div>
+    <!--Validatorausgabe Titel-->
+    @*<div [hidden]="tasktitle.valid || tasktitle.pristine" class="alert alert-danger ">
+      Der Titel darf nicht leer sein!
+     </div>*@
+
+    <div class="row">
+     <!--Wichtigkeit-->
+     <span class="col-xs-3" style="padding-right: 2px">
+      <div class="form-group ">
+       <label for="taskimportance " i18n>Importance</label>
+       <select id="taskimportance" name="taskimportance" bind="@task.ImportanceNN" class="form-control">
+        <option value="0">A</option>
+        <option value="1">B</option>
+        <option value="2">C</option>
+       </select>
+      </div>
+     </span>
+     <!--Aufwand-->
+     <span class="col-xs-3" style="padding-left: 2px; padding-right: 2px">
+      <label for="taskeffort " i18n>Effort</label>
+      <input id="taskeffort" name="taskeffort" type="number" bind="@task.Effort" class="form-control" />
+     </span>
+     <!--Fälligkeit-->
+     <span class="col-xs-6" style="padding-left: 2px; ">
+      <div class="form-group">
+       <label for="taskDue" i18n>Due</label>
+       @*<datetime id="taskDue" name="taskDue " [(ngModel)]="task.due"
+        [datepicker]="{autoclose: true, format: 'dd.MM.yyyy'}" [timepicker]="false">*@
+       @*</datetime>*@
+      </div>
+     </span>
+    </div>
+    <!--Ende row-->
+    <!--Unteraufgaben-->
+    @*<SubTaskList [task]="task " (subTaskListChangedEvent)="reload($event) "></SubTaskList>*@
+    <!--Notiz-->
+    <div class="form-group ">
+     <label for="tasknote" i18n>Note</label>
+     <textarea id="tasknote" name="tasknote " rows="5 " bind="@task.Note" class="form-control "></textarea>
+    </div>
+   </form>
+  </div>
+ </div>
 }
+
 
 
 @functions {
@@ -20,24 +80,39 @@
  [Parameter]
  private Action<int> TaskIDChanged { get; set; }
 
+ [Parameter]
+ Action<int> TaskHasChanged { get; set; }
+
  BO.Task task;
  int userID = 1; // Demo ohne Login!
 
  protected override void OnInit()
  {
   Log(nameof(OnInit) + ": " + TaskID);
-  getTask(TaskID);
+  GetTask(TaskID);
  }
 
+ // wenn Parameter gesetzt wird
  protected override void OnParametersSet()
  {
-    getTask(TaskID);
+  GetTask(TaskID);
  }
 
-
- private void getTask(int id)
+ private void Save()
  {
-  Log(nameof(getTask) + ": " + id);
+  Log(nameof(Save) + ": " + TaskID);
+  new BL.TaskManager(userID).ChangeTask(this.task);
+  TaskHasChanged?.Invoke(TaskID);
+  //this.StateHasChanged();
+ }
+
+ private void Cancel()
+ {
+  Log(nameof(Cancel) + ": " + TaskID);
+ }
+ private void GetTask(int id)
+ {
+  Log(nameof(GetTask) + ": " + id);
   this.task = new BL.TaskManager(userID).GetTask(id);
 
  }

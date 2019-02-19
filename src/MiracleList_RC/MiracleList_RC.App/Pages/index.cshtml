@@ -67,99 +67,105 @@
   <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
    Details
 
-   <TaskEdit bind-TaskID="@task.TaskID"></TaskEdit>
+   <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
   </div>
  }
 
 
 </div> @*end row*@
 @functions {
- int userID = 1; // Demo ohne Login!
+  int userID = 1; // Demo ohne Login!
 
- List<Category> categorySet;
- List<BO.Task> taskSet;
- Category category;
- BO.Task task;
+  List<Category> categorySet;
+  List<BO.Task> taskSet;
+  Category category;
+  BO.Task task;
 
- string _newCategoryName;
- string newCategoryName
+  string _newCategoryName;
+  string newCategoryName
  {
-  get { return _newCategoryName; }
-  set
+   get { return _newCategoryName; }
+   set
   {
-   createCategory(value);
-   _newCategoryName = "";
+    createCategory(value);
+    _newCategoryName = "";
+   }
   }
- }
 
- string _newTaskTitle;
- string newTaskTitle
+  string _newTaskTitle;
+  string newTaskTitle
  {
-  get { return _newTaskTitle; }
-  set
+   get { return _newTaskTitle; }
+   set
   {
-   createTask(value);
-   _newTaskTitle = "";
+    createTask(value);
+    _newTaskTitle = "";
+   }
   }
- }
 
- private void showTaskSet(Category c)
- {
-  Log(nameof(showTaskSet) + ": " + c.CategoryID);
-  this.category = c;
-  this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
-
- }
-
- private void showTaskDetail(BO.Task t)
- {
-  Log(nameof(showTaskDetail) + ": " + t.TaskID);
-  this.task = t;
-  this.StateHasChanged();
- }
-
- private void createCategory(string newCategoryName)
- {
-  if (string.IsNullOrEmpty(newCategoryName)) return;
-  Log("createCategory: " + newCategoryName);
-  new CategoryManager(userID).CreateCategory(newCategoryName);
-  showCategorySet();
- }
-
- void ChangeTask(BO.Task t)
- {
-  Log("Change Task: " + t.TaskID + " Done: " + t.Done);
-  new TaskManager(userID).ChangeTask(t);
- }
-
- private void createTask(string newTaskTitle)
- {
-  if (string.IsNullOrEmpty(newTaskTitle)) return;
-  var t = new BO.Task();
-  t.TaskID = 0; // notwendig für Server, da der die ID vergibt
-  t.Title = newTaskTitle;
-  t.CategoryID = this.category.CategoryID;
-  t.Importance = BO.Importance.B;
-  t.Created = DateTime.Now;
-  t.Due = null;
-  t.Order = 0;
-  t.Note = "";
-  t.Done = false;
-
-  if (string.IsNullOrEmpty(newTaskTitle)) return;
-  Log("createTask: " + newTaskTitle);
-  new TaskManager(userID).CreateTask(t);
+  private void ReloadTasks(int taskID)
+  {
+   Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
   showTaskSet(this.category);
- }
+  }
 
- private async void showCategorySet()
- {
-  categorySet = new CategoryManager(userID).GetCategorySet();
+  private void showTaskSet(Category c)
+  {
+   Log(nameof(showTaskSet) + ": " + c.CategoryID);
+   this.category = c;
+   this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
 
-  Log("LoadCategories: " + categorySet.Count);
-  if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
-  //ForecastService.GetForecastAsync(DateTime.Now);
- }
+  }
+
+  private void showTaskDetail(BO.Task t)
+  {
+   Log(nameof(showTaskDetail) + ": " + t.TaskID);
+   this.task = t;
+   this.StateHasChanged();
+  }
+
+  private void createCategory(string newCategoryName)
+  {
+   if (string.IsNullOrEmpty(newCategoryName)) return;
+   Log("createCategory: " + newCategoryName);
+   new CategoryManager(userID).CreateCategory(newCategoryName);
+   showCategorySet();
+  }
+
+  void ChangeTask(BO.Task t)
+  {
+   Log("Change Task: " + t.TaskID + " Done: " + t.Done);
+   new TaskManager(userID).ChangeTask(t);
+  }
+
+  private void createTask(string newTaskTitle)
+  {
+   if (string.IsNullOrEmpty(newTaskTitle)) return;
+   var t = new BO.Task();
+   t.TaskID = 0; // notwendig für Server, da der die ID vergibt
+   t.Title = newTaskTitle;
+   t.CategoryID = this.category.CategoryID;
+   t.Importance = BO.Importance.B;
+   t.Created = DateTime.Now;
+   t.Due = null;
+   t.Order = 0;
+   t.Note = "";
+   t.Done = false;
+
+   if (string.IsNullOrEmpty(newTaskTitle)) return;
+   Log("createTask: " + newTaskTitle);
+   new TaskManager(userID).CreateTask(t);
+   showTaskSet(this.category);
+  }
+
+  private async void showCategorySet()
+  {
+   categorySet = new CategoryManager(userID).GetCategorySet();
+
+   Log("LoadCategories: " + categorySet.Count);
+   if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
+   //ForecastService.GetForecastAsync(DateTime.Now);
+  }
 
 
  protected override void OnInit()
