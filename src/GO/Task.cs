@@ -34,6 +34,20 @@ namespace BO
    }
   }
 
+  [NotMapped]
+  public DateTime DueNN
+  {
+   get
+   {
+    return this.Due ?? DateTime.Now;
+   }
+   set
+   {
+    this.Due = value;
+   }
+  }
+
+
   public bool Done { get; set; }
   public decimal? Effort { get; set; }
   public int Order { get; set; }
