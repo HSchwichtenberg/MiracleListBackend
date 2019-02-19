@@ -12,7 +12,7 @@
    @*<span class="col-xs-12">
     <p>Kat: @(categorySet.Length)</p>
    </span>*@
-  <span>NCN  @newCategoryName NTT @newTaskTitle</span>
+  @*<span>NCN  @newCategoryName NTT @newTaskTitle</span>*@
    <div class="WLPanel col-xs-4 col-sm-4 col-md-3 col-lg-2">
     <!-- ---------- Überschrift Spalte 1-->
     <h4> @(categorySet.Count) <span>Categories</span></h4>
@@ -22,7 +22,7 @@
     <ol class="list-group scroll">
      @foreach (var c in categorySet)
      {
-      <li class="list-group-item" onclick="@(() => ShowTaskSet(c))" style="@(this.category != null && c.CategoryID == this.category.CategoryID ? "Background-color:#E0EEFA" : "Background-color:white")">
+      <li class="list-group-item" onclick="@(() => ShowTaskSet(c))" style="Background-color:@(this.category != null && c.CategoryID == this.category.CategoryID ? "#E0EEFA" : "white")">
        @c.Name
        <span style="float:right;" class="glyphicon glyphicon-remove-circle" onclick="@(() => RemoveCategory(c))"></span>
       </li>
