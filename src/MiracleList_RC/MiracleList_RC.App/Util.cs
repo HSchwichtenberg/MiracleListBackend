@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Microsoft.JSInterop;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MiracleList_RC.App
 {
- class console
+ class Util
  {
 
-  //public async void log(string s)
-  //{
-  // await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
-
-  // this.StateHasChanged();
-  //}
+  public static async void Log(string s)
+  {
+   await JSRuntime.Current.InvokeAsync<string>("log", "ML: " + s);
+   //UriComponents.
+   //this.StateHasChanged();
+  }
  }
 }

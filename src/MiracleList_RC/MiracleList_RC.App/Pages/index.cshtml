@@ -65,16 +65,14 @@
  @if (task != null)
  {
   <div class="WLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
-   Details
-
-   <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
+     <TaskEdit bind-TaskID="@task.TaskID" TaskHasChanged="@ReloadTasks"></TaskEdit>
   </div>
  }
 
 
 </div> @*end row*@
 @functions {
-  int userID = 1; // Demo ohne Login!
+  int userID = 1; // Demo ohne Util.Login!
 
   List<Category> categorySet;
   List<BO.Task> taskSet;
@@ -105,13 +103,13 @@
 
   private void ReloadTasks(int taskID)
   {
-   Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
+   Util.Log(nameof(ReloadTasks) + ": Changed Task=" + taskID);
   showTaskSet(this.category);
   }
 
   private void showTaskSet(Category c)
   {
-   Log(nameof(showTaskSet) + ": " + c.CategoryID);
+   Util.Log(nameof(showTaskSet) + ": " + c.CategoryID);
    this.category = c;
    this.taskSet = new TaskManager(userID).GetTaskSet(c.CategoryID);
 
@@ -119,7 +117,7 @@
 
   private void showTaskDetail(BO.Task t)
   {
-   Log(nameof(showTaskDetail) + ": " + t.TaskID);
+   Util.Log(nameof(showTaskDetail) + ": " + t.TaskID);
    this.task = t;
    this.StateHasChanged();
   }
@@ -127,14 +125,14 @@
   private void createCategory(string newCategoryName)
   {
    if (string.IsNullOrEmpty(newCategoryName)) return;
-   Log("createCategory: " + newCategoryName);
+   Util.Log("createCategory: " + newCategoryName);
    new CategoryManager(userID).CreateCategory(newCategoryName);
    showCategorySet();
   }
 
   void ChangeTask(BO.Task t)
   {
-   Log("Change Task: " + t.TaskID + " Done: " + t.Done);
+   Util.Log("Change Task: " + t.TaskID + " Done: " + t.Done);
    new TaskManager(userID).ChangeTask(t);
   }
 
@@ -153,7 +151,7 @@
    t.Done = false;
 
    if (string.IsNullOrEmpty(newTaskTitle)) return;
-   Log("createTask: " + newTaskTitle);
+   Util.Log("createTask: " + newTaskTitle);
    new TaskManager(userID).CreateTask(t);
    showTaskSet(this.category);
   }
@@ -162,7 +160,7 @@
   {
    categorySet = new CategoryManager(userID).GetCategorySet();
 
-   Log("LoadCategories: " + categorySet.Count);
+   Util.Log("LoadCategories: " + categorySet.Count);
    if (this.categorySet.Count > 0) showTaskSet(categorySet[0]);
    //ForecastService.GetForecastAsync(DateTime.Now);
   }
@@ -186,11 +184,6 @@
   }
  }
 
- public async void Log(string s)
- {
-  await JsRuntime.InvokeAsync<string>("log", "ML: " + s);
 
-  this.StateHasChanged();
- }
 }
 
