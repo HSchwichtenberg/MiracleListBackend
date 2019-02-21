@@ -136,45 +136,45 @@
 			},
 			"response": []
 		},
-		{
-			"name": "LOGIN ERROR http://localhost:8887/login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"ClientIDUnknown\"] = jsonData.message === \"Client-ID-Check: ClientIDUnknown\";"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"falsch\",\r\n  \"token\": \"\"\r\n}"
-				},
-				"url": {
-					"raw": "http://{{servername}}/login",
-					"protocol": "http",
-					"host": [
-						"{{servername}}"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
+  {
+   "name": "LOGIN ERROR http://{{servername}}:8887/login",
+   "event": [
+    {
+     "listen": "test",
+     "script": {
+      "type": "text/javascript",
+      "exec": [
+       "var jsonData = JSON.parse(responseBody);",
+       "tests[\"ClientIDUnknown\"] = jsonData.message === \"Client-ID-Check: ClientIDUnknown\";"
+      ]
+     }
+    }
+   ],
+   "request": {
+    "method": "POST",
+    "header": [
+     {
+      "key": "Content-Type",
+      "value": "application/json"
+     }
+    ],
+    "body": {
+     "mode": "raw",
+     "raw": "{\r\n  \"clientID\": \"test2\",\r\n  \"userName\": \"test2\",\r\n  \"password\": \"falsch\",\r\n  \"token\": \"\"\r\n}"
+    },
+    "url": {
+     "raw": "http://{{servername}}/login",
+     "protocol": "http",
+     "host": [
+      "{{servername}}"
+     ],
+     "path": [
+      "login"
+     ]
+    }
+   },
+   "response": []
+  },
 		{
 			"name": "LOGIN http://{{servername}}/login",
 			"event": [
