@@ -8,19 +8,18 @@
     }
   },
   "profiles": {
-   "IIS Express": {
-    "commandName": "IISExpress",
-    "launchBrowser": true,
-    "launchUrl": "index.html",
-    "environmentVariables": {
-
-    }
-   },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "index.html",
+      "environmentVariables": {
+        "ASPNETCORE_Environment": "Development"
+      }
+    },
     "MiraclelistWebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/values",
-    
+      "launchUrl": "http://localhost:5000/api/values"
     }
   }
 }
