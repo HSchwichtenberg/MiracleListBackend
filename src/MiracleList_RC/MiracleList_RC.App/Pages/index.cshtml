@@ -42,7 +42,7 @@
    {<ol class="list-group scroll">
      @foreach (var t in taskSet)
      {
-      <li class="list-group-item" onclick="@(() => ShowTaskDetail(t))" style="@(t.TaskID == this.task?.TaskID ? "Background-color:#E0EEFA" : "Background-color:white")">
+      <li class="list-group-item" onclick="@(() => ShowTaskDetail(t))" style="@(t.TaskID == this.task?.TaskID ? "Background-color:#E0EEFA" : "Background-color:white")" title="Aufgabe #@t.TaskID">
        <span style="float:right;" class="glyphicon glyphicon-remove-circle" onclick="@(() => RemoveTask(t))"></span>
 
        <input type="checkbox" name="@("done" + t.TaskID)" id="@("done" + t.TaskID)" checked="@t.Done" class=" MLcheckbox" onchange=@(eventArgs => { t.Done = (bool)eventArgs.Value; ChangeTask(t);  }) />
