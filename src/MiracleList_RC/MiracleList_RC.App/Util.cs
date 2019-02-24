@@ -23,7 +23,7 @@ namespace MiracleList_RC.App
   public static async Task<bool> Confirm(string text1, string text2 = "")
   {
    Log("Confirm");
-   return await JSRuntime.Current.InvokeAsync<bool>("GetConfirmation", text1 + "\n" + text2);
+   return await JSRuntime.Current.InvokeAsync<bool>("GetConfirmation", text1,text2);
   }
  }
 }

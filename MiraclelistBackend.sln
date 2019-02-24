@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28531.58
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src Backend", "src Backend", "{D3E1F152-76BA-40BE-9D0C-8F2CD124FC4C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07904EA8-7969-42CB-B5A7-5BDA087AA900}"
 	ProjectSection(SolutionItems) = preProject
@@ -179,5 +179,16 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://it-visions.visualstudio.com/
+		SccProjectUniqueName0 = ..\\..\\TFS\\Demos\\NETCore\\ITVTagHelper\\ITVTagHelper.csproj
+		SccProjectTopLevelParentUniqueName0 = MiraclelistBackend.sln
+		SccProjectName0 = $/ITV\u0020Demos/MAIN/NETCore/ITVTagHelper
+		SccAuxPath0 = https://it-visions.visualstudio.com
+		SccLocalPath0 = ..\\..\\TFS\\Demos\\NETCore\\ITVTagHelper
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

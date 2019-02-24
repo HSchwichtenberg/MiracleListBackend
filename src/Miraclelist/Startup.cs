@@ -30,7 +30,17 @@ namespace MiracleList
   {
    CUI.Headline("Startup");
 
+   #region Additional Columns added after compilation
+   var fileContent = File.ReadAllLines(System.IO.Path.Combine(env.WebRootPath, "AddedColumnsConfig.txt"));
+   var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
 
+   // List of additional columns must be set before creating the first instance of the context!
+   if (additionalColumnSet.Count > 0)
+   {
+    DAL.Context.AdditionalColumnSet = additionalColumnSet;
+    Console.WriteLine("AdditionalColumnSet=" + String.Join("\n", additionalColumnSet));
+   }
+   #endregion
 
    #region Load configuration
    //System.Environment.SetEnvironmentVariable("ConnectionStrings:MiracleListDB", "");
@@ -70,17 +80,7 @@ namespace MiracleList
    DAL.Context.ConnectionString = CS;
    #endregion
 
-   #region Additional Columns added after compilation
-   var fileContent = File.ReadAllLines(System.IO.Path.Combine(env.WebRootPath, "AddedColumnsConfig.txt"));
-   var additionalColumnSet = fileContent.Where(x => !x.StartsWith("#")).ToList();
-
-   // List of additional columns must be set before creating the first instance of the context!
-   if (additionalColumnSet.Count > 0)
-   {
-    DAL.Context.AdditionalColumnSet = additionalColumnSet;
-    Console.WriteLine("AdditionalColumnSet=" + String.Join("\n", additionalColumnSet));
-   }
-   #endregion
+  
 
    #region testuser
 

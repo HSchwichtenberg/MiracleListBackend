@@ -26,6 +26,7 @@ namespace MiracleList
   /// <param name="args"></param>
   public static void Main(string[] args)
   {
+   //BL.DataGenerator.Run();
 
    CUI.MainHeadline("MiracleList Backend v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
    Console.WriteLine();
@@ -56,6 +57,7 @@ namespace MiracleList
       logging.AddConsole();
      })
     .Build();
+
 
    CUI.H2("Server Features:");
    foreach (var sf in builder.ServerFeatures)
