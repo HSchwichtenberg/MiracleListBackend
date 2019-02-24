@@ -80,7 +80,6 @@ namespace MiracleList
    DAL.Context.ConnectionString = CS;
    #endregion
 
-  
 
    #region testuser
 
