@@ -62,6 +62,10 @@ namespace UnitTests
 
   public static string ConnectionString = "notset";
 
+  public static bool IsInMemory { 
+   get { return String.IsNullOrEmpty(DAL.Context.ConnectionString);}
+}
+
   public static SqliteConnection _SQLiteInMemoryConnection;
 
   public static void SetSQLLiteInMemoryConnection(bool force = false)
