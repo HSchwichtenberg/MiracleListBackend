@@ -6,7 +6,7 @@
 }
 @addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *,MiracleList
-@*@addTagHelper *,ITVTagHelper*@
+@addTagHelper *,ITVTagHelper
 
 <h2>
  Beantragung für Client-ID 
@@ -100,10 +100,12 @@
  <hr />
  Seite erstellt mit ASP.NET Core v@(typeof(Microsoft.AspNetCore.WebHost).Assembly.GetName().Version.ToString()) Razor Pages: @Model.Aufrufe<text>.</text> Aufruf dieser Seite.
 
-@{ int i = 0;}
+ <hr />
+ @*<h3>Historie</h3>
+@{ int i = DateTime.Now.Year -5;}
 <ul>
- <repeater count="@Model.Aufrufe-1">
-  <li>@(i+1). Aufrufe</li>
+ <repeater count="@(DateTime.Now.Year- i)">
+  <li><a href="/">@(i++)</a></li>
  </repeater>
-
-</ul>
+</ul>*@
+</div>
