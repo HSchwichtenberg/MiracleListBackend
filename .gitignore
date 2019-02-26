@@ -261,3 +261,7 @@ __pycache__/
 *.pyc
 /src/Miraclelist/Pages/UserStatistics.cshtml
 /src/Miraclelist/Views/Shared/_Layout.cshtml
+/src/DAL/Migrations/20190225140754_v2_UserPlanet.Designer.cs
+/src/DAL/Migrations/20190225140754_v2_UserPlanet.cs
+/src/DAL/Migrations/20190225140013_v1.Designer.cs
+/src/DAL/Migrations/20190225140013_v1.cs
