@@ -15,7 +15,7 @@ namespace DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -178,8 +178,6 @@ namespace DAL.Migrations
                     b.Property<Guid?>("ClientID");
 
                     b.Property<DateTime>("Created");
-
-                    b.Property<bool>("IsAlien");
 
                     b.Property<string>("Language")
                         .HasMaxLength(2);
