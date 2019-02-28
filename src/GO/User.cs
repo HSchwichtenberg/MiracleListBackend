@@ -24,9 +24,9 @@ namespace BO
   [StringLength(2)]
   public string Language { get; set; }
 
-  public bool IsAlien { get; set; }
+  //public bool IsAlien { get; set; }
 
-  //[StringLength(50)]
+  //[StringLength(100)]
   //public string Planet { get; set; }
 
   // -------------- Navigation Properties

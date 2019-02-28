@@ -63,7 +63,7 @@ namespace UnitTests
   [Trait("Category", "Integration")]
   public void CreateTaskDueInDaysTest()
   {
-   Skip.If(DAL.Context.ConnectionString == "", "Only runs as integration test as the InMem-DB does not support Default Values and Computed Columns!");
+   Skip.If(Util.IsInMemory, "Only runs as integration test as the InMem-DB does not support Default Values and Computed Columns!");
 
    var um = new UserManager("CreateTaskTestUser", true);
    um.InitDefaultTasks();
