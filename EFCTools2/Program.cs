@@ -73,20 +73,10 @@ namespace EFTools
     args[i] = args[i].ToLower().Replace("-", "").Replace("/", "");
    }
 
-
-   try
-   {
-
-
    if (args.Contains("recreate")) Recreate(args.Contains("whatif"));
    if (args.Contains("migrate")) Migrate(args.Contains("whatif"));
    if (args.Contains("createtestuser")) CreateTestUser(args.Contains("whatif"));
-   }
-   catch (Exception ex)
-   {
-    CUI.PrintError(ex.ToString());
-    Environment.Exit(-1);
-   }
+
 
    //var ctx = new Context();
    //var sts = ctx.Set<SubTask>().Where(st=>st.Done==true).ToList();
@@ -203,7 +193,7 @@ namespace EFTools
     PrintInfo(cs.Count + " Tasks for User ID=" + um.CurrentUser.UserID + " (" + um.CurrentUser.UserName + ") Token=" + um.CurrentUser.Token);
     if (cs.Count != 4)
     {
-     PrintError("CreateTestUser/Data Test Error: Count=" + cs.Count);
+     PrintError("Data Test Error: Count=" + cs.Count);
      System.Environment.Exit(3);
     }
 
@@ -212,7 +202,7 @@ namespace EFTools
    }
    catch (Exception ex)
    {
-    PrintError("CreateTestUser Error", ex);
+    PrintError("Data Test Error", ex);
     System.Environment.Exit(4);
     throw;
    }

@@ -8,7 +8,33 @@ using Xunit;
 
 namespace UnitTests
 {
- public class UserManagerTest 
+
+ public class ContextManagerTest
+ {
+
+  public ContextManagerTest()
+  {
+   Util.Init();
+  }
+
+  [SkippableFact]
+  [Trait("Category", "Integration")]
+  public void CheckConnectionString()
+  {
+
+   if (Util.IsInMemory)
+   {
+    Assert.Same("", DAL.Context.ConnectionString);
+
+   }
+ else
+   {
+    Assert.True(DAL.Context.ConnectionString.Length > 0);
+   }
+  }
+ }
+
+  public class UserManagerTest 
  {
 
   public UserManagerTest()

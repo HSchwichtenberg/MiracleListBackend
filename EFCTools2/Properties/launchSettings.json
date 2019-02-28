@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "EFCTools": {
+    "EFCTools2": {
       "commandName": "Project",
       "commandLineArgs": "migrate createtestuser whatif"
     }
