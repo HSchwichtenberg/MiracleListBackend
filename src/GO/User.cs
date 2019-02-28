@@ -24,6 +24,10 @@ namespace BO
   [StringLength(2)]
   public string Language { get; set; }
 
+  public bool IsAlien { get; set; }
+
+  //[StringLength(50)]
+  //public string Planet { get; set; }
 
   // -------------- Navigation Properties
   public List<Category> CategorySet { get; set; }
