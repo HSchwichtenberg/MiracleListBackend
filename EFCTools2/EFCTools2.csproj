@@ -35,16 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj" />
-    <ProjectReference Include="..\GO\BO.csproj" />
+    <ProjectReference Include="..\src\BL\BL.csproj" />
+    <ProjectReference Include="..\src\DAL\DAL.csproj" />
+    <ProjectReference Include="..\src\GO\BO.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ITV.AppUtil.NETStandard">
-      <HintPath>..\..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
+      <HintPath>..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-
 
 </Project>

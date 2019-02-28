@@ -42,7 +42,7 @@ namespace MiracleList.Pages
 
   #region Properties für Zwei-Wege-Bindung
   [BindProperty] [Required]
-  [TempData]
+ 
   public string Name { get; set; }
   [BindProperty]
   public string Firma { get; set; }

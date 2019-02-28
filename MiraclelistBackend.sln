@@ -180,15 +180,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {77CFC911-CD7B-47CB-AEFA-B45DE0D36A3E}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://it-visions.visualstudio.com/
-		SccProjectUniqueName0 = ..\\..\\TFS\\Demos\\NETCore\\ITVTagHelper\\ITVTagHelper.csproj
-		SccProjectTopLevelParentUniqueName0 = MiraclelistBackend.sln
-		SccProjectName0 = $/ITV\u0020Demos/MAIN/NETCore/ITVTagHelper
-		SccAuxPath0 = https://it-visions.visualstudio.com
-		SccLocalPath0 = ..\\..\\TFS\\Demos\\NETCore\\ITVTagHelper
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 EndGlobal
