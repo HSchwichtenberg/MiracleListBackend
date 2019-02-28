@@ -6,6 +6,7 @@ using Xunit;
 using BL;
 using BO;
 using DAL;
+using Microsoft.EntityFrameworkCore;
 
 // XUNIT: https://xunit.github.io/docs/getting-started-dotnet-core.html
 
@@ -35,6 +36,11 @@ namespace UnitTests
   [InlineData("test1")]
   public void GetTaskTest(string name)
   {
+   if (!Util.IsInMemory)
+   {
+    new DAL.Context().Database.ExecuteSqlCommand($"delete from [dbo].[User] where token = {name}");
+   }
+
    var um = new UserManager(name, true);
    um.InitDefaultTasks();
    var tm = new TaskManager(um.CurrentUser.UserID);
