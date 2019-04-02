@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "MiraclelistBackend.sln",
+    "projects": [
+      "..\\..\\TFS\\Demos\\NETCore\\ITVTagHelper\\ITVTagHelper.csproj",
+      "ITVRazorClassLibrary\\ITVRazorClassLibrary.csproj",
+      "Tools\\VSTools.csproj",
+      "src\\BL\\BL.csproj",
+      "src\\DAL\\DAL.csproj",
+      "src\\EFCTools\\EFCTools.csproj",
+      "src\\GO\\BO.csproj",
+      "src\\Miraclelist\\MiracleList_WebAPI.csproj",
+      "test\\UnitTests\\UnitTests.csproj"
+    ]
+  }
+}
