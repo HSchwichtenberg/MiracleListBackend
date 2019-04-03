@@ -135,7 +135,13 @@ namespace EFTools
    {
     var ctx = new Context();
     PrintMigrationStatus(ctx);
-    if (!whatif) ctx.Database.Migrate();
+    if (!whatif)
+    {
+     CUI.PrintWarning("Migrating...");
+     ctx.Database.Migrate();
+     CUI.PrintSuccess("Done!");
+     PrintMigrationStatus(ctx);
+    }
    }
    catch (Exception ex)
    {
