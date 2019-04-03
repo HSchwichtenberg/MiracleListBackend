@@ -9,3 +9,5 @@ Used frameworks and tools:
 - Application Insights
 - Swagger/Swashbuckle.AspNetCore		
 - HTTP tests with Postman
+
+For MiracleList_RC: .NET Core 3.0 Preview 2
