@@ -1,28 +1,30 @@
-﻿# Azure-Ressourcen für Release-Pipeline mit PowerShell anlegen
-# (C) Dr. Holger Schwichtenberg 2018
+﻿# Azure-Ressourcen für MiracleList-Release-Pipeline mit PowerShell anlegen
+# (C) Dr. Holger Schwichtenberg 2018-2019
+
+# Wichtige Festlegungen
+$SubscriptionId = "24945d71-0adf-4fa5-86dc-2c2d007c168b" # nur ein Beispiel
+$prefix = "Web-" # nur ein Beispiel
+$RessourceGroup = "RG-DEMO-MiracleList-DevOps" # nur ein Beispiel
+$Serviceplan = "SP-DEMO-MiracleList-DevOps-S1" # nur ein Beispiel
+$location="West Europe" # nur ein Beispiel
 
 $ErrorActionPreference = "stop"
-
 #region Installation
-Install-Module PowerShellGet -Force -Scope currentuser # globaler Scope geht nur als Admin!
+Install-Module PowerShellGet -Force -AllowClobber -Scope currentuser # globaler Scope geht nur als Admin!
 Install-Module -Name AzureRM -force -AllowClobber -Scope currentuser
 Import-Module -Name AzureRM 
 Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | ft
 "Anzahl geladener Azure-Module: " + (Get-Module AzureRM.* -ListAvailable | Select-Object -Property Name,Version,Path).Count
 "Anzahl verfügbarer Azure-Befehle: " + (Get-Command -module AzureRM*).Count
 
-
-
 #endregion
 
-# Anmelden interaktiv!!!
-Login-AzureRmAccount 
 
-# Wichtige Festlegungen
-$prefix = "HD-"
-$RessourceGroup = "DEMO_MiracleList"
-$Serviceplan = "DEMOMiracleListFREE"
-$location="West Europe"
+#region Anmelden interaktiv!!!
+#Login-AzureRmAccount 
+Connect-AzureRmAccount -SubscriptionId $SubscriptionId  
+Get-AzureRmContext | fl *
+#endregion
 
 #region Ressourcen prüfen
 # Optional: Create a resource group.
@@ -41,7 +43,7 @@ if (-not $sp) { Write-Error "Service Plan nicht gefunden!" : return }
 #endregion
 
 #region Websites
-$webappnames="$($prefix)MLBackend-Produktion","$($prefix)MLBackend-Staging","$($prefix)MLClient-Produktion","$($prefix)MLClient-Staging"
+$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging","$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
 
 foreach($webappname in $webappnames)
 {
@@ -55,12 +57,39 @@ else { write-host "OK" -ForegroundColor Green }
 # Kontrolle:
 Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*$prefix*" | ft
 
+# Create Deployment Slots
+foreach($webappname in ($webappnames | where { $_ -like "*production*" }))
+{
+$webappname
+New-AzureRmWebAppSlot -ResourceGroupName $RessourceGroup -name $webappname -slot ProdStagingSlot
+Get-AzureRmWebAppSlot -ResourceGroupName $RessourceGroup -name $webappname   
+}
+
+# Einstellungen für WebApps
+foreach($webappname in ($webappnames))
+{
+$webappname
+
+#Always On
+$WebAppResourceType = 'microsoft.web/sites'
+$WebAppPropertiesObject = @{"siteConfig" = @{"AlwaysOn" = $true}}
+$webApp= Get-AzureRmResource -ResourceType $WebAppResourceType -ResourceGroupName $RessourceGroup -ResourceName $webappname
+$webApp | set-AzureRMResource  -PropertyObject $WebAppPropertiesObject -force
+
+# AppSettings
+$WebApp = Get-AzureRMWebApp -ResourceGroupName $RessourceGroup -Name $webappname
+$webApp.SiteConfig.AppSettings
+$newAppSettings = @{"ASPNETCORE_ENVIRONMENT"="Production"}
+Set-AzureRMWebApp -AppSettings $newAppSettings -ResourceGroupName $RessourceGroup -Name $webappname
+$webApp.SiteConfig.AppSettings
+}
+
 # Get publishing profile for the web app
 #$xml = (Get-AzureRmWebAppPublishingProfile -Name $webappname `
 #-ResourceGroupName DEMO_MiracleList `
 #-OutputFile null)
 #endregion
-
+return
 #region SQL Server
 $dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
 
