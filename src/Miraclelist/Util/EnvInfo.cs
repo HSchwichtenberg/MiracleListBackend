@@ -91,6 +91,7 @@ namespace MiracleList.Util
    "System Name: " + System.Environment.MachineName,
    "CurrentDirectory=" + System.Environment.CurrentDirectory
   };
+   e.Add("Current Culture: " + System.Globalization.CultureInfo.CurrentCulture.Name + " (" + System.Globalization.CultureInfo.CurrentCulture.DisplayName + ")");
 
    e.Add("ApplicationName: " + this.hostingEnv.ApplicationName);
    e.Add("Application Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
@@ -99,7 +100,7 @@ namespace MiracleList.Util
    if (versions != null)
    {
     e.Add(".NET Core Version: " + versions.DOTNETVersion + " / v" + ITVisions.CLRInfo.GetCoreClrVersion_WindowsOnly());
-    e.Add(".NET Core Version: " + "OS Version: " + versions.OSVersion.Trim());
+    e.Add("OS Version: " + versions.OSVersion.Trim());
    }
 
    e.Add("Database Status: " + DbStatus);
