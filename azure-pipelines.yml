@@ -9,7 +9,7 @@ trigger:
 stages:
 - stage: build
   jobs:
-  - job: build
+  - job: buildJob
     pool:
       vmImage: 'windows-latest'
 
@@ -29,7 +29,7 @@ stages:
 
 - stage: staging
   jobs:
-  - job: build
+  - job: stagingJob
     pool:
       vmImage: 'windows-latest'
 
@@ -49,7 +49,7 @@ stages:
 
 - stage: produktion
   jobs:
-  - job: build
+  - job: produktionJob
     pool:
       vmImage: 'windows-latest'
 
