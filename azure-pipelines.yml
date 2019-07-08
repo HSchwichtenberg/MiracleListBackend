@@ -7,64 +7,62 @@ trigger:
 - master
 
 stages:
-- stage: build1
+- stage: build
   jobs:
   - job: build
     pool:
       vmImage: 'windows-latest'
 
     variables:
+      version: '1'
       solution: '**/*.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 
     steps:
-    - task: NuGetToolInstaller@0
-
-    - task: NuGetCommand@2
+    - task: PowerShell@2
       inputs:
-        restoreSolution: '$(solution)'
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "Build"
+          Write-Host $env:version'
 
-    - task: VSBuild@1
-      inputs:
-        solution: '$(solution)'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-
-
-- stage: build2
+- stage: staging
   jobs:
   - job: build
     pool:
       vmImage: 'windows-latest'
 
     variables:
+      version: '1'
       solution: '**/*.sln'
       buildPlatform: 'Any CPU'
       buildConfiguration: 'Release'
 
     steps:
-    - task: NuGetToolInstaller@0
-
-    - task: NuGetCommand@2
+    - task: PowerShell@2
       inputs:
-        restoreSolution: '$(solution)'
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "staging"
+          Write-Host $env:version'
 
-    - task: VSBuild@1
+- stage: produktion
+  jobs:
+  - job: build
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      version: '1'
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: PowerShell@2
       inputs:
-        solution: '$(solution)'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
-
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "produktion"
+          Write-Host $env:version'
