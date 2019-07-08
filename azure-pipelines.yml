@@ -25,9 +25,9 @@ stages:
         targetType: 'inline'
         script: '# Write your powershell commands here.
           Write-Host "Build"
-          Write-Host $env:version'
+          Write-Host $env:version
           # Writes a warning to build summary and to log in yellow text
-          Write-Host  "##vso[task.LogIssue type=warning;]This is the warning"
+          Write-Host  "##vso[task.LogIssue type=warning;]This is the warning"'
 
 - stage: staging
   jobs:
