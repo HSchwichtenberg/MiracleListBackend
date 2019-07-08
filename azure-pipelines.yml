@@ -7,7 +7,7 @@ trigger:
 - master
 
 stages:
-- stage: build
+- stage: build1
   jobs:
   - job: build
     pool:
@@ -37,8 +37,8 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
 
-stages:
-- stage: build
+
+- stage: build2
   jobs:
   - job: build
     pool:
