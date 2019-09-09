@@ -1,13 +1,11 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
+# YAML-Pipelines test
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
   branches: 
     include: [ 'master'] 
   paths: 
-    exclude: [ 'azure-pipelines.yml','azure-pipelines-1.yml'  ] # Änderung der Pipeline kein automatischer Trigger
+    exclude: [ 'azure-pipelines.yml','azure-pipelines-1.yml'  ] # Änderung der Pipeline-Dateien kein automatischer Trigger
 
 stages:
 - stage: build
@@ -31,6 +29,9 @@ stages:
           Write-Host $env:version
           # Writes a warning to build summary and to log in yellow text
           Write-Host  "##vso[task.LogIssue type=warning;]This is the warning"'
+
+    - script: dotnet build --configuration $(buildConfiguration)
+       displayName: 'dotnet build $(buildConfiguration)'
 
 - stage: staging
   jobs:
