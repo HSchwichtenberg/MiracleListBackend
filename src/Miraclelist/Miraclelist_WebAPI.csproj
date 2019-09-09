@@ -64,7 +64,7 @@
  <ItemGroup>
   <!--<PackageReference Include="EntityFrameworkProfiler" Version="5.0.5032" />-->
   <PackageReference Include="Microsoft.AspNetCore.App" />
-  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
+  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
 
 
   <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
