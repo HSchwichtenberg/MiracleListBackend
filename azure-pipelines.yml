@@ -30,8 +30,10 @@ stages:
           # Writes a warning to build summary and to log in yellow text
           Write-Host  "##vso[task.LogIssue type=warning;]This is the warning"'
 
-    - script: dotnet build --configuration $(buildConfiguration)
-       displayName: 'dotnet build $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        configuration: '$(BuildConfiguration)' 
 
 - stage: staging
   jobs:
