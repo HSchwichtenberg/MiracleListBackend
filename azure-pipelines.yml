@@ -1,0 +1,73 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  branches: 
+    include: [ 'master'] 
+  paths: 
+    exclude: [ 'azure-pipelines.yml','azure-pipelines-1.yml'  ] # Änderung der Pipeline kein automatischer Trigger
+
+stages:
+- stage: build
+  jobs:
+  - job: buildJob
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      version: '1'
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "Build"
+          Write-Host $env:version
+          # Writes a warning to build summary and to log in yellow text
+          Write-Host  "##vso[task.LogIssue type=warning;]This is the warning"'
+
+- stage: staging
+  jobs:
+  - job: stagingJob
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      version: '1'
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "staging"
+          Write-Host $env:version'
+
+- stage: produktion
+  jobs:
+  - job: produktionJob
+    pool:
+      vmImage: 'windows-latest'
+
+    variables:
+      version: '1'
+      solution: '**/*.sln'
+      buildPlatform: 'Any CPU'
+      buildConfiguration: 'Release'
+
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: '# Write your powershell commands here.
+          Write-Host "produktion"
+          Write-Host $env:version'
