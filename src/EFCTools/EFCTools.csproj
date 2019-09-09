@@ -16,16 +16,16 @@
 
 
  <ItemGroup>
-  <PackageReference Include="Devart.Data.Oracle.EFCore" Version="9.6.675" />
+  <PackageReference Include="Devart.Data.Oracle.EFCore" Version="9.7.805" />
   <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="2.2.0" />
-  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1">
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
    <PrivateAssets>all</PrivateAssets>
    <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
   </PackageReference>
   <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-  <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
+  <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
   <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
-  <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
  </ItemGroup>
 
   <ItemGroup>
