@@ -4,10 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- branches: 
-     include: [ 'master'] 
-   paths: 
-     exclude: [ '*.yml' ] # Änderung der Pipeline kein automatischer Trigger
+  branches: 
+    include: [ 'master'] 
+  paths: 
+    exclude: [ '*.yml' ] # Änderung der Pipeline kein automatischer Trigger
 
 stages:
 - stage: build
