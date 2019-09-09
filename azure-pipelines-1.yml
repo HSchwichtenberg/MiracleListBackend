@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+  branches: 
+    include: [ 'master'] 
+  paths: 
+    exclude: [ 'azure-pipelines.yml','azure-pipelines-1.yml'  ] # Änderung der Pipeline kein automatischer Trigger
 
 pool:
   vmImage: 'windows-latest'
