@@ -7,7 +7,7 @@ trigger:
   branches: 
     include: [ 'master'] 
   paths: 
-    exclude: [ 'azure-pipelines.yml','azure-pipelines1.yml'  ] # Änderung der Pipeline kein automatischer Trigger
+    exclude: [ 'azure-pipelines.yml','azure-pipelines-1.yml'  ] # Änderung der Pipeline kein automatischer Trigger
 
 stages:
 - stage: build
