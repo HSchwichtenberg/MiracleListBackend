@@ -134,7 +134,7 @@ namespace MiracleList.Controllers
   [HttpPost("Login")] // neu
   public async System.Threading.Tasks.Task<LoginInfo> Login([FromBody] LoginInfo loginInfo)
   {
-   if (string.IsNullOrEmpty(loginInfo.Password))
+   if (string.IsNullOrEmpty(loginInfo?.Password))
    {
     new LogManager().Log(Event.LogginError, Severity.Warning, "", "password empty");
     throw new Exception("ERROR: password empty!");
