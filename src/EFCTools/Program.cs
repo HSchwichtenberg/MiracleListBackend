@@ -152,7 +152,7 @@ namespace EFTools
 
   private static void PrintMigrationStatus(DbContext ctx)
   {
-   CUI.H2("Getting Migration Status");
+   CUI.H2("Getting Migration Status...");
    try
    {
     Dictionary<string, string> migrationsStatus = new Dictionary<string, string>();
@@ -160,7 +160,7 @@ namespace EFTools
 
     foreach (var item in migrations)
     {
-     if (item.Value) CUI.Print(item.Key + ":" + " Applied", ConsoleColor.Green);
+     if (item.Value) CUI.Print(item.Key + ":" + " already applied", ConsoleColor.Green);
      else CUI.Print(item.Key + ":" + " TODO", ConsoleColor.Red);
     }
    }
