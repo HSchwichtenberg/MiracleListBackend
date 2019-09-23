@@ -52,7 +52,7 @@ namespace DAL
   }
 
   // This connection string is just for testing. Is filled at runtime from configuration file
-  public static string ConnectionString { get; set; } = "Data Source=.;Initial Catalog = MiracleList_Test_20190922; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
+  public static string ConnectionString { get; set; } = "Data Source=.;Initial Catalog = MiracleList_Test_20190923; Integrated Security = True; Connect Timeout = 15; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Application Name=EntityFramework";
   public static DbConnection Connection { get; set; } = null;
 
   protected override void OnConfiguring(DbContextOptionsBuilder builder)
