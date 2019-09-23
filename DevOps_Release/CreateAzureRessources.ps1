@@ -4,7 +4,7 @@
 
 # Wichtige Festlegungen
 $SubscriptionId = "x4945d71-xadf-4fa5-x6dc-xc2d007c168x" # nur ein Beispiel
-$prefix = "basta-" # nur ein Beispiel --> lower case !!!
+$prefix = "ml-" # nur ein Beispiel --> lower case !!!
 $RessourceGroup = "RG-DEMO-MiracleList-DevOps" # nur ein Beispiel
 $Serviceplan = "SP-DEMO-MiracleList-DevOps-S1" # nur ein Beispiel
 $location="West Europe" # nur ein Beispiel
@@ -45,7 +45,7 @@ if (-not $sp) { Write-Error "Service Plan nicht gefunden!" ; return }
 #endregion
 
 #region ---------------- Websites anlegen
-$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" #,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
+$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" ,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
 
 foreach($webappname in $webappnames)
 {
