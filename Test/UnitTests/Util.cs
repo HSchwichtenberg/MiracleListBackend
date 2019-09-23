@@ -26,9 +26,9 @@ namespace UnitTests
     if (ConnectionString == "notset" && DAL.Context.Connection == null)
     {
      ConnectionString = Util.GetConnectionString();
-     switch (ConnectionString)
+     switch (ConnectionString.ToLower())
      {
-      case "SQLiteInMemory":
+      case "sqliteinmemory":
        SetSQLLiteInMemoryConnection();
 
        CUI.PrintSuccess("Connection to SQLite InMemory");
@@ -36,9 +36,9 @@ namespace UnitTests
       // as "" will not be working with Environment Variables, we must offer other options here as well
       case "":
       case "-":
-      case "InMem":
-      case "InMemory":
-      case "InMemoryDB":
+      case "inmem":
+      case "inmemory":
+      case "inmemorydb":
        DAL.Context.ConnectionString = "";
        CUI.PrintSuccess("Connection to InMemoryDB!");
        break;
