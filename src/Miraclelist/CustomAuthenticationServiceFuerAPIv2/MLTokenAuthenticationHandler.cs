@@ -50,6 +50,7 @@ namespace MiracleList.CustomAuthenticationService
   { }
 
 
+#pragma warning disable CS1998 // Fail geht nicht async :-(
   protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
   {
    var token = this.Context.Request.Headers["ML-AuthToken"];
