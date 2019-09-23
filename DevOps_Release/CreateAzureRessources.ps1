@@ -1,15 +1,17 @@
 ﻿# Azure-Ressourcen für MiracleList-Release-Pipeline mit PowerShell anlegen
 # (C) Dr. Holger Schwichtenberg 2018-2019
+# Stand: 23.09.2019
 
 # Wichtige Festlegungen
-$SubscriptionId = "24945d71-0adf-4fa5-86dc-2c2d007c168b" # nur ein Beispiel
-$prefix = "Web-" # nur ein Beispiel
+$SubscriptionId = "x4945d71-xadf-4fa5-x6dc-xc2d007c168x" # nur ein Beispiel
+$prefix = "basta-" # nur ein Beispiel --> lower case !!!
 $RessourceGroup = "RG-DEMO-MiracleList-DevOps" # nur ein Beispiel
 $Serviceplan = "SP-DEMO-MiracleList-DevOps-S1" # nur ein Beispiel
 $location="West Europe" # nur ein Beispiel
 
 $ErrorActionPreference = "stop"
-#region Installation
+
+#region Installation der PowerShell-Module für Azure
 Install-Module PowerShellGet -Force -AllowClobber -Scope currentuser # globaler Scope geht nur als Admin!
 Install-Module -Name AzureRM -force -AllowClobber -Scope currentuser
 Import-Module -Name AzureRM 
@@ -26,24 +28,24 @@ Connect-AzureRmAccount -SubscriptionId $SubscriptionId
 Get-AzureRmContext | fl *
 #endregion
 
-#region Ressourcen prüfen
+#region ---------------- Ressourcen prüfen
 # Optional: Create a resource group.
 #New-AzureRmResourceGroup -Name myResourceGroup -Location $location
 #Remove-AzureRmResourceGroup -Name myResourceGroup 
 $rg = Get-AzureRmResourceGroup $RessourceGroup
-if (-not $sp) { Write-Error "Resource Group nicht gefunden!" : return }
+if (-not $rg) { Write-Error "Resource Group nicht gefunden!" ; return }
 # Optional: Service Plan anlegen
 #New-AzureRmAppServicePlan -Name $webappname -Location $location -ResourceGroupName myResourceGroup -Tier Free
-$sp = Get-AzureRmAppServicePlan -Name $Serviceplan
-if (-not $sp) { Write-Error "Service Plan nicht gefunden!" : return }
+$sp = Get-AzureRmAppServicePlan -Name $Serviceplan 
+if (-not $sp) { Write-Error "Service Plan nicht gefunden!" ; return }
 
 # TODO:
 #$lo = Get-AzureLocation $location
 #if (-not $lo) { Write-Error "Location nicht gefunden!" : return }
 #endregion
 
-#region Websites
-$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging","$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
+#region ---------------- Websites anlegen
+$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" #,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
 
 foreach($webappname in $webappnames)
 {
@@ -55,7 +57,7 @@ if ($wa -eq $null) { Write-Error "WebApp wurde nicht angelegt!"; return; }
 else { write-host "OK" -ForegroundColor Green }
 }
 # Kontrolle:
-Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*$prefix*" | ft
+Get-AzureRmWebApp -ResourceGroupName $RessourceGroup | where RepositorySiteName -like "*$prefix*" | ft RepositorySiteName, State
 
 # Create Deployment Slots
 foreach($webappname in ($webappnames | where { $_ -like "*production*" }))
@@ -90,16 +92,17 @@ $webApp.SiteConfig.AppSettings
 #-OutputFile null)
 #endregion
 return
-#region SQL Server
+
+#region ---------------- SQL Server anlegen
 $dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
 
 # The logical server name: Use a random value or replace with your own value (do not capitalize)
-$servername = "$($prefix)MLSQLServer"
+$servername = "$($prefix)mssqlserver"
 # Set an admin login and password for your database
 # The login information for the server
 $adminlogin = "MLSQLAdmin"
-$password = New-Guid
-Write-Host "SQL Server password is: $password" -ForegroundColor Green
+$password = new-guid
+Write-Host "Your SQL Server password is: $password" -ForegroundColor Green
 # The ip address range that you want to allow to access your server - change as appropriate
 $startip = "0.0.0.0"
 $endip = "255.255.255.255"
@@ -120,11 +123,17 @@ New-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $serverna
 }
 
 # Kontrolle
-Get-AzureRmSqlDatabase  -ResourceGroupName $resourcegroupname -ServerName $servername  | ft
+Get-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $servername  | ft
 
 #endregion
+return
 
-#region Alles wieder löschen (mit Nachfrage!)
+# ############################################ Aufräumen
+
+#region ------------------------ Alles wieder löschen (mit Nachfrage!)
+"Lösche Web Apps..."
+$webappnames
 $webappnames | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup -confirm }
+"Lösche SQL Server..."
 Remove-AzureRmSqlServer -ResourceGroupName $resourcegroupname -ServerName $servername -Confirm
 #endregion

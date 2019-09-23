@@ -92,8 +92,7 @@ namespace EFTools
    //var sts = ctx.Set<SubTask>().Where(st=>st.Done==true).ToList();
    //Console.WriteLine(sts.Count);
 
-   CUI.H1("End of EFCTools.exe");
-   CUI.PrintSuccess("DONE!");
+   CUI.PrintSuccess("EFCTools.exe has finished");
    System.Environment.Exit(0);
    //Console.ReadLine();
   }
