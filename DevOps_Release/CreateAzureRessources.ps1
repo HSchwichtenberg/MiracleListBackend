@@ -3,11 +3,15 @@
 # Stand: 23.09.2019
 
 # Wichtige Festlegungen
-$SubscriptionId = "x4945d71-xadf-4fa5-x6dc-xc2d007c168x" # nur ein Beispiel
-$prefix = "ml-" # nur ein Beispiel --> lower case !!!
+$SubscriptionId = "x4945d71-0adf-4fa5-86dc-2c2d007c168x" # nur ein Beispiel
+$prefix = "DevOps-" # nur ein Beispiel --> lower case !!!
 $RessourceGroup = "RG-DEMO-MiracleList-DevOps" # nur ein Beispiel
 $Serviceplan = "SP-DEMO-MiracleList-DevOps-S1" # nur ein Beispiel
 $location="West Europe" # nur ein Beispiel
+$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" ,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
+$servername = "$($prefix)mssqlserver"
+$dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
+
 
 $ErrorActionPreference = "stop"
 
@@ -24,7 +28,8 @@ Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | 
 
 #region Anmelden interaktiv!!!
 #Login-AzureRmAccount 
-Connect-AzureRmAccount -SubscriptionId $SubscriptionId  
+Connect-AzureRmAccount -SubscriptionId $SubscriptionId
+Get-AzureRmSubscription  
 Get-AzureRmContext | fl *
 #endregion
 
@@ -45,7 +50,6 @@ if (-not $sp) { Write-Error "Service Plan nicht gefunden!" ; return }
 #endregion
 
 #region ---------------- Websites anlegen
-$webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" ,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
 
 foreach($webappname in $webappnames)
 {
@@ -94,10 +98,7 @@ $webApp.SiteConfig.AppSettings
 return
 
 #region ---------------- SQL Server anlegen
-$dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
 
-# The logical server name: Use a random value or replace with your own value (do not capitalize)
-$servername = "$($prefix)mssqlserver"
 # Set an admin login and password for your database
 # The login information for the server
 $adminlogin = "MLSQLAdmin"
@@ -134,6 +135,7 @@ return
 "Lösche Web Apps..."
 $webappnames
 $webappnames | % { Remove-AzureRmWebApp -name $_ -ResourceGroupName $RessourceGroup -confirm }
-"Lösche SQL Server..."
-Remove-AzureRmSqlServer -ResourceGroupName $resourcegroupname -ServerName $servername -Confirm
+"Lösche SQL Server $servername ..."
+Get-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $servername  | ft
+Remove-AzureRmSqlServer -ResourceGroupName $RessourceGroup -ServerName $servername -Confirm
 #endregion
