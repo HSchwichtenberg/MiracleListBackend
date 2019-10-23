@@ -11,7 +11,7 @@
   <TargetFramework>netcoreapp2.2</TargetFramework>
   <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 
-  <AssemblyName>Miraclelist_WebAPI</AssemblyName>
+  <AssemblyName>MiracleList_WebAPI</AssemblyName>
   <OutputType>Exe</OutputType>
   <PackageId>Miraclelist</PackageId>
 
