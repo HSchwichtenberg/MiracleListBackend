@@ -9,9 +9,6 @@ namespace UnitTests
 {
  public class LogManagerTest
  {
-
-
-
    public LogManagerTest()
    {
     Util.Init();
@@ -31,9 +28,6 @@ namespace UnitTests
    var id = new LogManager().Log(Event.LoginOK, Severity.Information, "Test", "test", "none", um.CurrentUser.UserID);
    Assert.True(id > 0);
   }
-
- 
-
  }
 }
 
