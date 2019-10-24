@@ -15,6 +15,7 @@ namespace UnitTests
  public class TaskManagerTest
  {
 
+
   public TaskManagerTest()
   {
    Util.Init();
@@ -77,6 +78,25 @@ namespace UnitTests
  
    Assert.Equal(BO.Task.DefaultTitle, t.Title); // Default Value Test: not supported in InMem-DB
    Assert.Equal(3, t.DueInDays);// Computed Column Test: not supported in InMem-DB
+  }
+
+  [Fact]
+  public void CreateTaskDueInHoursTest()
+  {
+    const string title = "Meine Aufgabe";
+  var um = new UserManager("CreateTaskTestUser", true);
+   um.InitDefaultTasks();
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var t = new BO.Task();
+   t.Title = title;
+   t.CategoryID = cm.GetCategorySet().ElementAt(0).CategoryID;
+   t.Due = DateTime.Now.AddDays(3).AddHours(-2);
+   tm.CreateTask(t);
+   Assert.True(t.TaskID > 0);
+
+   Assert.Equal(title, t.Title); // Default Value Test: not supported in InMem-DB
+   Assert.Equal(70.0, t.DueInHours);// Computed Column Test: not supported in InMem-DB
   }
 
   /// <summary>
