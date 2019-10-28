@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MiracleList
 {
@@ -118,6 +119,7 @@ namespace MiracleList
 
    #region Enable Auth service for MLToken in the HTTP header
    services.AddAuthentication().AddMLToken();
+
    #endregion
 
    #region Enable App Insights
@@ -166,6 +168,8 @@ namespace MiracleList
    #region Enable CORS 
    services.AddCors();
    #endregion
+
+
 
    // Make configuration available everywhere
    services.AddSingleton(Configuration);
