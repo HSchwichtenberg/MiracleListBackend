@@ -157,6 +157,7 @@ namespace BL
   /// </summary>
   public void InitDefaultTasks()
   {
+   if (CurrentUser == null) return;
    if (ctx.CategorySet.Where(x => x.UserID == CurrentUser.UserID).Count() > 0) return;
 
    var st01 = new SubTask();
@@ -167,7 +168,7 @@ namespace BL
    st03.Title = "Aufgaben in Kategorie Freizeit ansehen";
 
    var c0 = cm.CreateCategory("Über die App");
-   var t01 = tm.CreateTask(c0.CategoryID, "Beispielaufgaben erforschen", "Jeder neue Benutzer erhält automatisch einige Beispielaufgaben in vier Kategorien. ACHTUNG: Wenn Sie die letzte Aufgabe löschen, werden die Beispielaufgaben automatisch beabsichtigt alle wieder angelegt :-)", DateTime.Now.AddHours(3), Importance.A, 1, new List<SubTask>() { st01, st02, st03 });
+   var t01 = tm.CreateTask(c0.CategoryID, "Beispielaufgaben erforschen", "Jeder neue Benutzer erhält automatisch einige Beispielaufgaben in vier Kategorien. ACHTUNG: Wenn Sie die letzte Kategorie löschen, werden die Beispielaufgaben beabsichtigt alle wieder angelegt :-). Wenn Sie das verhindern wollen, müssen Sie mindestens eine Kategorie behalten. Dies kann eine eigene Kategorie sein.", DateTime.Now.AddHours(3), Importance.A, 1, new List<SubTask>() { st01, st02, st03 });
 
    var st02a = new SubTask() { Title = "Mithelfen, das Beispiel besser zu machen: https://github.com/HSchwichtenberg/MiracleListClient" };
 
