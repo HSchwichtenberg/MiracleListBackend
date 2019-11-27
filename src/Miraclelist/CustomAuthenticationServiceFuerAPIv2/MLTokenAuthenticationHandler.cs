@@ -20,12 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
  /// </summary>
  public static class AddMLTokenExtensions
  {
-
   public static AuthenticationBuilder AddMLToken(this AuthenticationBuilder builder)
   {
    return builder.AddScheme<MLTokenAuthenticationOptions, MLTokenAuthenticationHandler>("MLToken", "MLToken", null);
   }
-
  }
 }
 
@@ -69,6 +67,7 @@ namespace MiracleList.CustomAuthenticationService
     return AuthenticateResult.Fail(checkResult.ToString());
    }
    string userID = um.CurrentUser.UserID.ToString();
+   um.InitDefaultTasks();
    #endregion
 
    #region ---------- Claims erstellen

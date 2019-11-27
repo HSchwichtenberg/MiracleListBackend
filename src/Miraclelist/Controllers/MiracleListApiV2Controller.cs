@@ -104,9 +104,7 @@ namespace MiracleList.Controllers
   [HttpPost("Login")] // neu
   public async System.Threading.Tasks.Task<LoginInfo> Login([FromBody] LoginInfo loginInfo)
   {
-
    return await new MiracleListApiController(this.Configuration, this.Env).Login(loginInfo);
-
   }
 
   /// <summary>
