@@ -176,6 +176,7 @@ namespace EFTools
    try
    {
     var zeit = DateTime.Now.ToString();
+    // Dies ist die GUID für die Client-ID, die auch nachher in den Postman-Tests verwendet wird
     var guid = new Guid("11111111-1111-1111-1111-111111111111");
 
     //var ctx = new Context();
