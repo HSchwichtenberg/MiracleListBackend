@@ -71,7 +71,7 @@ namespace MiracleList
    // build configuration now
    Configuration = builder.Build();
 
-   Console.WriteLine(string.Join("\n", new EnvInfo(Configuration, env, null).GetAll()));
+   Console.WriteLine(string.Join("\n", new Util.EnvInfo(Configuration, env, null).GetAll()));
 
 
    var CS = Configuration["ConnectionStrings:MiracleListDB"];
@@ -139,7 +139,7 @@ namespace MiracleList
 
    #region DI
 
-   services.AddScoped(typeof(EnvInfo));
+   services.AddScoped(typeof(Util.EnvInfo));
    #endregion
 
 
@@ -323,7 +323,7 @@ namespace MiracleList
 
    context.HttpContext.Response.WriteAsync("\n---Config:\n");
 
-   IEnumerable<String> e = (context.HttpContext.RequestServices.GetService(typeof(EnvInfo)) as EnvInfo).GetAll();
+   IEnumerable<String> e = (context.HttpContext.RequestServices.GetService(typeof(Util.EnvInfo)) as Util.EnvInfo).GetAll();
    
    context.HttpContext.Response.WriteAsync(String.Join("\n",e));
   }
