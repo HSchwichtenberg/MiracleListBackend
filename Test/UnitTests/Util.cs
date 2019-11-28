@@ -31,7 +31,7 @@ namespace UnitTests
       case "sqliteinmemory":
        SetSQLLiteInMemoryConnection();
 
-       CUI.PrintSuccess("Connection to SQLite InMemory");
+       UI.PrintSuccess("Connection to SQLite InMemory");
        break;
       // as "" will not be working with Environment Variables, we must offer other options here as well
       case "":
