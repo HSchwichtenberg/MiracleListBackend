@@ -30,11 +30,10 @@ namespace MiracleList
 
    CUI.MainHeadline("MiracleList Backend v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
    Console.WriteLine();
-   var versions = ITVisions.CLRInfo.GetCoreClrVersion();
 
    CUI.Headline("Main");
-   CUI.Print("OS: " + versions.OSVersion);
-   CUI.Print("Runtime: " + versions.DOTNETVersion);
+   CUI.Print("OS: " + System.Environment.OSVersion);
+   CUI.Print("Runtime: " + ITVisions.CLRInfo.GetClrVersion());
    CUI.Print("Webframework: ASP.NET Core v" + typeof(WebHost).Assembly.GetName().Version.ToString());
 
    var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()

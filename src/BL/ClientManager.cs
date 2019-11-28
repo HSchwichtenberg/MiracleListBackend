@@ -5,7 +5,7 @@ using BO;
 using DAL;
 using ITVisions.EFC;
 using Microsoft.EntityFrameworkCore;
-using ITVisions.EFCore;
+
 
 namespace BL
 {

@@ -82,6 +82,9 @@
   <Reference Include="ITV.AppUtil.NETStandard">
    <HintPath>..\..\Lib\ITV.AppUtil.NETStandard.dll</HintPath>
   </Reference>
+  <Reference Include="ITV.AppUtil.NETStandard.Core">
+    <HintPath>..\..\Lib\ITV.AppUtil.NETStandard.Core.dll</HintPath>
+  </Reference>
  </ItemGroup>
 
  <ItemGroup>

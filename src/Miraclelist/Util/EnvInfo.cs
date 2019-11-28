@@ -82,7 +82,7 @@ namespace MiracleList.Util
    t.Stop();
 
 
-   var versions = ITVisions.CLRInfo.GetCoreClrVersion();
+
    var e = new List<string>()
    {
     "DateTime: " + DateTime.Now.ToString(),
@@ -97,11 +97,9 @@ namespace MiracleList.Util
    e.Add("Application Version: " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
    e.Add("Application Informational Version: " + Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
-   if (versions != null)
-   {
-    e.Add(".NET Core Version: " + versions.DOTNETVersion + " / v" + ITVisions.CLRInfo.GetCoreClrVersion_WindowsOnly());
-    e.Add("OS Version: " + versions.OSVersion.Trim());
-   }
+
+   e.Add(".NET Core Version: " + ITVisions.CLRInfo.GetClrVersion() + " / v" + ITVisions.CLRInfo.GetCoreClrVersion_WindowsOnly());
+   e.Add("OS Version: " + System.Environment.OSVersion.VersionString);
 
    e.Add("Database Status: " + DbStatus);
    e.Add("Database Name: " + DbName);

@@ -91,7 +91,7 @@ namespace MiracleList.Controllers
   [HttpGet]
   public IEnumerable<string> About()
   {
-   IEnumerable<String> s = (HttpContext.RequestServices.GetService(typeof(EnvInfo)) as EnvInfo).GetAll();
+   IEnumerable<String> s = (HttpContext.RequestServices.GetService(typeof(MiracleList.Util.EnvInfo)) as MiracleList.Util.EnvInfo).GetAll();
    s = s.Append("API-Version: v1");
    return s;
 
