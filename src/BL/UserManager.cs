@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using BO;
 using DAL;
 using ITVisions.EFC;
-using ITVisions.EFCore;
+
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
