@@ -10,4 +10,6 @@ Used frameworks and tools:
 - Swagger/Swashbuckle.AspNetCore		
 - HTTP tests with Postman
 
-For MiracleList_RC: .NET Core 3.0 Preview 2
+MiracleList Blazor Server and MiracleList Blazor Webassembly
+- Master Branch: "MiracleList_RC" using .NET Core 3.0 Preview 2
+- "NETCore3" Branch: MiracleList_SSB and MiracleList_CSB using .NET Core 3.1 Preview 3

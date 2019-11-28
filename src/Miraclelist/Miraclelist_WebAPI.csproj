@@ -64,7 +64,7 @@
  <ItemGroup>
   <!--<PackageReference Include="EntityFrameworkProfiler" Version="5.0.5032" />-->
   <PackageReference Include="Microsoft.AspNetCore.App" />
-  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
+  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
   <PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="3.0.0" />
   <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="3.0.0" />
 
