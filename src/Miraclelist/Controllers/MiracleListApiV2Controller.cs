@@ -59,7 +59,7 @@ namespace MiracleList.Controllers
   {
    var httpConnectionFeature = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpConnectionFeature>();
 
-  IEnumerable<String> s = (HttpContext.RequestServices.GetService(typeof(EnvInfo)) as EnvInfo).GetAll();
+  IEnumerable<String> s = (HttpContext.RequestServices.GetService(typeof(MiracleList.Util.EnvInfo)) as MiracleList.Util.EnvInfo).GetAll();
    s = s.Append("API-Version: v2");
    return s;
   }

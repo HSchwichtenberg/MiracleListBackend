@@ -4,10 +4,8 @@ using System.Linq;
 using BO;
 using DAL;
 using ITVisions.EFC;
-
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using ITVisions.EFCore;
 
 namespace BL
 {
