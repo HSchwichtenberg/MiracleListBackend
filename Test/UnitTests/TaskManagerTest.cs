@@ -54,7 +54,7 @@ namespace UnitTests
    {
     var t2 = tm.GetTask(t.TaskID);
     Assert.Equal(t.TaskID, t2.TaskID);
-    Assert.True(t2.SubTaskSet.Count > 1, "Fehlende Subtastsks bei Task: " + t2.TaskID.ToString());
+    Assert.True(t2.SubTaskSet.Count > 1, "Missing subtasks at Task: " + t2.TaskID.ToString());
    }
   }
 
@@ -75,7 +75,7 @@ namespace UnitTests
    t.Due = DateTime.Now.AddDays(3).AddHours(-2);
    tm.CreateTask(t);
    Assert.True(t.TaskID > 0);
- 
+
    Assert.Equal(BO.Task.DefaultTitle, t.Title); // Default Value Test: not supported in InMem-DB
    Assert.Equal(3, t.DueInDays);// Computed Column Test: not supported in InMem-DB
   }
@@ -83,8 +83,8 @@ namespace UnitTests
   [Fact]
   public void CreateTaskDueInHoursTest()
   {
-    const string title = "Meine Aufgabe";
-  var um = new UserManager("CreateTaskTestUser", true);
+   const string title = "Meine Aufgabe";
+   var um = new UserManager("CreateTaskTestUser", true);
    um.InitDefaultTasks();
    var tm = new TaskManager(um.CurrentUser.UserID);
    var cm = new CategoryManager(um.CurrentUser.UserID);
@@ -124,7 +124,7 @@ namespace UnitTests
    var subtaskList = new List<SubTask>();
    for (int i = 0; i < subTaskCount; i++)
    {
-    var st = new SubTask() { Title = "SubTask #" +i + ": " + testwert.ToString() };
+    var st = new SubTask() { Title = "SubTask #" + i + ": " + testwert.ToString() };
     subtaskList.Add(st);
    }
 
@@ -142,9 +142,7 @@ subtaskList);
    Assert.Equal(subTaskCount, t.SubTaskSet.Count);
    Assert.All<SubTask>(t.SubTaskSet, st => Assert.EndsWith(testwert.ToString(), st.Title));
    Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
-  
-}
-
+  }
 
   [Theory]
   [InlineData("Aufgabe1")]
@@ -179,7 +177,6 @@ subtaskList);
    var cm = new CategoryManager(um.CurrentUser.UserID);
    var cset1 = cm.GetCategorySet();
 
-   
    var t = tm.CreateTask(cset1.ElementAt(0).CategoryID, name, name, null, Importance.A, 1);
 
    Assert.NotNull(t);
@@ -188,110 +185,110 @@ subtaskList);
 
 
   [Theory]
-[InlineData("test6")]
-[InlineData("test5")]
-[InlineData("test4")]
-public void ChangeTest(string name)
-{
- var um = new UserManager(name, true);
- var tm = new TaskManager(um.CurrentUser.UserID);
- um.InitDefaultTasks();
- var cm = new CategoryManager(um.CurrentUser.UserID);
- var cset1 = cm.GetCategorySet();
-
- var testwert = DateTime.Now;
-
- // Schleife über alle Kategorien
- foreach (var c in cset1)
- {
-  Assert.Equal(um.CurrentUser.UserID, c.UserID);
-  var tset = tm.GetTaskSet(c.CategoryID);
-
-  // Alle Aufgaben
-  foreach (var t in tset)
+  [InlineData("test6")]
+  [InlineData("test5")]
+  [InlineData("test4")]
+  public void ChangeTest(string name)
   {
-   var st1 = new SubTask() { Title = testwert.ToString() };
-   var st2 = new SubTask() { Title = testwert.ToString() };
+   var um = new UserManager(name, true);
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   um.InitDefaultTasks();
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var cset1 = cm.GetCategorySet();
 
-   Assert.Equal(c.CategoryID, t.CategoryID);
-   tm.ChangeTask(t.TaskID, testwert.ToString(), testwert.ToString(), testwert, t.Importance, true, t.Effort,
-    new List<SubTask> { st1, st2 });
+   var testwert = DateTime.Now;
+
+   // Schleife über alle Kategorien
+   foreach (var c in cset1)
+   {
+    Assert.Equal(um.CurrentUser.UserID, c.UserID);
+    var tset = tm.GetTaskSet(c.CategoryID);
+
+    // Alle Aufgaben
+    foreach (var t in tset)
+    {
+     var st1 = new SubTask() { Title = testwert.ToString() };
+     var st2 = new SubTask() { Title = testwert.ToString() };
+
+     Assert.Equal(c.CategoryID, t.CategoryID);
+     tm.ChangeTask(t.TaskID, testwert.ToString(), testwert.ToString(), testwert, t.Importance, true, t.Effort,
+      new List<SubTask> { st1, st2 });
+    }
+   }
+
+   // nun prüfen!
+   var cset2 = cm.GetCategorySet();
+
+   foreach (var c in cset2)
+   {
+    Assert.Equal(c.UserID, um.CurrentUser.UserID);
+    var tset = tm.GetTaskSet(c.CategoryID);
+
+    foreach (var t in tset)
+    {
+     Assert.Equal(c.CategoryID, t.CategoryID);
+     Assert.Equal(testwert.ToString(), t.Title);
+     Assert.Equal(testwert.ToString(), t.Note);
+     Assert.True(t.Done);
+     Assert.True(t.Done);
+     Assert.Equal(2, t.SubTaskSet.Count);
+     Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(testwert.ToString(), st.Title));
+     Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
+    }
+   }
   }
- }
 
- // nun prüfen!
- var cset2 = cm.GetCategorySet();
-
- foreach (var c in cset2)
- {
-  Assert.Equal(c.UserID, um.CurrentUser.UserID);
-  var tset = tm.GetTaskSet(c.CategoryID);
-
-  foreach (var t in tset)
+  [Theory]
+  [InlineData("ctest3")]
+  [InlineData("ctest2")]
+  [InlineData("ctest1")]
+  public void ChangeTest2(string name)
   {
-   Assert.Equal(c.CategoryID, t.CategoryID);
-   Assert.Equal(testwert.ToString(), t.Title);
-   Assert.Equal(testwert.ToString(), t.Note);
-   Assert.True(t.Done);
-   Assert.True(t.Done);
-   Assert.Equal(2, t.SubTaskSet.Count);
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(testwert.ToString(), st.Title));
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
+   var um = new UserManager(name, true);
+   var tm = new TaskManager(um.CurrentUser.UserID);
+   um.InitDefaultTasks();
+   var cm = new CategoryManager(um.CurrentUser.UserID);
+   var cset1 = cm.GetCategorySet();
+
+   var testwert = DateTime.Now;
+
+   // Werte ändern
+   foreach (var c in cset1)
+   {
+    Assert.Equal(um.CurrentUser.UserID, c.UserID);
+    var tset = tm.GetTaskSet(c.CategoryID);
+
+
+    foreach (var t in tset)
+    {
+     t.Title = testwert.ToString();
+     t.Note = testwert.ToString();
+     t.Due = testwert;
+     t.Done = true;
+     t.SubTaskSet.ForEach(x => x.Title = testwert.ToString());
+     tm.ChangeTask(t);
+    }
+   }
+
+   // nun prüfen!
+   var cset2 = cm.GetCategorySet();
+
+   foreach (var c in cset2)
+   {
+    Assert.Equal(c.UserID, um.CurrentUser.UserID);
+    var tset = tm.GetTaskSet(c.CategoryID);
+
+    foreach (var t in tset)
+    {
+     Assert.Equal(c.CategoryID, t.CategoryID);
+     Assert.Equal(testwert.ToString(), t.Title);
+     Assert.Equal(testwert.ToString(), t.Note);
+     Assert.True(t.Done);
+
+     Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(testwert.ToString(), st.Title));
+     Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
+    }
+   }
   }
- }
-}
-
-[Theory]
-[InlineData("ctest3")]
-[InlineData("ctest2")]
-[InlineData("ctest1")]
-public void ChangeTest2(string name)
-{
- var um = new UserManager(name, true);
- var tm = new TaskManager(um.CurrentUser.UserID);
- um.InitDefaultTasks();
- var cm = new CategoryManager(um.CurrentUser.UserID);
- var cset1 = cm.GetCategorySet();
-
- var testwert = DateTime.Now;
-
- // Werte ändern
- foreach (var c in cset1)
- {
-  Assert.Equal(um.CurrentUser.UserID, c.UserID);
-  var tset = tm.GetTaskSet(c.CategoryID);
-
-
-  foreach (var t in tset)
-  {
-   t.Title = testwert.ToString();
-   t.Note = testwert.ToString();
-   t.Due = testwert;
-   t.Done = true;
-   t.SubTaskSet.ForEach(x => x.Title = testwert.ToString());
-   tm.ChangeTask(t);
-  }
- }
-
- // nun prüfen!
- var cset2 = cm.GetCategorySet();
-
- foreach (var c in cset2)
- {
-  Assert.Equal(c.UserID, um.CurrentUser.UserID);
-  var tset = tm.GetTaskSet(c.CategoryID);
-
-  foreach (var t in tset)
-  {
-   Assert.Equal(c.CategoryID, t.CategoryID);
-   Assert.Equal(testwert.ToString(), t.Title);
-   Assert.Equal(testwert.ToString(), t.Note);
-   Assert.True(t.Done);
-
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(testwert.ToString(), st.Title));
-   Assert.All<SubTask>(t.SubTaskSet, st => Assert.Equal(t.TaskID, st.TaskID));
-  }
- }
-}
  }
 }
