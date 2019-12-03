@@ -1,34 +1,38 @@
 ﻿# Azure-Ressourcen für MiracleList-Release-Pipeline mit PowerShell anlegen
 # (C) Dr. Holger Schwichtenberg 2018-2019
-# Stand: 23.09.2019
+# Stand: 03.12.2019
 
 # Wichtige Festlegungen
-$SubscriptionId = "x4945d71-0adf-4fa5-86dc-2c2d007c168x" # nur ein Beispiel
-$prefix = "DevOps-" # nur ein Beispiel --> lower case !!!
-$RessourceGroup = "RG-DEMO-MiracleList-DevOps" # nur ein Beispiel
-$Serviceplan = "SP-DEMO-MiracleList-DevOps-S1" # nur ein Beispiel
+$SubscriptionId = "14945d71-xxxx-xxxx-xxxx-2c2d007c168a" # nur ein Beispiel
+$prefix = "hs-" # nur ein Beispiel --> lower case !!!
+$RessourceGroup = "AzureDevOpsWorkhop" # nur ein Beispiel
+$Serviceplan = "SP-AzureDevOpsWorkshopStagingS1" # nur ein Beispiel
 $location="West Europe" # nur ein Beispiel
 $webappnames="$($prefix)MLBackend-Production","$($prefix)MLBackend-Staging" ,"$($prefix)MLClient-Production","$($prefix)MLClient-Staging"
 $servername = "$($prefix)mssqlserver"
 $dbnames="$($prefix)MLDB-Staging", "$($prefix)MLDB-Produktion"
-
+$password = "0d17a4de-160e-4bd5-9f97-bbdf3e6aa1f6"
 
 $ErrorActionPreference = "stop"
 
+if ($prefix -ne $prefix.ToLower()) { throw "Prefix muss aus Kleinbuchstaben bestehen, weil SQL Azure nur Kleinbuchstaben als Servernamen erlaubt!" }
+
 #region Installation der PowerShell-Module für Azure
-Install-Module PowerShellGet -Force -AllowClobber -Scope currentuser # globaler Scope geht nur als Admin!
-Install-Module -Name AzureRM -force -AllowClobber -Scope currentuser
-Import-Module -Name AzureRM 
-Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | ft
-"Anzahl geladener Azure-Module: " + (Get-Module AzureRM.* -ListAvailable | Select-Object -Property Name,Version,Path).Count
-"Anzahl verfügbarer Azure-Befehle: " + (Get-Command -module AzureRM*).Count
+#Install-Module PowerShellGet -Force -AllowClobber -Scope currentuser # globaler Scope geht nur als Admin!
+#Install-Module -Name AzureRM -force -AllowClobber -Scope currentuser
+#Import-Module -Name AzureRM 
+#Get-Module AzureRM -ListAvailable | Select-Object -Property Name,Version,Path | ft
+#"Anzahl geladener Azure-Module: " + (Get-Module AzureRM.* -ListAvailable | Select-Object -Property Name,Version,Path).Count
+#"Anzahl verfügbarer Azure-Befehle: " + (Get-Command -module AzureRM*).Count
 
 #endregion
 
 
 #region Anmelden interaktiv!!!
-#Login-AzureRmAccount 
+"Anmeldung..."
+Login-AzureRmAccount 
 Connect-AzureRmAccount -SubscriptionId $SubscriptionId
+"Infos..."
 Get-AzureRmSubscription  
 Get-AzureRmContext | fl *
 #endregion
@@ -95,15 +99,15 @@ $webApp.SiteConfig.AppSettings
 #-ResourceGroupName DEMO_MiracleList `
 #-OutputFile null)
 #endregion
-return
+
 
 #region ---------------- SQL Server anlegen
 
 # Set an admin login and password for your database
 # The login information for the server
 $adminlogin = "MLSQLAdmin"
-$password = new-guid
-Write-Host "Your SQL Server password is: $password" -ForegroundColor Green
+$password = $password
+#Write-Host "Your SQL Server password is: $password" -ForegroundColor Green
 # The ip address range that you want to allow to access your server - change as appropriate
 $startip = "0.0.0.0"
 $endip = "255.255.255.255"
@@ -116,7 +120,7 @@ New-AzureRmSqlServer -ResourceGroupName $RessourceGroup `
 
 New-AzureRmSqlServerFirewallRule -ResourceGroupName $RessourceGroup `
     -ServerName $servername `
-    -FirewallRuleName "AllowAll" -StartIpAddress "0.0.0.0" -EndIpAddress $endip
+    -FirewallRuleName "AllowAll" -StartIpAddress $startip -EndIpAddress $endip
 
 foreach($databasename in $dbnames)
 { 
@@ -125,6 +129,10 @@ New-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $serverna
 
 # Kontrolle
 Get-AzureRmSqlDatabase  -ResourceGroupName $RessourceGroup -ServerName $servername  | ft
+
+# Kontrolle: Alle Ressourcen in dieser Ressource Group
+
+Get-AzureRmResource -ResourceGroupName $RessourceGroup | sort name | ft
 
 #endregion
 return
