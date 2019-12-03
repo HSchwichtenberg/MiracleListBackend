@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
  <PropertyGroup Label="Globals">
   <SccProjectName>SAK</SccProjectName>
   <SccProvider>SAK</SccProvider>
   <SccAuxPath>SAK</SccAuxPath>
   <SccLocalPath>SAK</SccLocalPath>
- </PropertyGroup>
+ <InformationalVersion>0.12.4.0-12/03/2019 20:48:12</InformationalVersion></PropertyGroup>
 
  <PropertyGroup>
   <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -20,10 +20,10 @@
   <VersionPrefix>0.7</VersionPrefix>
   <Authors>Dr. Holger Schwichtenberg</Authors>
   
-  <Version>0.12.3.0</Version>
+  <Version>0.12.4.0</Version>
   <Copyright>Dr. Holger Schwichtenberg</Copyright>
-  <AssemblyVersion>0.12.3.0</AssemblyVersion>
-  <FileVersion>0.12.1.0</FileVersion>
+  <AssemblyVersion>0.12.4.0</AssemblyVersion>
+  <FileVersion>0.12.4.0</FileVersion>
   <Company>www.IT-Visions.de</Company>
   <PackageReleaseNotes>0.12: Update auf ASP.NET Core 2.1
 0.11: Ausgabe AppVersion

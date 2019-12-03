@@ -1,5 +1,6 @@
-﻿# Set Version number in all .csproj files
-# (C) Dr. Holger Schwichtenberg 2018-2019
+﻿Write-host "Set the Version Numbers in all .NET Core .csproj files" -foregroundcolor yellow
+Write-host "Dr. Holger Schwichtenberg, www.IT-Visions.de 2018-2019" -foregroundcolor yellow
+Write-host "------------------------------------------------------" -foregroundcolor yellow
 
 $CurrentVersion = "0.12.4"
 $ErrorActionPreference = "stop"

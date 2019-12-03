@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
  <PropertyGroup>
   <NoWarn>$(NoWarn);NU1605</NoWarn>
- </PropertyGroup>
+ <Version>0.12.4.0</Version><AssemblyVersion>0.12.4.0</AssemblyVersion><FileVersion>0.12.4.0</FileVersion><InformationalVersion>0.12.4.0-12/03/2019 20:48:11</InformationalVersion></PropertyGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
