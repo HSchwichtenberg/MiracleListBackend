@@ -2,7 +2,7 @@
 # (C) Dr. Holger Schwichtenberg 2018-2019
 
 $CurrentVersion = "0.12.4"
-
+$ErrorActionPreference = "stop"
 #region Constructing parameters
 $buildid = $env:Build_BuildId
 if (-not($buildid)) { $buildid = 0 } # for lokal Test
@@ -10,7 +10,9 @@ $version = $env:version
 if (-not($version)) { $version = $CurrentVersion } # for lokal Test
 $version = "$version" + "." + $buildid
 $sourcesDirectory = $env:BUILD_SOURCESDIRECTORY
-if (-not($sourcesDirectory)) { $sourcesDirectory = $PSScriptRoot } # for lokal Test
+if (-not($sourcesDirectory)) { $sourcesDirectory = (Get-item $PSScriptRoot).Parent.FullName } # for lokal Test
+$sourcesDirectory
+cd $sourcesDirectory
 #endregion
 
 Function Set-NodeValue($rootNode, [string]$nodeName, [string]$value)
@@ -37,7 +39,7 @@ Get-ChildItem -Path $sourcesDirectory -Filter "*.csproj" -Recurse -File |
 
         $projectPath = $_.FullName
         $project = Select-Xml $projectPath -XPath "//Project"
-        
+        if (-not($project)) { Write-Warning "No valid .NET Core project" ; return }
         Set-NodeValue $project "Version" $version
         Set-NodeValue $project "AssemblyVersion" $version
         Set-NodeValue $project "FileVersion" $version
