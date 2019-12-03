@@ -1,11 +1,13 @@
 ﻿# Set Version number in all .csproj files
 # (C) Dr. Holger Schwichtenberg 2018-2019
 
+$CurrentVersion = "0.12.4"
+
 #region Constructing parameters
 $buildid = $env:Build_BuildId
 if (-not($buildid)) { $buildid = 0 } # for lokal Test
 $version = $env:version
-if (-not($version)) { $version = "1.2.3" } # for lokal Test
+if (-not($version)) { $version = $CurrentVersion } # for lokal Test
 $version = "$version" + "." + $buildid
 $sourcesDirectory = $env:BUILD_SOURCESDIRECTORY
 if (-not($sourcesDirectory)) { $sourcesDirectory = $PSScriptRoot } # for lokal Test
