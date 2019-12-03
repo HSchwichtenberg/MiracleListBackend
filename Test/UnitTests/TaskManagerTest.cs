@@ -14,8 +14,6 @@ namespace UnitTests
 {
  public class TaskManagerTest
  {
-
-
   public TaskManagerTest()
   {
    Util.Init();
