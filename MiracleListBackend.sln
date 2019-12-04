@@ -61,7 +61,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps Release", "DevOps Re
 		DevOps_Release\MiracleList-APITests.postman_environment.dev.json = DevOps_Release\MiracleList-APITests.postman_environment.dev.json
 		DevOps_Release\MiracleList-APITests.postman_environment.json = DevOps_Release\MiracleList-APITests.postman_environment.json
 		DevOps_Release\MiracleList-APITests.postman_environment.staging.json = DevOps_Release\MiracleList-APITests.postman_environment.staging.json
-		DevOps_Release\MiracleList_DEV.postman_collection.json = DevOps_Release\MiracleList_DEV.postman_collection.json
 		DevOps_Release\MiracleListBackend-CD.json = DevOps_Release\MiracleListBackend-CD.json
 		DevOps_Release\MiracleListClient-CD.json = DevOps_Release\MiracleListClient-CD.json
 		DevOps_Release\MLLoadTests.jmx = DevOps_Release\MLLoadTests.jmx
