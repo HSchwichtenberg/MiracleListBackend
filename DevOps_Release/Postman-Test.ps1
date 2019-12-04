@@ -13,4 +13,4 @@ npm install -g newman
 # newman starten mit Test-Collection und Umgebung, Ausgabe im JUnit-Format
 newman run MiracleList-APITests.postman_collection.json `
 -e MiracleList-APITests.postman_environment.staging.json --disable-unicode `
---reporters cli,junit --reporter-junit-export TestResults/newman-run-report.xml
+--reporters cli junit --reporter-junit-export TestResults/newman-run-report.xml
