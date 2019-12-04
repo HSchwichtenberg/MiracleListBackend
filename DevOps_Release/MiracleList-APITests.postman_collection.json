@@ -38,7 +38,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "43e614fb-cfce-4f47-aead-bb352f3664bc",
+						"id": "f1e5a38e-ff42-4f4e-bfbb-88ebcbca041c",
 						"exec": [
 							"// Testform 1: Collection-basiert",
 							"tests[\"ErrorReponse\"] = responseBody.includes(\"TokenUngültig\")",
@@ -49,8 +49,8 @@
 							"});",
 							"",
 							"",
-							"pm.test(\"Response time is less than 200ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"pm.test(\"Response time is less than 800ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);",
 							"});"
 						],
 						"type": "text/javascript"
