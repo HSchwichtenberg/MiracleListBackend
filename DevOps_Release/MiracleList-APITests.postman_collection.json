@@ -241,7 +241,7 @@
 						"value": "application/json"
 					},
 					{
-						"key": "MLToken",
+						"key": "ML-AuthToken",
 						"value": "{{token}}",
 						"type": "text"
 					}
